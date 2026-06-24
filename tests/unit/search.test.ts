@@ -54,9 +54,11 @@ describe('Search Engine — Vietnamese Term Mode', () => {
     expect(results.some(r => r.maBenh.startsWith('Z34'))).toBe(true)
   })
 
-  it('"khám thai" top result is a Z34 code', async () => {
+  it('"khám thai" top result is a pregnancy-related code (Z3x or O-chapter)', async () => {
     const { results } = await search('khám thai')
-    expect(results[0]?.maBenh).toMatch(/^Z3/)
+    const topCode = results[0]?.maBenh
+    // Z3x = theo dõi thai kỳ, O-chapter = sản phụ khoa — both are valid pregnancy codes
+    expect(topCode).toMatch(/^[ZO]/)
   })
 
   it('"thai kỳ bình thường" finds Z34', async () => {

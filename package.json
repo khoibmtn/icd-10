@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:data": "node --loader tsx scripts/build/index.ts",
+    "build:data": "node --import tsx/esm scripts/build/index.ts",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "lint": "oxlint",

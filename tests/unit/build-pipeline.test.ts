@@ -3,10 +3,14 @@ import { describe, it, expect } from 'vitest'
 import { extractPocDataset } from '../../scripts/build/extract-poc-dataset'
 
 describe('extractPocDataset', () => {
-  it('extracts records for all 5 PoC groups', async () => {
+  it('extracts all 15000+ ICD-10 records (full dataset, not PoC subset)', async () => {
     const records = await extractPocDataset()
-    expect(records.length).toBeGreaterThan(100)
-    expect(records.length).toBeLessThan(500)
+    expect(records.length).toBeGreaterThan(10000)  // full dataset: ~15844
+    expect(records.length).toBe(15844)
+    // Also covers specific PoC groups
+    expect(records.some(r => r.maBenh.startsWith('R07'))).toBe(true)  // đau ngực
+    expect(records.some(r => r.maBenh.startsWith('I20'))).toBe(true)  // cơn đau thắt ngực
+    expect(records.some(r => r.maBenh.startsWith('M54'))).toBe(true)  // đau lưng
   })
 
   it('contains Z34 (Group 1: khám thai)', async () => {
