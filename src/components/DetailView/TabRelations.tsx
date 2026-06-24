@@ -1,5 +1,5 @@
 // src/components/DetailView/TabRelations.tsx
-import { ArrowRight, Dagger, Plus, MinusCircle, PlusCircle } from 'lucide-react'
+import { ArrowRight, ArrowDownUp, Plus, MinusCircle, PlusCircle } from 'lucide-react'
 import type { CodingRelation, InformationalRelation } from '../../types/icd'
 
 interface TabRelationsProps {
