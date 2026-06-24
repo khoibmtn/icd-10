@@ -1,10 +1,11 @@
 // src/components/DetailView/TabRules.tsx
 import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, BookOpen } from 'lucide-react'
-import type { ICDRule } from '../../types/icd'
+import type { ICDRecord, ICDRule } from '../../types/icd'
 
 interface TabRulesProps {
   code: string
   rules: ICDRule[]
+  record: ICDRecord
 }
 
 const RULE_META: Record<string, {
@@ -88,7 +89,8 @@ const VARIANT_STYLE = {
   },
 }
 
-export function TabRules({ code, rules }: TabRulesProps) {
+export function TabRules({ code, rules, record }: TabRulesProps) {
+  const flags = record.dieuKienSuDung
   // ── Deduplicate: keep only one rule per ruleType ──────────────────────────
   const uniqueRules = rules.reduce<ICDRule[]>((acc, rule) => {
     if (!acc.some(r => r.ruleType === rule.ruleType)) acc.push(rule)
@@ -97,12 +99,15 @@ export function TabRules({ code, rules }: TabRulesProps) {
 
   if (uniqueRules.length === 0) {
     return (
-      <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--text-muted)' }}>
-        <div style={{ fontSize: 32, marginBottom: 12 }}>✅</div>
-        <div style={{ fontWeight: 500, color: 'var(--success)' }}>Không có quy tắc hạn chế</div>
-        <div style={{ fontSize: 12, marginTop: 6 }}>
-          Mã <span className="mono" style={{ color: 'var(--accent)' }}>{code}</span> không có cảnh báo mã hóa đặc biệt.
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ textAlign: 'center', padding: '32px 24px', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>✅</div>
+          <div style={{ fontWeight: 500, color: 'var(--success)' }}>Không có quy tắc hạn chế</div>
+          <div style={{ fontSize: 12, marginTop: 6 }}>
+            Mã <span className="mono" style={{ color: 'var(--accent)' }}>{code}</span> không có cảnh báo mã hóa đặc biệt.
+          </div>
         </div>
+        <ConditionFlags flags={flags} />
       </div>
     )
   }
@@ -191,6 +196,52 @@ export function TabRules({ code, rules }: TabRulesProps) {
           </div>
         )
       })}
+
+      {/* ── Điều kiện sử dụng ─────────────────────────────────────────────── */}
+      <ConditionFlags flags={flags} />
+    </div>
+  )
+}
+
+// ── Điều kiện sử dụng component ──────────────────────────────────────────────
+type Flags = ICDRecord['dieuKienSuDung']
+
+function ConditionFlags({ flags }: { flags: Flags }) {
+  const rows: { flag: boolean; label: string; type: 'error' | 'warning' | 'info' }[] = [
+    { flag: flags.khongDungLaBenhChinh,            label: 'Không được dùng làm bệnh chính',        type: 'error' },
+    { flag: flags.khongKhuyenKhichDungLaBenhChinh, label: 'Không khuyến khích dùng làm bệnh chính', type: 'warning' },
+    { flag: flags.khongSuDungViCoMaCuTheHon,       label: 'Không dùng — có mã cụ thể hơn',          type: 'warning' },
+    { flag: flags.chiSuDungMaHoaNguyenNhanTuVong,  label: 'Chỉ dùng mã hóa nguyên nhân tử vong',   type: 'error' },
+    { flag: flags.chiCoONuGioi,                    label: 'Chỉ áp dụng cho nữ giới',                type: 'info' },
+    { flag: flags.chiCoONamGioi,                   label: 'Chỉ áp dụng cho nam giới',               type: 'info' },
+  ]
+
+  return (
+    <div style={{
+      marginTop: 8,
+      paddingTop: 18,
+      borderTop: '1px solid var(--border)',
+    }}>
+      <div style={{
+        fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)',
+        marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em',
+      }}>
+        Điều kiện sử dụng
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {rows.map(({ flag, label, type }) => {
+          const color = type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'
+          return (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {flag
+                ? <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
+                : <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--bg-overlay)', border: '1px solid var(--border)', flexShrink: 0 }} />
+              }
+              <span style={{ fontSize: 12, color: flag ? color : 'var(--text-muted)' }}>{label}</span>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

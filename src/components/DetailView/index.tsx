@@ -19,10 +19,10 @@ interface DetailViewProps {
 }
 
 const TABS = [
-  { id: 'basic',      label: 'Cơ bản',      Icon: BookOpen },
-  { id: 'rules',      label: 'Quy tắc',     Icon: ShieldAlert },
-  { id: 'relations',  label: 'Quan hệ',     Icon: Link2 },
-  { id: 'provenance', label: 'Nguồn gốc',   Icon: Archive },
+  { id: 'basic',      label: 'Cơ bản',        Icon: BookOpen },
+  { id: 'rules',      label: 'Quy tắc & ĐK', Icon: ShieldAlert },
+  { id: 'relations',  label: 'Quan hệ',       Icon: Link2 },
+  { id: 'provenance', label: 'Nguồn gốc',    Icon: Archive },
 ] as const
 
 type TabId = typeof TABS[number]['id']
@@ -143,7 +143,7 @@ export function DetailView({
           <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} onNavigate={onNavigate} />
         )}
         {activeTab === 'rules' && (
-          <TabRules code={record.maBenh} rules={rules} />
+          <TabRules code={record.maBenh} rules={rules} record={record} />
         )}
         {activeTab === 'relations' && (
           <TabRelations

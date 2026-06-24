@@ -1,5 +1,5 @@
 // src/components/DetailView/TabBasic.tsx
-import { CheckCircle, XCircle, ChevronRight, ListTree } from 'lucide-react'
+import { ChevronRight, ListTree } from 'lucide-react'
 import type { ICDRecord, ICDHierarchy } from '../../types/icd'
 
 interface TabBasicProps {
@@ -10,12 +10,10 @@ interface TabBasicProps {
 }
 
 export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate }: TabBasicProps) {
-  const flags = rec.dieuKienSuDung
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-      {/* Primary Info */}
+      {/* 1. Primary Info */}
       <div className="glass" style={{ padding: 20 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
           <div>
@@ -39,7 +37,22 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
         )}
       </div>
 
-      {/* Classification */}
+      {/* 2. Hướng dẫn mã hóa — now BEFORE Phân loại */}
+      {rec.huongDanMaHoaTiengViet && (
+        <div className="glass" style={{ padding: 20 }}>
+          <div style={{
+            fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)',
+            marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em',
+          }}>
+            Hướng dẫn mã hóa (Tiếng Việt)
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+            {rec.huongDanMaHoaTiengViet}
+          </div>
+        </div>
+      )}
+
+      {/* 3. Classification */}
       <div className="glass" style={{ padding: 20 }}>
         <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Phân loại
@@ -53,7 +66,7 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
         </div>
       </div>
 
-      {/* Hierarchy breadcrumb */}
+      {/* 4. Hierarchy breadcrumb */}
       {hierarchy && (
         <div className="glass" style={{ padding: 20 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -103,7 +116,7 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
         </div>
       )}
 
-      {/* ── Mã con (subcodes) ──────────────────────────────────────────── */}
+      {/* 5. Mã con (subcodes) */}
       {childRecords.length > 0 && (
         <div className="glass" style={{ padding: 20 }}>
           <div style={{
@@ -137,7 +150,6 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
                   el.style.background = 'var(--bg-overlay)'
                 }}
               >
-                {/* Code chip */}
                 <span style={{
                   fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700,
                   color: 'var(--accent)', background: 'rgba(91,138,245,0.12)',
@@ -146,8 +158,6 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
                 }}>
                   {child.maBenh}
                 </span>
-
-                {/* Name */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
                     fontSize: 13, fontWeight: 500, color: 'var(--text-primary)',
@@ -165,7 +175,6 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
                     </div>
                   )}
                 </div>
-
                 <ChevronRight size={13} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
               </button>
             ))}
@@ -173,32 +182,6 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
         </div>
       )}
 
-      {/* Condition flags */}
-      <div className="glass" style={{ padding: 20 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          Điều kiện sử dụng
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <FlagRow flag={flags.khongDungLaBenhChinh} label="Không được dùng làm bệnh chính" type="error" />
-          <FlagRow flag={flags.khongKhuyenKhichDungLaBenhChinh} label="Không khuyến khích dùng làm bệnh chính" type="warning" />
-          <FlagRow flag={flags.khongSuDungViCoMaCuTheHon} label="Không dùng — có mã cụ thể hơn" type="warning" />
-          <FlagRow flag={flags.chiSuDungMaHoaNguyenNhanTuVong} label="Chỉ dùng mã hóa nguyên nhân tử vong" type="error" />
-          <FlagRow flag={flags.chiCoONuGioi} label="Chỉ áp dụng cho nữ giới" type="info" />
-          <FlagRow flag={flags.chiCoONamGioi} label="Chỉ áp dụng cho nam giới" type="info" />
-        </div>
-      </div>
-
-      {/* Coding guidance */}
-      {rec.huongDanMaHoaTiengViet && (
-        <div className="glass" style={{ padding: 20 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Hướng dẫn mã hóa (Tiếng Việt)
-          </div>
-          <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
-            {rec.huongDanMaHoaTiengViet}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
@@ -234,18 +217,5 @@ function BreadcrumbItem({ label, active, onClick }: { label: string; active?: bo
         fontWeight: active ? 600 : 400,
       }}
     >{label}</span>
-  )
-}
-
-function FlagRow({ flag, label, type }: { flag: boolean; label: string; type: 'error' | 'warning' | 'info' }) {
-  const color = type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      {flag
-        ? <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
-        : <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--bg-overlay)', border: '1px solid var(--border)', flexShrink: 0 }} />
-      }
-      <span style={{ fontSize: 12, color: flag ? color : 'var(--text-muted)' }}>{label}</span>
-    </div>
   )
 }
