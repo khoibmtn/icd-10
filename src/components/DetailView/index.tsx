@@ -14,6 +14,7 @@ interface DetailViewProps {
   infoRelations: InformationalRelation[]
   hierarchy?: ICDHierarchy
   childRecords?: ICDRecord[]
+  siblingRecords?: ICDRecord[]
   onClose?: () => void
   onNavigate?: (code: string) => void
 }
@@ -28,7 +29,7 @@ const TABS = [
 type TabId = typeof TABS[number]['id']
 
 export function DetailView({
-  record, rules, codingRelations, infoRelations, hierarchy, childRecords = [], onClose, onNavigate,
+  record, rules, codingRelations, infoRelations, hierarchy, childRecords = [], siblingRecords = [], onClose, onNavigate,
 }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
@@ -140,7 +141,7 @@ export function DetailView({
       {/* Tab content */}
       <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
         {activeTab === 'basic' && (
-          <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} onNavigate={onNavigate} />
+          <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />
         )}
         {activeTab === 'rules' && (
           <TabRules code={record.maBenh} rules={rules} record={record} />

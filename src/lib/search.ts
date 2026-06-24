@@ -58,13 +58,21 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
   const q = normQuery
   const rawQ = rawQuery.toLowerCase().trim()
 
+  // Detect if user is searching by code (e.g. "G63", "I20.1", "M54")
+  // Pattern: starts with letter(s) followed by digits, optionally with dots
+  const isCodeQuery = /^[a-z]\d/i.test(rawQ)
+
   // ─── Stage 1: Code match (absolute priority) ─────────────────────────────
-  if (entry.normCode === rawQ) return 2000                          // perfect exact code — always first
-  if (entry.normCodeNoDot === rawQ.replace(/\./g, '') && !rawQ.includes('.')) return 1900  // exact without dot
-  // Subcodes (Z34.0, Z34.1) when user types parent (Z34) — score lower than exact parent
-  if (entry.normCode.startsWith(rawQ + '.')) score += 800           // e.g. "z34" → z34.0, z34.1
-  if (entry.normCode.startsWith(rawQ)) score += 750                 // prefix other
-  if (entry.normCode.includes(rawQ)) score += 350                   // contains
+  if (entry.normCode === rawQ) return 2000
+  if (entry.normCodeNoDot === rawQ.replace(/\./g, '') && !rawQ.includes('.')) return 1900
+  if (entry.normCode.startsWith(rawQ + '.')) score += 800
+  if (entry.normCode.startsWith(rawQ)) score += 750
+  if (entry.normCode.includes(rawQ)) score += 350
+
+  // ── If query looks like a code, ONLY use code matching ───────────────────
+  // Prevents 'G63' from returning M05.3 just because its guidance text
+  // mentions 'G63' as an excludes/includes note.
+  if (isCodeQuery) return score
 
   // ─── Stage 2: Vietnamese name ────────────────────────────────────────────
   if (entry.normViet === q) return score + 1800                     // exact name match

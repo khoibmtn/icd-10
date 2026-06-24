@@ -5,7 +5,7 @@ import { SearchBar } from './components/SearchBar'
 import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
 import { RulePlayground } from './components/RulePlayground'
-import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getHierarchy, getAllConcepts, getChildRecords } from './lib/db'
+import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getHierarchy, getAllConcepts, getChildRecords, getSiblingRecords } from './lib/db'
 import { buildSearchIndex, search } from './lib/search'
 import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ICDHierarchy, ClinicalConcept } from './types/icd'
 
@@ -33,6 +33,7 @@ export default function App() {
   const [detailInfoRels, setDetailInfoRels] = useState<InformationalRelation[]>([])
   const [detailHierarchy, setDetailHierarchy] = useState<ICDHierarchy | undefined>()
   const [detailChildren, setDetailChildren] = useState<ICDRecord[]>([])
+  const [detailSiblings, setDetailSiblings] = useState<ICDRecord[]>([])
 
   // Playground state
   const [allRules, setAllRules] = useState<ICDRule[]>([])
@@ -101,13 +102,14 @@ export default function App() {
   // Select code (load detail)
   const handleSelectCode = useCallback(async (code: string) => {
     setSelectedCode(code)
-    const [rec, rules, codingRels, infoRels, hier, children] = await Promise.all([
+    const [rec, rules, codingRels, infoRels, hier, children, siblings] = await Promise.all([
       getRecord(code),
       getRulesForCode(code),
       getCodingRelations(code),
       getInfoRelations(code),
       getHierarchy(code),
       getChildRecords(code),
+      getSiblingRecords(code),
     ])
     if (rec) {
       setDetailRecord(rec)
@@ -116,6 +118,7 @@ export default function App() {
       setDetailInfoRels(infoRels)
       setDetailHierarchy(hier)
       setDetailChildren(children)
+      setDetailSiblings(siblings)
     }
   }, [])
 
@@ -271,6 +274,7 @@ export default function App() {
                   infoRelations={detailInfoRels}
                   hierarchy={detailHierarchy}
                   childRecords={detailChildren}
+                  siblingRecords={detailSiblings}
                   onClose={() => setSelectedCode(null)}
                   onNavigate={handleNavigate}
                 />

@@ -102,6 +102,17 @@ export async function getChildRecords(code: string): Promise<ICDRecord[]> {
   return records.filter((r): r is ICDRecord => r !== undefined)
 }
 
+/**
+ * Get sibling records (same parent group) for a code.
+ * Uses hierarchy.siblingCodes — capped at 20.
+ */
+export async function getSiblingRecords(code: string): Promise<ICDRecord[]> {
+  const hier = await icdDb.hierarchy.get(code)
+  if (!hier || !hier.siblingCodes || hier.siblingCodes.length === 0) return []
+  const records = await icdDb.records.bulkGet(hier.siblingCodes.slice(0, 20))
+  return records.filter((r): r is ICDRecord => r !== undefined)
+}
+
 export async function getRulesForCode(code: string): Promise<(ICDRule & { _id?: number })[]> {
   return icdDb.rules.where('code').equals(code).toArray()
 }

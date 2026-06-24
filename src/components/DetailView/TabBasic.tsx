@@ -6,10 +6,11 @@ interface TabBasicProps {
   record: ICDRecord
   hierarchy?: ICDHierarchy
   childRecords?: ICDRecord[]
+  siblingRecords?: ICDRecord[]
   onNavigate?: (code: string) => void
 }
 
-export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate }: TabBasicProps) {
+export function TabBasic({ record: rec, hierarchy, childRecords = [], siblingRecords = [], onNavigate }: TabBasicProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
@@ -86,30 +87,58 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate
             <BreadcrumbItem label={rec.maBenh} active />
           </div>
 
-          {/* Siblings */}
-          {hierarchy.siblingCodes.length > 0 && (
+          {/* Siblings as rich list */}
+          {siblingRecords.length > 0 && (
             <div style={{ marginTop: 16 }}>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>Mã cùng nhóm</div>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {hierarchy.siblingCodes.slice(0, 8).map(c => (
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>Mã cùng nhóm ({siblingRecords.length})</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                {siblingRecords.map(sib => (
                   <button
-                    key={c}
-                    onClick={() => onNavigate?.(c)}
+                    key={sib.maBenh}
+                    onClick={() => onNavigate?.(sib.maBenh)}
                     style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
                       background: 'var(--bg-overlay)', border: '1px solid var(--border)',
-                      borderRadius: 6, padding: '3px 10px', cursor: 'pointer',
-                      fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--text-secondary)',
-                      transition: 'all 0.15s',
+                      borderRadius: 7, padding: '8px 12px', cursor: 'pointer', width: '100%',
+                      textAlign: 'left', transition: 'all 0.15s', fontFamily: 'inherit',
                     }}
-                    onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = 'var(--accent)'; (e.target as HTMLButtonElement).style.borderColor = 'var(--accent)'; }}
-                    onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'var(--text-secondary)'; (e.target as HTMLButtonElement).style.borderColor = 'var(--border)'; }}
-                  >{c}</button>
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = 'var(--accent)'
+                      e.currentTarget.style.background = 'rgba(91,138,245,0.06)'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--border)'
+                      e.currentTarget.style.background = 'var(--bg-overlay)'
+                    }}
+                  >
+                    <span style={{
+                      fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 700,
+                      color: 'var(--accent)', background: 'rgba(91,138,245,0.1)',
+                      border: '1px solid rgba(91,138,245,0.2)', borderRadius: 4,
+                      padding: '1px 7px', flexShrink: 0, minWidth: 50, textAlign: 'center',
+                    }}>
+                      {sib.maBenh}
+                    </span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        fontSize: 12, fontWeight: 500, color: 'var(--text-primary)',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {sib.tenTiengViet || '—'}
+                      </div>
+                      {sib.tenTiengAnh && (
+                        <div style={{
+                          fontSize: 10, color: 'var(--text-muted)', marginTop: 1,
+                          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                          fontStyle: 'italic',
+                        }}>
+                          {sib.tenTiengAnh}
+                        </div>
+                      )}
+                    </div>
+                    <ChevronRight size={12} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                  </button>
                 ))}
-                {hierarchy.siblingCodes.length > 8 && (
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)', alignSelf: 'center' }}>
-                    +{hierarchy.siblingCodes.length - 8} mã khác
-                  </span>
-                )}
               </div>
             </div>
           )}
