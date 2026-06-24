@@ -1,5 +1,5 @@
 // src/components/SearchResults.tsx
-import { AlertTriangle, XCircle, Info, ChevronRight } from 'lucide-react'
+import { AlertTriangle, XCircle, ChevronRight } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../types/icd'
 
 interface SearchResultsProps {
@@ -10,6 +10,119 @@ interface SearchResultsProps {
   query: string
 }
 
+// ─── Vietnamese-aware keyword highlighting ────────────────────────────────────
+
+/**
+ * Normalize for accent-insensitive matching (same logic as search.ts).
+ * Used ONLY for finding match positions — original text is displayed.
+ */
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'd')
+}
+
+interface Segment {
+  text: string
+  highlight: boolean
+}
+
+/**
+ * Split `text` into segments of matched/unmatched parts.
+ * Uses diacritic-insensitive matching so "kham thai" highlights "khám thai".
+ */
+function buildSegments(text: string, query: string): Segment[] {
+  if (!query || query.trim().length < 1) return [{ text, highlight: false }]
+
+  const normText = normalize(text)
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .filter(t => t.length >= 1)
+    .map(t => normalize(t))
+    .filter(t => t.length >= 1)
+
+  if (terms.length === 0) return [{ text, highlight: false }]
+
+  // Build a boolean array: highlight[i] = true if char i should be highlighted
+  const highlight = new Array(text.length).fill(false)
+
+  for (const term of terms) {
+    let start = 0
+    while (start < normText.length) {
+      const idx = normText.indexOf(term, start)
+      if (idx === -1) break
+      for (let i = idx; i < idx + term.length && i < text.length; i++) {
+        highlight[i] = true
+      }
+      start = idx + 1
+    }
+  }
+
+  // Collapse into segments
+  const segments: Segment[] = []
+  let i = 0
+  while (i < text.length) {
+    const isHl = highlight[i]
+    let j = i + 1
+    while (j < text.length && highlight[j] === isHl) j++
+    segments.push({ text: text.slice(i, j), highlight: isHl })
+    i = j
+  }
+
+  return segments
+}
+
+/**
+ * React component that renders text with highlighted segments.
+ */
+function Highlighted({
+  text,
+  query,
+  style,
+}: {
+  text: string
+  query: string
+  style?: React.CSSProperties
+}) {
+  const segments = buildSegments(text, query)
+  const hasHighlight = segments.some(s => s.highlight)
+
+  if (!hasHighlight) {
+    return <span style={style}>{text}</span>
+  }
+
+  return (
+    <span style={style}>
+      {segments.map((seg, i) =>
+        seg.highlight ? (
+          <mark
+            key={i}
+            style={{
+              background: 'rgba(91,138,245,0.28)',
+              color: '#a8c4ff',
+              borderRadius: 3,
+              padding: '0 1px',
+              fontWeight: 600,
+              // No box — just inline color change
+              boxShadow: 'none',
+            }}
+          >
+            {seg.text}
+          </mark>
+        ) : (
+          <span key={i}>{seg.text}</span>
+        )
+      )}
+    </span>
+  )
+}
+
+// ─── Rule badges ──────────────────────────────────────────────────────────────
+
 function RuleBadges({ rules }: { rules: ICDRule[] }) {
   if (!rules.length) return null
   const errors = rules.filter(r => r.severity === 'error')
@@ -18,7 +131,9 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
       {errors.length > 0 && (
         <span className="badge badge-error">
-          <XCircle size={10} /> {errors.length > 1 ? `${errors.length} lỗi` : errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Cấm bệnh chính' : 'Chỉ tử vong'}
+          <XCircle size={10} />
+          {errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Cấm bệnh chính' : 'Chỉ tử vong'}
+          {errors.length > 1 && ` ×${errors.length}`}
         </span>
       )}
       {warnings.map((w, i) => (
@@ -35,10 +150,7 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
   )
 }
 
-function highlightMatch(text: string, query: string): string {
-  if (!query || query.length < 2) return text
-  return text // simple return — browser can handle highlight natively
-}
+// ─── Main component ───────────────────────────────────────────────────────────
 
 export function SearchResults({ results, rules, selectedCode, onSelect, query }: SearchResultsProps) {
   if (!query) {
@@ -49,7 +161,8 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
           Nhập mã ICD, tên bệnh hoặc thuật ngữ lâm sàng
         </div>
         <div style={{ marginTop: 6, fontSize: 12, color: 'var(--text-muted)' }}>
-          Ví dụ: <code style={{ fontFamily: 'JetBrains Mono', color: 'var(--accent)' }}>Z34</code>,{' '}
+          Ví dụ:{' '}
+          <code style={{ fontFamily: 'JetBrains Mono', color: 'var(--accent)' }}>Z34</code>,{' '}
           <code style={{ fontFamily: 'JetBrains Mono', color: 'var(--accent)' }}>khám thai</code>,{' '}
           <code style={{ fontFamily: 'JetBrains Mono', color: 'var(--accent)' }}>TNGT</code>,{' '}
           <code style={{ fontFamily: 'JetBrains Mono', color: 'var(--accent)' }}>E11</code>
@@ -62,7 +175,10 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
     return (
       <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--text-muted)' }}>
         <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
-        <div>Không tìm thấy kết quả cho "<strong style={{ color: 'var(--text-secondary)' }}>{query}</strong>"</div>
+        <div>
+          Không tìm thấy kết quả cho "
+          <strong style={{ color: 'var(--text-secondary)' }}>{query}</strong>"
+        </div>
         <div style={{ marginTop: 8, fontSize: 12 }}>Thử với từ khóa khác hoặc mã ICD trực tiếp</div>
       </div>
     )
@@ -71,11 +187,14 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{ fontSize: 11, color: 'var(--text-muted)', paddingBottom: 4 }}>
-        {results.length} kết quả
+        {results.length} kết quả cho{' '}
+        <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>"{query}"</span>
       </div>
+
       {results.map(rec => {
         const codeRules = rules.get(rec.maBenh) ?? []
         const isSelected = rec.maBenh === selectedCode
+
         return (
           <div
             key={rec.maBenh}
@@ -84,25 +203,53 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
               <div style={{ flex: 1, minWidth: 0 }}>
+
+                {/* Code row */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span className="code-chip">{rec.maBenh}</span>
+                  <span className="code-chip">
+                    <Highlighted text={rec.maBenh} query={query} />
+                  </span>
                   {rec.khoiMa && (
-                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>
                       {rec.chuongStt} · {rec.khoiMa}
                     </span>
                   )}
                 </div>
-                <div style={{ fontWeight: 500, color: 'var(--text-primary)', fontSize: 13, lineHeight: 1.4 }}>
-                  {rec.tenTiengViet}
-                </div>
+
+                {/* Vietnamese name with highlight */}
+                <Highlighted
+                  text={rec.tenTiengViet}
+                  query={query}
+                  style={{
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                    fontSize: 13,
+                    lineHeight: 1.4,
+                    display: 'block',
+                  }}
+                />
+
+                {/* English name with highlight */}
                 {rec.tenTiengAnh && (
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-                    {rec.tenTiengAnh}
-                  </div>
+                  <Highlighted
+                    text={rec.tenTiengAnh}
+                    query={query}
+                    style={{
+                      fontSize: 11,
+                      color: 'var(--text-muted)',
+                      marginTop: 2,
+                      display: 'block',
+                    }}
+                  />
                 )}
+
                 <RuleBadges rules={codeRules} />
               </div>
-              <ChevronRight size={14} style={{ color: 'var(--text-muted)', flexShrink: 0, marginTop: 2 }} />
+
+              <ChevronRight
+                size={14}
+                style={{ color: 'var(--text-muted)', flexShrink: 0, marginTop: 2 }}
+              />
             </div>
           </div>
         )
@@ -113,9 +260,17 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
 
 function Search_Icon() {
   return (
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" style={{ margin: '0 auto' }}>
-      <circle cx="11" cy="11" r="8"/>
-      <path d="m21 21-4.35-4.35"/>
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--text-muted)"
+      strokeWidth="1.5"
+      style={{ margin: '0 auto' }}
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
     </svg>
   )
 }

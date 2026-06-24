@@ -23,6 +23,15 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Reset browser default yellow mark highlight */
+mark {
+  background: rgba(91,138,245,0.28);
+  color: #a8c4ff;
+  border-radius: 3px;
+  padding: 0 1px;
+  font-weight: 600;
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
