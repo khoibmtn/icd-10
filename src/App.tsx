@@ -42,8 +42,8 @@ export default function App() {
   useEffect(() => {
     async function init() {
       try {
-        setInitMsg('Tải dữ liệu ICD-10...')
-        await seedDatabase()
+        setInitMsg('Đang tải 15.844 mã ICD-10...')
+        await seedDatabase(setInitMsg)
 
         setInitMsg('Xây dựng chỉ mục tìm kiếm...')
         const searchData = await fetch('/build/search_index.json').then(r => r.json())
@@ -248,9 +248,9 @@ export default function App() {
                 padding: '8px 16px', borderTop: '1px solid var(--border)',
                 display: 'flex', gap: 16, fontSize: 11, color: 'var(--text-muted)',
               }}>
-                <span>386 mã PoC</span>
+                <span>15.844 mã</span>
                 <span>·</span>
-                <span>193 quy tắc</span>
+                <span>5.856 quy tắc</span>
                 <span>·</span>
                 <span>10 khái niệm</span>
                 <span>·</span>

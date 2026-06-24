@@ -2,6 +2,10 @@
 import Dexie, { type Table } from 'dexie'
 import type { ICDRecord, ICDHierarchy, ICDRule, CodingRelation, InformationalRelation, ClinicalConcept } from '../types/icd'
 
+// Bump this when data changes to force re-seed
+const DB_NAME = 'icd10-vietnam-v3'
+const EXPECTED_MIN_RECORDS = 10000  // full dataset: ~15844
+
 export class ICDDatabase extends Dexie {
   records!: Table<ICDRecord>
   hierarchy!: Table<ICDHierarchy>
@@ -11,7 +15,7 @@ export class ICDDatabase extends Dexie {
   concepts!: Table<ClinicalConcept>
 
   constructor() {
-    super('icd10-vietnam-v1')
+    super(DB_NAME)
     this.version(1).stores({
       records: 'maBenh, maBenhKhongDau',
       hierarchy: 'code, parentCode',
@@ -25,10 +29,25 @@ export class ICDDatabase extends Dexie {
 
 export const icdDb = new ICDDatabase()
 
-export async function seedDatabase(): Promise<void> {
+export async function seedDatabase(onProgress?: (msg: string) => void): Promise<void> {
   const count = await icdDb.records.count()
-  if (count > 0) return // already seeded
 
+  // Re-seed if: empty OR stale (old PoC data with < EXPECTED_MIN_RECORDS)
+  if (count >= EXPECTED_MIN_RECORDS) return
+
+  if (count > 0) {
+    onProgress?.('Phát hiện dữ liệu cũ — đang xóa và tải lại...')
+    await Promise.all([
+      icdDb.records.clear(),
+      icdDb.hierarchy.clear(),
+      icdDb.rules.clear(),
+      icdDb.codingRelations.clear(),
+      icdDb.infoRelations.clear(),
+      icdDb.concepts.clear(),
+    ])
+  }
+
+  onProgress?.('Tải dữ liệu từ máy chủ...')
   const [searchData, hierarchyData, rulesData, relData, infoData, conceptsData] = await Promise.all([
     fetch('/build/search_index.json').then(r => r.json()),
     fetch('/build/hierarchy.json').then(r => r.json()),
@@ -38,9 +57,14 @@ export async function seedDatabase(): Promise<void> {
     fetch('/build/concepts.json').then(r => r.json()),
   ])
 
+  onProgress?.('Lưu 15.844 mã vào IndexedDB...')
+  await icdDb.records.bulkPut(searchData.data)
+
+  onProgress?.('Lưu cấu trúc phân cấp...')
+  await icdDb.hierarchy.bulkPut(hierarchyData.data)
+
+  onProgress?.('Lưu quy tắc mã hóa...')
   await Promise.all([
-    icdDb.records.bulkPut(searchData.data),
-    icdDb.hierarchy.bulkPut(hierarchyData.data),
     icdDb.rules.bulkPut(rulesData.data),
     icdDb.codingRelations.bulkPut(relData.data),
     icdDb.infoRelations.bulkPut(infoData.data),
