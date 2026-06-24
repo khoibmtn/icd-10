@@ -1,0 +1,2328 @@
+{
+  "meta": {
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2026-06-24T08:50:49.020Z",
+    "sourceFiles": [
+      "icd10_flat.json"
+    ],
+    "recordCount": 193
+  },
+  "data": [
+    {
+      "code": "A50",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã A50 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "A51",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã A51 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "A52",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã A52 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C00",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C00 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C02",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C02 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C03",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C03 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C04",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C04 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C05",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C05 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C06",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C06 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C08",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C08 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C09",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C09 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "C10",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã C10 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "E10",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã E10 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "E11",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã E11 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "E12",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã E12 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "E13",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã E13 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "E14",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã E14 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã I98 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "I98.8",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã I98.8 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "N18",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã N18 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S00",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S00 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S01",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S01 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.0",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.0 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.1",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.1 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.2",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.2 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.3",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.3 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.4",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.4 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.5",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.5 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.6",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.6 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.7",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.7 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.8",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.8 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S02.9",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S02.9 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.0",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.0 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.1",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.1 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.2",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.2 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.3",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.3 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.4",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.4 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.5",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.5 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.6",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.6 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.7",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.7 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.8",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.8 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S06.9",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S06.9 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "S09",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã S09 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V01",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V01 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V01",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V01 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V01.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V01.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V01.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V01.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V01.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V01.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V02",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V02 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V02",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V02 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V02.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V02.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V02.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V02.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V02.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V02.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V03",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V03 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V03",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V03 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V03.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V03.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V03.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V03.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V03.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V03.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V10 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V10.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V10.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V19 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.6",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.6 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.8",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.8 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V19.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V19.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V20 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V20.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V20.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V23 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V23.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V23.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V40 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.6",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.6 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.7",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.7 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V40.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V40.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V60 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.6",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.6 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.7",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.7 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V60.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V60.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã V89 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V89.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V89.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "V99",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã V99 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z30",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z30 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z30.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z30.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z30.3",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z30.3 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z30.5",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z30.5 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z31",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z31 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z31.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z31.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z31.2",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z31.2 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z32",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z32 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z32.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z32.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z32.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z32.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z33",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z33 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z34",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z34 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z34.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z34.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z34.8",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z34.8 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z34.9",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z34.9 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z35 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.2",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.2 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.3",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.3 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.4",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.4 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.5",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.5 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.6",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.6 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.7",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.7 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.8",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.8 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z35.9",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z35.9 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z36 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.2",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.2 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.3",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.3 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.4",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.4 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.5",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.5 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.8",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.8 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z36.9",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z36.9 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z37 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.0",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.0 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.1",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.1 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.2",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.2 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.2",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.2 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.3",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.3 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.3",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.3 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.4",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.4 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.4",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.4 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.5",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.5 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.5",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.5 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.6",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.6 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.6",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.6 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.7",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.7 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.7",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.7 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.9",
+      "ruleType": "khongDungLaBenhChinh",
+      "severity": "error",
+      "message": "Mã Z37.9 không được sử dụng làm bệnh chính.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z37.9",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z37.9 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z38",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z38 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z39",
+      "ruleType": "khongSuDungViCoMaCuTheHon",
+      "severity": "warning",
+      "message": "Mã Z39 không nên dùng vì có mã 4-5 ký tự cụ thể hơn.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z39.0",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z39.0 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z39.1",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z39.1 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "code": "Z39.2",
+      "ruleType": "chiCoONuGioi",
+      "severity": "warning",
+      "message": "Mã Z39.2 chỉ áp dụng cho người bệnh nữ.",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    }
+  ]
+}

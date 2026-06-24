@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2026-06-24T08:50:49.021Z",
+    "sourceFiles": [
+      "icd10_flat.json"
+    ],
+    "recordCount": 9
+  },
+  "data": [
+    {
+      "source": "A52.0",
+      "target": "I98.0",
+      "relationType": "dagger_asterisk",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "A50.4",
+      "target": "G94.8",
+      "relationType": "dagger_asterisk",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "E10.2",
+      "target": "H36.0",
+      "relationType": "dagger_asterisk",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "E11.2",
+      "target": "H36.0",
+      "relationType": "dagger_asterisk",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "E11.3",
+      "target": "H36.0",
+      "relationType": "dagger_asterisk",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "N18",
+      "target": "E11",
+      "relationType": "use_additional",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "E11",
+      "target": "N18",
+      "relationType": "use_additional",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "S06",
+      "target": "V01",
+      "relationType": "use_additional",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "S06",
+      "target": "V23",
+      "relationType": "use_additional",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "exact",
+        "citationLevel": "official",
+        "file": "icd10_flat.json"
+      }
+    }
+  ]
+}

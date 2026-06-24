@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2026-06-24T08:50:49.021Z",
+    "sourceFiles": [
+      "icd10_flat.json"
+    ],
+    "recordCount": 2
+  },
+  "data": [
+    {
+      "source": "Z34",
+      "target": "Z35",
+      "relationType": "excludes",
+      "description": "Thai kỳ bình thường (Z34) loại trừ thai nguy cơ cao (Z35)",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "derived",
+        "citationLevel": "compiled",
+        "file": "icd10_flat.json"
+      }
+    },
+    {
+      "source": "E11",
+      "target": "E10",
+      "relationType": "excludes",
+      "description": "ĐTĐ type 2 loại trừ ĐTĐ type 1 (E10)",
+      "provenance": {
+        "source": "icd10_flat",
+        "confidence": "derived",
+        "citationLevel": "compiled",
+        "file": "icd10_flat.json"
+      }
+    }
+  ]
+}
