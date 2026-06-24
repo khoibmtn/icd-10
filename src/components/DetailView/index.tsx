@@ -31,8 +31,13 @@ export function DetailView({
 }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
-  const errorCount = rules.filter(r => r.severity === 'error').length
-  const warnCount = rules.filter(r => r.severity === 'warning').length
+  // Deduplicate rules by ruleType before counting
+  const uniqueRules = rules.reduce<ICDRule[]>((acc, r) => {
+    if (!acc.some(x => x.ruleType === r.ruleType)) acc.push(r)
+    return acc
+  }, [])
+  const errorCount = uniqueRules.filter(r => r.severity === 'error').length
+  const warnCount = uniqueRules.filter(r => r.severity === 'warning').length
 
   return (
     <div className="fade-in" style={{
@@ -52,10 +57,16 @@ export function DetailView({
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span className="code-chip" style={{ fontSize: 16 }}>{record.maBenh}</span>
             {errorCount > 0 && (
-              <span className="badge badge-error">⚠ {errorCount} lỗi</span>
+              <span className="badge badge-error">
+                {errorCount === 1
+                  ? uniqueRules.find(r => r.severity === 'error')?.ruleType === 'khongDungLaBenhChinh'
+                    ? 'Quy tắc BYT'
+                    : 'Hạn chế'
+                  : `${errorCount} quy tắc`}
+              </span>
             )}
             {warnCount > 0 && (
-              <span className="badge badge-warning">! {warnCount} cảnh báo</span>
+              <span className="badge badge-warning">{warnCount} cảnh báo</span>
             )}
           </div>
           <div style={{ marginTop: 6, fontSize: 13, color: 'var(--text-secondary)', maxWidth: 320, lineHeight: 1.4 }}>

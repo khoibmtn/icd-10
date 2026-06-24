@@ -127,15 +127,21 @@ function Highlighted({
 
 function RuleBadges({ rules }: { rules: ICDRule[] }) {
   if (!rules.length) return null
-  const errors = rules.filter(r => r.severity === 'error')
-  const warnings = rules.filter(r => r.severity === 'warning')
+  // Deduplicate by ruleType before counting
+  const unique = rules.reduce<ICDRule[]>((acc, r) => {
+    if (!acc.some(x => x.ruleType === r.ruleType)) acc.push(r)
+    return acc
+  }, [])
+  const errors = unique.filter(r => r.severity === 'error')
+  const warnings = unique.filter(r => r.severity === 'warning')
   return (
     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
       {errors.length > 0 && (
         <span className="badge badge-error">
           <XCircle size={10} />
-          {errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Cấm bệnh chính' : 'Chỉ tử vong'}
-          {errors.length > 1 && ` ×${errors.length}`}
+          {errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Quy tắc BYT'
+            : errors[0].ruleType === 'chiSuDungMaHoaNguyenNhanTuVong' ? 'Chỉ tử vong'
+            : 'Hạn chế'}
         </span>
       )}
       {warnings.map((w, i) => (
