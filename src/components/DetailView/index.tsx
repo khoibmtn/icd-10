@@ -37,8 +37,20 @@ export function DetailView({
     if (!acc.some(x => x.ruleType === r.ruleType)) acc.push(r)
     return acc
   }, [])
-  const errorCount = uniqueRules.filter(r => r.severity === 'error').length
-  const warnCount = uniqueRules.filter(r => r.severity === 'warning').length
+
+  // Short label for each rule type — shown inline next to code
+  const RULE_LABEL: Record<string, string> = {
+    khongDungLaBenhChinh:             'Không dùng làm bệnh chính',
+    khongKhuyenKhichDungLaBenhChinh:  'Hạn chế làm bệnh chính',
+    khongSuDungViCoMaCuTheHon:        'Không dùng — có mã cụ thể hơn',
+    chiSuDungMaHoaNguyenNhanTuVong:   'Chỉ mã hóa tử vong',
+    chiCoONuGioi:                     'Chỉ nữ giới',
+    chiCoONamGioi:                    'Chỉ nam giới',
+  }
+
+  const errorRules  = uniqueRules.filter(r => r.severity === 'error')
+  const warnRules   = uniqueRules.filter(r => r.severity === 'warning')
+  const allRuleLabels = uniqueRules.map(r => RULE_LABEL[r.ruleType] ?? r.ruleType)
 
   return (
     <div className="fade-in" style={{
@@ -54,23 +66,26 @@ export function DetailView({
         display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
         flexShrink: 0,
       }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span className="code-chip" style={{ fontSize: 16 }}>{record.maBenh}</span>
-            {errorCount > 0 && (
-              <span className="badge badge-error">
-                {errorCount === 1
-                  ? uniqueRules.find(r => r.severity === 'error')?.ruleType === 'khongDungLaBenhChinh'
-                    ? 'Quy tắc BYT'
-                    : 'Hạn chế'
-                  : `${errorCount} quy tắc`}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Code + inline rule text */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span className="code-chip" style={{ fontSize: 16, flexShrink: 0 }}>{record.maBenh}</span>
+            {uniqueRules.length > 0 && (
+              <span style={{
+                fontSize: 11, fontWeight: 500,
+                color: errorRules.length > 0 ? '#fca5a5' : '#fde68a',
+                background: errorRules.length > 0
+                  ? 'rgba(248,113,113,0.1)' : 'rgba(251,191,36,0.1)',
+                border: `1px solid ${errorRules.length > 0
+                  ? 'rgba(248,113,113,0.25)' : 'rgba(251,191,36,0.25)'}`,
+                borderRadius: 6, padding: '2px 10px',
+                lineHeight: 1.5,
+              }}>
+                {allRuleLabels.join(' ; ')}
               </span>
             )}
-            {warnCount > 0 && (
-              <span className="badge badge-warning">{warnCount} cảnh báo</span>
-            )}
           </div>
-          <div style={{ marginTop: 6, fontSize: 13, color: 'var(--text-secondary)', maxWidth: 320, lineHeight: 1.4 }}>
+          <div style={{ marginTop: 6, fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
             {record.tenTiengViet}
           </div>
         </div>
@@ -97,8 +112,8 @@ export function DetailView({
         flexShrink: 0,
       }}>
         {TABS.map(({ id, label, Icon }) => {
-          const badge = id === 'rules' && (errorCount + warnCount) > 0
-            ? (errorCount + warnCount) : null
+          const badge = id === 'rules' && uniqueRules.length > 0
+            ? uniqueRules.length : null
           return (
             <button
               key={id}
@@ -110,7 +125,7 @@ export function DetailView({
                 {label}
                 {badge && (
                   <span style={{
-                    background: errorCount > 0 ? 'var(--error)' : 'var(--warning)',
+                    background: errorRules.length > 0 ? 'var(--error)' : 'var(--warning)',
                     color: '#fff', borderRadius: '50%', width: 16, height: 16,
                     fontSize: 9, fontWeight: 700,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
