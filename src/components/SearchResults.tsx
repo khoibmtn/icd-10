@@ -1,4 +1,5 @@
 // src/components/SearchResults.tsx
+import React from 'react'
 import { AlertTriangle, XCircle, ChevronRight, Beaker } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../types/icd'
 
@@ -123,6 +124,38 @@ function Highlighted({
   )
 }
 
+// ─── Code chip with dagger/asterisk symbol ───────────────────────────────────
+
+function CodeChip({ rec, query }: { rec: ICDRecord; query: string }) {
+  const sym = rec.codingSymbol
+  // Base chip styles — same as .code-chip but inline for per-record customization
+  const chipStyle: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', gap: 1,
+    fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 12,
+    borderRadius: 5, padding: '2px 8px',
+    border: '1px solid',
+    ...(sym === '†'
+      ? { color: '#f59e0b', background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)' }
+      : sym === '*'
+      ? { color: '#a78bfa', background: 'rgba(167,139,250,0.12)', borderColor: 'rgba(167,139,250,0.3)' }
+      : { color: 'var(--accent)', background: 'rgba(91,138,245,0.1)', borderColor: 'rgba(91,138,245,0.2)' }
+    ),
+  }
+  return (
+    <span style={chipStyle}>
+      <Highlighted text={rec.maBenh} query={query} />
+      {sym && (
+        <span style={{
+          fontSize: 11,
+          opacity: 0.85,
+          marginLeft: 1,
+          color: sym === '†' ? '#f59e0b' : '#a78bfa',
+        }}>{sym}</span>
+      )}
+    </span>
+  )
+}
+
 // ─── Rule badges ──────────────────────────────────────────────────────────────
 
 function RuleBadges({ rules }: { rules: ICDRule[] }) {
@@ -139,7 +172,8 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
       {errors.length > 0 && (
         <span className="badge badge-error">
           <XCircle size={10} />
-          {errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Quy tắc BYT'
+          {errors[0].ruleType === 'maDauSaoKhongLaBenhChinh' ? 'Mã dấu sao (*) — không dùng làm bệnh chính'
+            : errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Quy tắc BYT'
             : errors[0].ruleType === 'chiSuDungMaHoaNguyenNhanTuVong' ? 'Chỉ tử vong'
             : 'Hạn chế'}
         </span>
@@ -147,7 +181,8 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
       {warnings.map((w, i) => (
         <span key={i} className="badge badge-warning">
           <AlertTriangle size={10} />
-          {w.ruleType === 'khongSuDungViCoMaCuTheHon' ? 'Dùng mã cụ thể hơn'
+          {w.ruleType === 'maDauGamCanKemMaDauSao' ? 'Cần kèm mã dấu sao (*)'
+            : w.ruleType === 'khongSuDungViCoMaCuTheHon' ? 'Dùng mã cụ thể hơn'
             : w.ruleType === 'chiCoONuGioi' ? 'Chỉ nữ giới'
             : w.ruleType === 'chiCoONamGioi' ? 'Chỉ nam giới'
             : w.ruleType === 'khongKhuyenKhichDungLaBenhChinh' ? 'Hạn chế bệnh chính'
@@ -251,9 +286,7 @@ export function SearchResults({
 
                 {/* Code row */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <span className="code-chip">
-                    <Highlighted text={rec.maBenh} query={query} />
-                  </span>
+                  <CodeChip rec={rec} query={query} />
                   {rec.khoiMa && (
                     <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>
                       {rec.chuongStt} · {rec.khoiMa}

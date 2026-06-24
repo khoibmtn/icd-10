@@ -1,5 +1,5 @@
 // src/components/DetailView/TabRules.tsx
-import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, BookOpen } from 'lucide-react'
+import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, BookOpen, Link2 } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../../types/icd'
 
 interface TabRulesProps {
@@ -56,6 +56,20 @@ const RULE_META: Record<string, {
     icon: <User size={16} />,
     variant: 'info',
     badgeLabel: 'Điều kiện giới tính',
+  },
+  maDauSaoKhongLaBenhChinh: {
+    label: 'Mã dấu sao (*) — Không được làm bệnh chính',
+    description: 'Đây là mã biểu hiện bệnh (manifestation code) theo hệ thống mã kép ICD-10. Mã (*) KHÔNG được ghi làm bệnh chính. Phải có mã nguyên nhân/bệnh sinh có dấu găm (†) đứng trước trong hồ sơ.',
+    icon: <Ban size={16} />,
+    variant: 'restrict',
+    badgeLabel: 'ICD-10 Mã kép',
+  },
+  maDauGamCanKemMaDauSao: {
+    label: 'Mã dấu găm (†) — Cần kèm mã biểu hiện (*)',
+    description: 'Đây là mã nguyên nhân/bệnh sinh (etiology code) theo hệ thống mã kép ICD-10. Khi sử dụng mã (†) làm bệnh chính, bắt buộc phải ghi thêm mã biểu hiện (*) là bệnh kèm theo trong hồ sơ.',
+    icon: <Link2 size={16} />,
+    variant: 'caution',
+    badgeLabel: 'ICD-10 Mã kép',
   },
 }
 

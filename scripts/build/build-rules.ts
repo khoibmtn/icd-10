@@ -8,6 +8,14 @@ const PROVENANCE_BASE: SourceReference = {
   file: 'icd10_flat.json',
 }
 
+const PROVENANCE_GUIDELINE: SourceReference = {
+  source: 'guideline',
+  confidence: 'exact',
+  citationLevel: 'official',
+  file: 'PL2_Huong_dan_nguyen_tac_ma_hoa_ICD10.docx',
+  section: '7.1 — Hệ thống mã kép dấu găm và dấu sao',
+}
+
 export function buildRules(records: ICDRecord[]): ICDRule[] {
   const rules: ICDRule[] = []
 
@@ -66,6 +74,47 @@ export function buildRules(records: ICDRecord[]): ICDRule[] {
         severity: 'warning',
         message: `Mã ${rec.maBenh} chỉ áp dụng cho người bệnh nam.`,
         provenance: PROVENANCE_BASE,
+      })
+    }
+
+    // ── Dual-coding rules (PL2 section 7.1) ────────────────────────────────
+
+    if (rec.codingSymbol === '*') {
+      // * codes MUST NOT be used as primary diagnosis (bệnh chính)
+      // This is an ICD-10 standard rule, not just BYT recommendation
+      // Note: khongDungLaBenhChinh is already set to true for * codes in extract-poc-dataset,
+      // but we add a dedicated rule for richer display (different RULE_META in UI)
+      if (!d.khongDungLaBenhChinh) {
+        // Safety fallback: if dieuKienSuDung didn't auto-set it, add the rule explicitly
+        rules.push({
+          code: rec.maBenh,
+          ruleType: 'maDauSaoKhongLaBenhChinh',
+          severity: 'error',
+          message: `Mã ${rec.maBenh}* có dấu sao (*) không được dùng làm bệnh chính. Phải ghi mã dấu găm (†) làm bệnh chính và mã ${rec.maBenh}* là bệnh kèm theo.`,
+          provenance: PROVENANCE_GUIDELINE,
+        })
+      } else {
+        // Always add a specific * rule so the UI can show the companion info
+        rules.push({
+          code: rec.maBenh,
+          ruleType: 'maDauSaoKhongLaBenhChinh',
+          severity: 'error',
+          message: rec.companionCode
+            ? `Mã ${rec.maBenh}* là mã biểu hiện bệnh, không được dùng làm bệnh chính. Bệnh chính phải ghi mã nguyên nhân có dấu găm (†)${rec.companionCode ? `, ví dụ: ${rec.companionCode}†` : ''}.`
+            : `Mã ${rec.maBenh}* là mã biểu hiện bệnh, không được dùng làm bệnh chính.`,
+          provenance: PROVENANCE_GUIDELINE,
+        })
+      }
+    }
+
+    if (rec.codingSymbol === '†' && rec.companionCode) {
+      // † codes MUST be paired with the corresponding * code as secondary diagnosis
+      rules.push({
+        code: rec.maBenh,
+        ruleType: 'maDauGamCanKemMaDauSao',
+        severity: 'warning',
+        message: `Mã ${rec.maBenh}† là mã nguyên nhân/bệnh sinh. Bắt buộc phải ghi thêm mã biểu hiện ${rec.companionCode}* là bệnh kèm theo.`,
+        provenance: PROVENANCE_GUIDELINE,
       })
     }
   }

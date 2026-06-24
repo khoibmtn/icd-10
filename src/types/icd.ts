@@ -13,7 +13,7 @@ export interface BuildOutput<T> {
 }
 
 export interface ICDRecord {
-  maBenh: string;
+  maBenh: string;              // Clean code without symbols: 'A17.0'
   maBenhKhongDau: string;
   tenTiengViet: string;
   tenTiengAnh: string;
@@ -37,6 +37,17 @@ export interface ICDRecord {
     chiCoONuGioi: boolean;
     chiCoONamGioi: boolean;
   };
+  /** Dual-coding system:
+   *  '\u2020' = dagger (†): etiology/cause — bệnh chính bắt buộc
+   *  '*'  = asterisk: manifestation — KHÔNG được làm bệnh chính
+   *  null = normal code
+   */
+  codingSymbol: '\u2020' | '*' | null;
+  /** Companion code for dual-coding pair:
+   *  A17.0† → companionCode = 'G01'  (the * code to write as secondary)
+   *  G01*   → companionCode = 'A17'  (example † code — parsed from name)
+   */
+  companionCode: string | null;
 }
 
 export interface ICDHierarchy {
@@ -81,7 +92,9 @@ export interface ICDRule {
     | 'khongSuDungViCoMaCuTheHon'
     | 'chiSuDungMaHoaNguyenNhanTuVong'
     | 'chiCoONuGioi'
-    | 'chiCoONamGioi';
+    | 'chiCoONamGioi'
+    | 'maDauSaoKhongLaBenhChinh'     // * code cannot be primary diagnosis
+    | 'maDauGamCanKemMaDauSao';      // † code must be paired with * companion
   severity: 'error' | 'warning' | 'info';
   message: string;
   provenance: SourceReference;

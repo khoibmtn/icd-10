@@ -47,6 +47,8 @@ export function DetailView({
     chiSuDungMaHoaNguyenNhanTuVong:   'Chỉ mã hóa tử vong',
     chiCoONuGioi:                     'Chỉ nữ giới',
     chiCoONamGioi:                    'Chỉ nam giới',
+    maDauSaoKhongLaBenhChinh:         'Mã dấu sao (*) — không dùng làm bệnh chính',
+    maDauGamCanKemMaDauSao:           'Cần kèm mã biểu hiện (*)',
   }
 
   const errorRules  = uniqueRules.filter(r => r.severity === 'error')
@@ -68,9 +70,51 @@ export function DetailView({
         flexShrink: 0,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          {/* Code + inline rule text */}
+          {/* Code chip with symbol + companion badge */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <span className="code-chip" style={{ fontSize: 16, flexShrink: 0 }}>{record.maBenh}</span>
+            {/* Code chip — color changes by codingSymbol */}
+            <span style={{
+              fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 16,
+              borderRadius: 6, padding: '4px 14px',
+              border: '1px solid', display: 'inline-flex', alignItems: 'center', gap: 2,
+              ...(record.codingSymbol === '†'
+                ? { color: '#f59e0b', background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)' }
+                : record.codingSymbol === '*'
+                ? { color: '#a78bfa', background: 'rgba(167,139,250,0.12)', borderColor: 'rgba(167,139,250,0.3)' }
+                : { color: 'var(--accent)', background: 'rgba(91,138,245,0.1)', borderColor: 'rgba(91,138,245,0.2)' }
+              ),
+            }}>
+              {record.maBenh}
+              {record.codingSymbol && (
+                <span style={{ fontSize: 14, opacity: 0.9 }}>{record.codingSymbol}</span>
+              )}
+            </span>
+
+            {/* Companion code badge */}
+            {record.companionCode && (
+              <button
+                onClick={() => onNavigate?.(record.companionCode!)}
+                title={record.codingSymbol === '†'
+                  ? `Ghi kèm mã biểu hiện: ${record.companionCode}*`
+                  : `Mã nguyên nhân kèm: ${record.companionCode}†`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 5,
+                  background: 'none',
+                  border: `1px solid ${record.codingSymbol === '†' ? 'rgba(167,139,250,0.35)' : 'rgba(245,158,11,0.35)'}`,
+                  borderRadius: 5, padding: '2px 10px', cursor: 'pointer',
+                  fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 600,
+                  color: record.codingSymbol === '†' ? '#a78bfa' : '#f59e0b',
+                  transition: 'opacity 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              >
+                {record.codingSymbol === '†' ? '→' : '←'}
+                {record.companionCode}{record.codingSymbol === '†' ? '*' : '†'}
+              </button>
+            )}
+
+            {/* Inline rule warnings */}
             {uniqueRules.length > 0 && (
               <span style={{
                 fontSize: 11, fontWeight: 500,

@@ -19,8 +19,21 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], siblingRec
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
           <div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Mã bệnh</div>
-            <span className="code-chip" style={{ fontSize: 20, padding: '6px 16px' }}>
+            <span style={{
+              fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 20,
+              borderRadius: 7, padding: '6px 16px',
+              border: '1px solid', display: 'inline-flex', alignItems: 'center', gap: 3,
+              ...(rec.codingSymbol === '†'
+                ? { color: '#f59e0b', background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)' }
+                : rec.codingSymbol === '*'
+                ? { color: '#a78bfa', background: 'rgba(167,139,250,0.12)', borderColor: 'rgba(167,139,250,0.3)' }
+                : { color: 'var(--accent)', background: 'rgba(91,138,245,0.1)', borderColor: 'rgba(91,138,245,0.2)' }
+              ),
+            }}>
               {rec.maBenh}
+              {rec.codingSymbol && (
+                <span style={{ fontSize: 18, lineHeight: 1 }}>{rec.codingSymbol}</span>
+              )}
             </span>
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
@@ -37,6 +50,67 @@ export function TabBasic({ record: rec, hierarchy, childRecords = [], siblingRec
           </div>
         )}
       </div>
+
+      {/* Dual-coding (Mã kép) section */}
+      {rec.codingSymbol && (
+        <div className="glass" style={{
+          padding: 16,
+          borderLeft: `3px solid ${rec.codingSymbol === '†' ? '#f59e0b' : '#a78bfa'}`,
+        }}>
+          <div style={{
+            fontSize: 11, fontWeight: 700, color: rec.codingSymbol === '†' ? '#f59e0b' : '#a78bfa',
+            textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10,
+          }}>
+            HỆ THỐNG MÃ KÉP (DUAL-CODING)
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 11, color: 'var(--text-muted)', minWidth: 100, flexShrink: 0 }}>Loại mã:</span>
+              <span style={{
+                fontSize: 12, fontWeight: 600,
+                color: rec.codingSymbol === '†' ? '#f59e0b' : '#a78bfa',
+              }}>
+                {rec.codingSymbol === '†'
+                  ? '† Mã dấu găm (kiếm) — Nguyên nhân/bệnh sinh — Làm bệnh chính'
+                  : '* Mã dấu sao — Biểu hiện bệnh — KHÔNG được làm bệnh chính'}
+              </span>
+            </div>
+            {rec.companionCode && (
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                <span style={{ fontSize: 11, color: 'var(--text-muted)', minWidth: 100, flexShrink: 0 }}>
+                  {rec.codingSymbol === '†' ? 'Ghi kèm mã (*):' : 'Mã nguyên nhân:'}
+                </span>
+                <button
+                  onClick={() => onNavigate?.(rec.companionCode!)}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 13,
+                    padding: '3px 12px', borderRadius: 5, cursor: 'pointer',
+                    border: '1px solid', transition: 'opacity 0.15s',
+                    ...(rec.codingSymbol === '†'
+                      ? { color: '#a78bfa', background: 'rgba(167,139,250,0.1)', borderColor: 'rgba(167,139,250,0.3)' }
+                      : { color: '#f59e0b', background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.3)' }
+                    ),
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                >
+                  {rec.companionCode}{rec.codingSymbol === '†' ? '*' : '†'}
+                  <span style={{ fontSize: 10, marginLeft: 4, fontFamily: 'inherit' }}>→ xem</span>
+                </button>
+              </div>
+            )}
+            <div style={{
+              fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.6,
+              paddingTop: 6, borderTop: '1px solid var(--border)', marginTop: 2,
+            }}>
+              {rec.codingSymbol === '†'
+                ? 'ℹ️ Mã dấu găm (†) được ghi ở vị trí ĐẦU TIÊN trong hồ sơ. Bắt buộc ghi thêm mã biểu hiện (*) là bệnh kèm theo.'
+                : 'ℹ️ Mã dấu sao (*) ghi ở vị trí THỨ HAI trong hồ sơ. Không được ghi làm bệnh chính — phải có mã (†) đứng trước.'}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 2. Hướng dẫn mã hóa — now BEFORE Phân loại */}
       {rec.huongDanMaHoaTiengViet && (
