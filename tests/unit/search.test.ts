@@ -12,60 +12,60 @@ beforeAll(async () => {
 
 describe('Search Engine — Code Mode', () => {
   it('finds Z34 by exact code — ranked first before subcodes', async () => {
-    const results = await search('Z34')
+    const { results } = await search('Z34')
     // Z34 exact match must come before Z34.0, Z34.1 etc.
     expect(results[0]?.maBenh).toBe('Z34')
   })
 
   it('finds Z34.0 by exact code', async () => {
-    const results = await search('Z34.0')
+    const { results } = await search('Z34.0')
     expect(results[0]?.maBenh).toBe('Z34.0')
   })
 
   it('finds codes starting with Z34 when searching "Z34"', async () => {
-    const results = await search('Z34')
+    const { results } = await search('Z34')
     const codes = results.map(r => r.maBenh)
     // All Z34.x codes should appear near the top
     expect(codes.some(c => c.startsWith('Z34'))).toBe(true)
   })
 
   it('finds A52.0 by exact code', async () => {
-    const results = await search('A52.0')
+    const { results } = await search('A52.0')
     expect(results[0]?.maBenh).toBe('A52.0')
   })
 
   it('finds E11 by exact code — ranked first before E11.x subcodes', async () => {
-    const results = await search('E11')
+    const { results } = await search('E11')
     expect(results[0]?.maBenh).toBe('E11')
   })
 })
 
 describe('Search Engine — Vietnamese Term Mode', () => {
   it('"khám thai" returns Z34-group codes, NOT cancer codes', async () => {
-    const results = await search('khám thai')
+    const { results } = await search('khám thai')
     const topCodes = results.slice(0, 5).map(r => r.maBenh)
-    
-    // Should NOT contain C10.4 (ung thư) or S02.5 (gãy răng)
+
+    // Should NOT contain C10.4 (ung thư) or S02.5 (gãy răng) or S01.4 (vết thương thái dương)
     expect(topCodes).not.toContain('C10.4')
     expect(topCodes).not.toContain('S02.5')
-    expect(topCodes).not.toContain('S82.6')
-    
+    expect(topCodes).not.toContain('S01.4')
+
     // Should contain Z34-family codes
     expect(results.some(r => r.maBenh.startsWith('Z34'))).toBe(true)
   })
 
   it('"khám thai" top result is a Z34 code', async () => {
-    const results = await search('khám thai')
+    const { results } = await search('khám thai')
     expect(results[0]?.maBenh).toMatch(/^Z3/)
   })
 
   it('"thai kỳ bình thường" finds Z34', async () => {
-    const results = await search('thai kỳ bình thường')
+    const { results } = await search('thai kỳ bình thường')
     expect(results.some(r => r.maBenh.startsWith('Z34'))).toBe(true)
   })
 
   it('"giang mai" returns giang mai-related codes (A5x or I98)', async () => {
-    const results = await search('giang mai')
+    const { results } = await search('giang mai')
     // I98.0 = "Giang mai tim mạch" starts with query = valid top result
     // A50-A52 also valid — all are giang mai codes
     const topCode = results[0]?.maBenh
@@ -79,24 +79,24 @@ describe('Search Engine — Vietnamese Term Mode', () => {
   })
 
   it('"đái tháo đường" returns E1x codes', async () => {
-    const results = await search('đái tháo đường')
+    const { results } = await search('đái tháo đường')
     const codes = results.map(r => r.maBenh)
     expect(codes.some(c => c.startsWith('E1'))).toBe(true)
   })
 
   it('"suy thận mạn" returns N18', async () => {
-    const results = await search('suy thận mạn')
+    const { results } = await search('suy thận mạn')
     expect(results.some(r => r.maBenh.startsWith('N18'))).toBe(true)
   })
 
   it('"ung thư" returns C-codes', async () => {
-    const results = await search('ung thư')
+    const { results } = await search('ung thư')
     const codes = results.map(r => r.maBenh)
     expect(codes.some(c => c.startsWith('C'))).toBe(true)
   })
 
   it('"chấn thương đầu" returns S-codes', async () => {
-    const results = await search('chấn thương đầu')
+    const { results } = await search('chấn thương đầu')
     const codes = results.map(r => r.maBenh)
     expect(codes.some(c => c.startsWith('S'))).toBe(true)
   })
@@ -104,12 +104,12 @@ describe('Search Engine — Vietnamese Term Mode', () => {
 
 describe('Search Engine — Accent-insensitive (no diacritics)', () => {
   it('"kham thai" (no diacritics) still finds Z34 family', async () => {
-    const results = await search('kham thai')
+    const { results } = await search('kham thai')
     expect(results.some(r => r.maBenh.startsWith('Z34'))).toBe(true)
   })
 
   it('"dai thao duong" (no diacritics) finds E11', async () => {
-    const results = await search('dai thao duong')
+    const { results } = await search('dai thao duong')
     const codes = results.map(r => r.maBenh)
     expect(codes.some(c => c.startsWith('E1'))).toBe(true)
   })
@@ -124,7 +124,7 @@ describe('Search Engine — Performance', () => {
   })
 
   it('returns empty for empty query', async () => {
-    const results = await search('')
+    const { results } = await search('')
     expect(results).toHaveLength(0)
   })
 

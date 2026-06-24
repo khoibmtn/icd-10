@@ -1,5 +1,5 @@
 // src/components/SearchResults.tsx
-import { AlertTriangle, XCircle, ChevronRight } from 'lucide-react'
+import { AlertTriangle, XCircle, ChevronRight, Beaker } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../types/icd'
 
 interface SearchResultsProps {
@@ -8,6 +8,8 @@ interface SearchResultsProps {
   selectedCode: string | null
   onSelect: (code: string) => void
   query: string
+  hasStrongMatch?: boolean
+  onOpenPlayground?: () => void
 }
 
 // ─── Vietnamese-aware keyword highlighting ────────────────────────────────────
@@ -152,7 +154,10 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function SearchResults({ results, rules, selectedCode, onSelect, query }: SearchResultsProps) {
+export function SearchResults({
+  results, rules, selectedCode, onSelect, query,
+  hasStrongMatch = true, onOpenPlayground,
+}: SearchResultsProps) {
   if (!query) {
     return (
       <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--text-muted)' }}>
@@ -190,6 +195,40 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query }:
         {results.length} kết quả cho{' '}
         <span style={{ color: 'var(--accent)', fontStyle: 'italic' }}>"{query}"</span>
       </div>
+
+      {/* Weak match banner — guide user to Playground */}
+      {!hasStrongMatch && results.length > 0 && (
+        <div style={{
+          padding: '10px 14px',
+          background: 'rgba(251,191,36,0.06)',
+          border: '1px solid rgba(251,191,36,0.2)',
+          borderRadius: 8,
+          display: 'flex', alignItems: 'flex-start', gap: 10,
+          marginBottom: 4,
+        }}>
+          <AlertTriangle size={14} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: 1 }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 12, color: 'var(--warning)', fontWeight: 600, marginBottom: 3 }}>
+              Kết quả gần đúng
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              Không tìm thấy mã nào khớp hoàn toàn với{' '}
+              <strong style={{ color: 'var(--text-secondary)' }}>"{ query}"</strong>.
+              {' '}Nếu đây là thuật ngữ lâm sàng, hãy thử{' '}
+              <button
+                onClick={onOpenPlayground}
+                style={{
+                  background: 'none', border: 'none', padding: 0,
+                  color: 'var(--accent)', cursor: 'pointer', fontWeight: 600,
+                  fontSize: 11, textDecoration: 'underline', fontFamily: 'inherit',
+                }}
+              >
+                Playground →
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {results.map(rec => {
         const codeRules = rules.get(rec.maBenh) ?? []

@@ -22,6 +22,7 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [searching, setSearching] = useState(false)
   const [results, setResults] = useState<ICDRecord[]>([])
+  const [hasStrongMatch, setHasStrongMatch] = useState(true)
   const [rulesMap, setRulesMap] = useState<Map<string, ICDRule[]>>(new Map())
 
   // Detail state
@@ -74,12 +75,14 @@ export default function App() {
     if (!q) {
       setResults([])
       setRulesMap(new Map())
+      setHasStrongMatch(true)
       return
     }
     setSearching(true)
     try {
-      const res = await search(q, 30)
+      const { results: res, hasStrongMatch: strong } = await search(q, 30)
       setResults(res)
+      setHasStrongMatch(strong)
       // Load rules for results (for badges)
       const map = new Map<string, ICDRule[]>()
       await Promise.all(
@@ -235,6 +238,8 @@ export default function App() {
                   selectedCode={selectedCode}
                   onSelect={handleSelectCode}
                   query={query}
+                  hasStrongMatch={hasStrongMatch}
+                  onOpenPlayground={() => setActiveView('playground')}
                 />
               </div>
 

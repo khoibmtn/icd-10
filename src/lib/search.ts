@@ -1,12 +1,7 @@
 // src/lib/search.ts
 // Multi-stage search engine cho ICD-10 tiếng Việt
-// Stage 1: Code match  (exact/prefix) — highest priority
-// Stage 2: Vietnamese name contains (substring, normalized)
-// Stage 3: English name contains
-// Stage 4: Coding guidance contains
-// Orama fuzzy bị loại bỏ vì gây nhiều false positive với dấu tiếng Việt
-
 import type { ICDRecord } from '../types/icd'
+import { expandQuery } from './synonyms'
 
 let allRecords: ICDRecord[] = []
 
@@ -77,28 +72,50 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
     score += 700                                                      // starts with query
   }
 
-  // Multi-word scoring: every query word must appear in the name
+  // Multi-word scoring: strict — ALL words must be present for high score
   const words = q.split(/\s+/).filter(w => w.length >= 2)
-  if (words.length > 0) {
+  if (words.length >= 2) {
+    // Tokenize the record name for word-boundary matching
+    const vietTokens = entry.normViet.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
+    const anhTokens = entry.normAnh.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
+
     let wordMatchCount = 0
-    let allWordsPresent = true
     for (const word of words) {
-      if (entry.normViet.includes(word)) {
-        wordMatchCount++
-      } else {
-        allWordsPresent = false
-      }
+      // Token-level match: word must appear as complete token or prefix
+      // Require minimum 2 chars to avoid 'o', 'a' etc. causing false matches
+      const inViet = vietTokens.some(t =>
+        t.length >= 2 && (
+          t === word ||                         // exact token match
+          (t.length >= 3 && t.startsWith(word)) ||   // token starts with query word
+          (word.length >= 3 && word.startsWith(t))   // query word starts with token
+        )
+      )
+      const inAnh = anhTokens.some(t =>
+        t.length >= 2 && (t === word || t.startsWith(word))
+      )
+      if (inViet || inAnh) wordMatchCount++
     }
 
-    // Only score if ALL words are present (prevents partial false matches)
+    const allWordsPresent = wordMatchCount === words.length
+
     if (allWordsPresent) {
-      score += 500 + wordMatchCount * 50  // all words found = strong signal
-    } else if (wordMatchCount > 0) {
-      score += wordMatchCount * 80        // partial — weaker signal
+      // ALL words found → high confidence, rank near top
+      score += 500 + wordMatchCount * 60
+    } else if (wordMatchCount > 0 && words.length > 2) {
+      // For 3+ word queries: allow partial with very low score (user might be narrowing down)
+      // e.g. "bệnh giang mai tim mạch" → 3/4 words is still useful
+      score += wordMatchCount * 3
     }
+    // For 2-word query: partial (1/2) = score 0 = excluded from results entirely
+    // This is intentional: "khám thai" should NOT return S01.4 (thái dương)
+
   } else {
-    // Single word
-    if (entry.normViet.includes(q)) score += 500
+    // Single word query → normal substring scoring
+    if (entry.normViet.includes(q)) {
+      // Prefer token-level exact match over substring
+      const isTokenMatch = entry.normViet.split(/[\s\-\/,;.()]+/).some(t => t === q)
+      score += isTokenMatch ? 550 : 400
+    }
   }
 
   // ─── Stage 3: English name ───────────────────────────────────────────────
@@ -109,18 +126,36 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
   // ─── Stage 4: Coding guidance ────────────────────────────────────────────
   if (entry.normHuongDan.includes(q)) score += 80
 
+  // ─── Stage 5: Synonym expansion (user term → ICD official term) ──────────
+  // e.g. "khám thai" → "theo doi thai ky", "ung thư" → "u ac tinh"
+  const expandedTerms = expandQuery(q)
+  for (const icdTerm of expandedTerms) {
+    if (entry.normViet.includes(icdTerm)) {
+      score += 400   // strong signal: query synonym found in ICD name
+      break
+    }
+    if (entry.normAnh.includes(icdTerm)) {
+      score += 200
+      break
+    }
+  }
+
   return score
 }
 
 // ─── Public search API ────────────────────────────────────────────────────────
 
-export async function search(query: string, limit = 30): Promise<ICDRecord[]> {
-  if (!query.trim() || index.length === 0) return []
+export async function search(
+  query: string,
+  limit = 30
+): Promise<{ results: ICDRecord[]; hasStrongMatch: boolean }> {
+  if (!query.trim() || index.length === 0) {
+    return { results: [], hasStrongMatch: false }
+  }
 
   const rawQuery = query.trim()
   const normQuery = normalize(rawQuery)
 
-  // Score every entry
   const scored: Array<{ score: number; rec: ICDRecord }> = []
 
   for (const entry of index) {
@@ -130,10 +165,15 @@ export async function search(query: string, limit = 30): Promise<ICDRecord[]> {
     }
   }
 
-  // Sort by score descending
   scored.sort((a, b) => b.score - a.score)
 
-  return scored.slice(0, limit).map(s => s.rec)
+  // "Strong match" = at least one result with score >= 100 (code match or all-words-match)
+  const hasStrongMatch = scored.length > 0 && scored[0].score >= 100
+
+  return {
+    results: scored.slice(0, limit).map(s => s.rec),
+    hasStrongMatch,
+  }
 }
 
 export async function searchByCode(code: string): Promise<ICDRecord | null> {
