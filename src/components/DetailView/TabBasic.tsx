@@ -1,14 +1,15 @@
 // src/components/DetailView/TabBasic.tsx
-import { CheckCircle, XCircle, Clock, ChevronRight, Building2 } from 'lucide-react'
+import { CheckCircle, XCircle, ChevronRight, ListTree } from 'lucide-react'
 import type { ICDRecord, ICDHierarchy } from '../../types/icd'
 
 interface TabBasicProps {
   record: ICDRecord
   hierarchy?: ICDHierarchy
+  childRecords?: ICDRecord[]
   onNavigate?: (code: string) => void
 }
 
-export function TabBasic({ record: rec, hierarchy, onNavigate }: TabBasicProps) {
+export function TabBasic({ record: rec, hierarchy, childRecords = [], onNavigate }: TabBasicProps) {
   const flags = rec.dieuKienSuDung
 
   return (
@@ -99,6 +100,76 @@ export function TabBasic({ record: rec, hierarchy, onNavigate }: TabBasicProps) 
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Mã con (subcodes) ──────────────────────────────────────────── */}
+      {childRecords.length > 0 && (
+        <div className="glass" style={{ padding: 20 }}>
+          <div style={{
+            fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)',
+            marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.06em',
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <ListTree size={13} />
+            Mã con ({childRecords.length})
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {childRecords.map(child => (
+              <button
+                key={child.maBenh}
+                onClick={() => onNavigate?.(child.maBenh)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  background: 'var(--bg-overlay)', border: '1px solid var(--border)',
+                  borderRadius: 8, padding: '10px 14px', cursor: 'pointer', width: '100%',
+                  textAlign: 'left', transition: 'all 0.15s', fontFamily: 'inherit',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget
+                  el.style.borderColor = 'var(--accent)'
+                  el.style.background = 'rgba(91,138,245,0.06)'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget
+                  el.style.borderColor = 'var(--border)'
+                  el.style.background = 'var(--bg-overlay)'
+                }}
+              >
+                {/* Code chip */}
+                <span style={{
+                  fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700,
+                  color: 'var(--accent)', background: 'rgba(91,138,245,0.12)',
+                  border: '1px solid rgba(91,138,245,0.25)', borderRadius: 5,
+                  padding: '2px 8px', flexShrink: 0, minWidth: 56, textAlign: 'center',
+                }}>
+                  {child.maBenh}
+                </span>
+
+                {/* Name */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    fontSize: 13, fontWeight: 500, color: 'var(--text-primary)',
+                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                  }}>
+                    {child.tenTiengViet || '—'}
+                  </div>
+                  {child.tenTiengAnh && (
+                    <div style={{
+                      fontSize: 11, color: 'var(--text-muted)', marginTop: 2,
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      fontStyle: 'italic',
+                    }}>
+                      {child.tenTiengAnh}
+                    </div>
+                  )}
+                </div>
+
+                <ChevronRight size={13} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

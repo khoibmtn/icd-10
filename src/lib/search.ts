@@ -81,17 +81,26 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
 
     let wordMatchCount = 0
     for (const word of words) {
-      // Token-level match: word must appear as complete token or prefix
-      // Require minimum 2 chars to avoid 'o', 'a' etc. causing false matches
+      // Token-level match: require minimum chars to avoid false positives
+      // For 2-char words: ONLY exact token match (never prefix-match)
+      // For 3+ char words: allow prefix/start matching
+      const minPrefixLen = 3
+
       const inViet = vietTokens.some(t =>
         t.length >= 2 && (
-          t === word ||                         // exact token match
-          (t.length >= 3 && t.startsWith(word)) ||   // token starts with query word
-          (word.length >= 3 && word.startsWith(t))   // query word starts with token
+          t === word ||                                           // exact: "hon" === "hon" ✅
+          (word.length >= minPrefixLen && t.startsWith(word)) || // token starts with word: "hong" starts "hon" ✅
+          (word.length >= minPrefixLen && t.length >= minPrefixLen && word.startsWith(t)) // word starts with token
         )
       )
+
+      // English: never allow 2-char word to prefix-match longer tokens
+      // "me" must match EXACTLY as token, not "metapneumovirus".startsWith("me")
       const inAnh = anhTokens.some(t =>
-        t.length >= 2 && (t === word || t.startsWith(word))
+        t.length >= 2 && (
+          t === word ||                                           // exact: "coma" === "coma" ✅
+          (word.length >= minPrefixLen && t.startsWith(word))    // prefix only for 3+ char words
+        )
       )
       if (inViet || inAnh) wordMatchCount++
     }
@@ -99,39 +108,40 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
     const allWordsPresent = wordMatchCount === words.length
 
     if (allWordsPresent) {
-      // ALL words found → high confidence, rank near top
       score += 500 + wordMatchCount * 60
     } else if (wordMatchCount > 0 && words.length > 2) {
-      // For 3+ word queries: allow partial with very low score (user might be narrowing down)
-      // e.g. "bệnh giang mai tim mạch" → 3/4 words is still useful
+      // 3+ word queries: allow partial with very low score
       score += wordMatchCount * 3
     }
-    // For 2-word query: partial (1/2) = score 0 = excluded from results entirely
-    // This is intentional: "khám thai" should NOT return S01.4 (thái dương)
+    // 2-word query: partial (1/2) = score 0 = excluded
 
   } else {
-    // Single word query → normal substring scoring
+    // Single word query
     if (entry.normViet.includes(q)) {
-      // Prefer token-level exact match over substring
       const isTokenMatch = entry.normViet.split(/[\s\-\/,;.()]+/).some(t => t === q)
       score += isTokenMatch ? 550 : 400
     }
   }
 
   // ─── Stage 3: English name ───────────────────────────────────────────────
-  if (entry.normAnh === q) score += 400
-  else if (entry.normAnh.startsWith(q)) score += 300
-  else if (entry.normAnh.includes(q)) score += 180
+  // For multi-word queries: ONLY score if already has meaningful score from Stage 2
+  // This prevents 'me' in 'mellitus' giving J12.3 a free English-name bonus
+  const isMultiWord = words.length >= 2
+  if (!isMultiWord || score > 0) {
+    if (entry.normAnh === q) score += 400
+    else if (entry.normAnh.startsWith(q)) score += 300
+    else if (!isMultiWord && entry.normAnh.includes(q)) score += 180  // substring only for single-word
+  }
 
   // ─── Stage 4: Coding guidance ────────────────────────────────────────────
-  if (entry.normHuongDan.includes(q)) score += 80
+  // Same gate: only add guidance score if already relevant
+  if ((!isMultiWord || score > 0) && entry.normHuongDan.includes(q)) score += 80
 
-  // ─── Stage 5: Synonym expansion (user term → ICD official term) ──────────
-  // e.g. "khám thai" → "theo doi thai ky", "ung thư" → "u ac tinh"
+  // ─── Stage 5: Synonym expansion ──────────────────────────────────────────
   const expandedTerms = expandQuery(q)
   for (const icdTerm of expandedTerms) {
     if (entry.normViet.includes(icdTerm)) {
-      score += 400   // strong signal: query synonym found in ICD name
+      score += 400
       break
     }
     if (entry.normAnh.includes(icdTerm)) {

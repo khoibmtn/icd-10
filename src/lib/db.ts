@@ -76,6 +76,32 @@ export async function getRecord(code: string): Promise<ICDRecord | undefined> {
   return icdDb.records.get(code)
 }
 
+/**
+ * Get direct child records for a code (1 level deep).
+ * Uses hierarchy.childCodes — avoids N+1 by using bulkGet.
+ * For I20 → [I20.0, I20.1, I20.8, I20.9]
+ * For M54 → [M54.0, M54.1, M54.2, ...] (direct children only, not grandchildren)
+ */
+export async function getChildRecords(code: string): Promise<ICDRecord[]> {
+  const hier = await icdDb.hierarchy.get(code)
+  if (!hier || !hier.childCodes || hier.childCodes.length === 0) return []
+
+  // Direct children: childCodes whose parentCode matches this code
+  // Filter to only 1-level-deep: starts with `code.` or starts with `code` and is next level
+  const directChildren = hier.childCodes.filter(child => {
+    // I20 → I20.0, I20.1 ✅  but not I20.01 if I20.0 already listed
+    const after = child.slice(code.length)
+    // after should be '.' followed by digits/letters (no further dot)
+    return after.startsWith('.') && !after.slice(1).includes('.')
+  })
+
+  // Fallback: if no dotted children found (e.g. 3-char parent), take all children
+  const toFetch = directChildren.length > 0 ? directChildren : hier.childCodes.slice(0, 30)
+
+  const records = await icdDb.records.bulkGet(toFetch)
+  return records.filter((r): r is ICDRecord => r !== undefined)
+}
+
 export async function getRulesForCode(code: string): Promise<(ICDRule & { _id?: number })[]> {
   return icdDb.rules.where('code').equals(code).toArray()
 }
