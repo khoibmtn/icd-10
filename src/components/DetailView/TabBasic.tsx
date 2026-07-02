@@ -1,6 +1,6 @@
 // src/components/DetailView/TabBasic.tsx
 import { ChevronRight, ListTree, AlertTriangle, XCircle, ShieldAlert } from 'lucide-react'
-import type { ICDRecord, ICDHierarchy, ICDRule } from '../../types/icd'
+import type { ICDRecord, ICDRule } from '../../types/icd'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,13 +19,12 @@ const IMPORTANT_RULES: Record<string, { label: string; severity: 'error' | 'warn
 interface TabBasicProps {
   record: ICDRecord
   rules?: ICDRule[]
-  hierarchy?: ICDHierarchy
   childRecords?: ICDRecord[]
   siblingRecords?: ICDRecord[]
   onNavigate?: (code: string) => void
 }
 
-export function TabBasic({ record: rec, rules = [], hierarchy, childRecords = [], siblingRecords = [], onNavigate }: TabBasicProps) {
+export function TabBasic({ record: rec, rules = [], childRecords = [], siblingRecords = [], onNavigate }: TabBasicProps) {
   const sym = rec.codingSymbol
   const variant = sym === '†' ? 'outline' : sym === '*' ? 'secondary' : 'default'
   const extraCls = sym === '†' ? 'border-amber-200 text-amber-700 bg-amber-50'

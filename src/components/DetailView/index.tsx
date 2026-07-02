@@ -1,7 +1,7 @@
 // src/components/DetailView/index.tsx
 import { useState } from 'react'
 import { X, BookOpen, ShieldAlert, Link2, Archive } from 'lucide-react'
-import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ICDHierarchy } from '../../types/icd'
+import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation } from '../../types/icd'
 import { TabBasic } from './TabBasic'
 import { TabRules } from './TabRules'
 import { TabRelations } from './TabRelations'
@@ -15,7 +15,7 @@ interface DetailViewProps {
   rules: ICDRule[]
   codingRelations: CodingRelation[]
   infoRelations: InformationalRelation[]
-  hierarchy?: ICDHierarchy
+
   childRecords?: ICDRecord[]
   siblingRecords?: ICDRecord[]
   onClose?: () => void
@@ -31,7 +31,7 @@ const TABS = [
 
 type TabId = typeof TABS[number]['id']
 
-export function DetailView({ record, rules, codingRelations, infoRelations, hierarchy, childRecords = [], siblingRecords = [], onClose, onNavigate }: DetailViewProps) {
+export function DetailView({ record, rules, codingRelations, infoRelations, childRecords = [], siblingRecords = [], onClose, onNavigate }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
   const uniqueRules = rules.reduce<ICDRule[]>((acc, r) => {
@@ -122,7 +122,7 @@ export function DetailView({ record, rules, codingRelations, infoRelations, hier
 
         <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-muted/20">
           <TabsContent value="basic" className="m-0 h-full border-none p-0 outline-none">
-            <TabBasic record={record} rules={rules} hierarchy={hierarchy} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />
+            <TabBasic record={record} rules={rules} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />
           </TabsContent>
           <TabsContent value="rules" className="m-0 h-full border-none p-0 outline-none">
             <TabRules code={record.maBenh} rules={rules} record={record} />

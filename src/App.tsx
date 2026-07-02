@@ -6,10 +6,10 @@ import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
 import { RulePlayground } from './components/RulePlayground'
 import { TreeView } from './components/TreeView'
-import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getHierarchy, getChildRecords, getSiblingRecords } from './lib/db'
+import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getChildRecords, getSiblingRecords } from './lib/db'
 import { buildSearchIndex, search } from './lib/search'
 import { buildTree } from './lib/tree'
-import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ICDHierarchy, ClinicalConcept } from './types/icd'
+import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ClinicalConcept } from './types/icd'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
@@ -35,7 +35,7 @@ export default function App() {
   const [detailRules, setDetailRules] = useState<ICDRule[]>([])
   const [detailCodingRels, setDetailCodingRels] = useState<CodingRelation[]>([])
   const [detailInfoRels, setDetailInfoRels] = useState<InformationalRelation[]>([])
-  const [detailHierarchy, setDetailHierarchy] = useState<ICDHierarchy | undefined>()
+
   const [detailChildren, setDetailChildren] = useState<ICDRecord[]>([])
   const [detailSiblings, setDetailSiblings] = useState<ICDRecord[]>([])
 
@@ -107,13 +107,13 @@ export default function App() {
     setSelectedCode(code)
     // Always expand tree to this code (even if search tab is active)
     setTreeExpandTarget(code)
-    const [rec, rules, codingRels, infoRels, hier, children, siblings] = await Promise.all([
+    const [rec, rules, codingRels, infoRels, children, siblings] = await Promise.all([
       getRecord(code), getRulesForCode(code), getCodingRelations(code),
-      getInfoRelations(code), getHierarchy(code), getChildRecords(code), getSiblingRecords(code),
+      getInfoRelations(code), getChildRecords(code), getSiblingRecords(code),
     ])
     if (rec) {
       setDetailRecord(rec); setDetailRules(rules); setDetailCodingRels(codingRels)
-      setDetailInfoRels(infoRels); setDetailHierarchy(hier)
+      setDetailInfoRels(infoRels)
       setDetailChildren(children); setDetailSiblings(siblings)
     }
   }, [])
@@ -290,7 +290,7 @@ export default function App() {
             {/* Detail panel */}
             {selectedCode && detailRecord && (
               <div className="fixed inset-0 z-50 md:static md:z-auto md:flex-1 md:overflow-hidden anim-slide-right md:[animation:none] bg-background">
-                <DetailView record={detailRecord} rules={detailRules} codingRelations={detailCodingRels} infoRelations={detailInfoRels} hierarchy={detailHierarchy} childRecords={detailChildren} siblingRecords={detailSiblings} onClose={() => setSelectedCode(null)} onNavigate={handleNavigate} />
+                <DetailView record={detailRecord} rules={detailRules} codingRelations={detailCodingRels} infoRelations={detailInfoRels} childRecords={detailChildren} siblingRecords={detailSiblings} onClose={() => setSelectedCode(null)} onNavigate={handleNavigate} />
               </div>
             )}
           </>
