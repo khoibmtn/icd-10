@@ -1,6 +1,6 @@
 // src/components/DetailView/index.tsx
 import { useState } from 'react'
-import { X, BookOpen, GitBranch, ShieldAlert, Link2, Archive, Beaker } from 'lucide-react'
+import { X, BookOpen, ShieldAlert, Link2, Archive } from 'lucide-react'
 import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ICDHierarchy } from '../../types/icd'
 import { TabBasic } from './TabBasic'
 import { TabRules } from './TabRules'
@@ -52,7 +52,7 @@ export function DetailView({
   }
 
   const errorRules  = uniqueRules.filter(r => r.severity === 'error')
-  const warnRules   = uniqueRules.filter(r => r.severity === 'warning')
+  // warnRules computed on-demand if needed
   const allRuleLabels = uniqueRules.map(r => RULE_LABEL[r.ruleType] ?? r.ruleType)
 
   return (

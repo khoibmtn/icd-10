@@ -1,6 +1,6 @@
 // src/components/RulePlayground.tsx
 import { useState } from 'react'
-import { Beaker, Play, ChevronRight, CheckCircle, XCircle, ArrowRight, Info } from 'lucide-react'
+import { Beaker, Play, CheckCircle, XCircle, ArrowRight } from 'lucide-react'
 import { explainCode, explainConcept } from '../lib/explain'
 import type { ICDRule, ClinicalConcept, ExplainDecision } from '../types/icd'
 

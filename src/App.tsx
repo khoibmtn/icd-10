@@ -1,11 +1,11 @@
 // src/App.tsx
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { Search, Beaker, LayoutGrid, Database, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { Search, Beaker, Database, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
 import { SearchBar } from './components/SearchBar'
 import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
 import { RulePlayground } from './components/RulePlayground'
-import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getHierarchy, getAllConcepts, getChildRecords, getSiblingRecords } from './lib/db'
+import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getHierarchy, getChildRecords, getSiblingRecords } from './lib/db'
 import { buildSearchIndex, search } from './lib/search'
 import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ICDHierarchy, ClinicalConcept } from './types/icd'
 
@@ -284,7 +284,7 @@ export default function App() {
             {/* Empty detail placeholder */}
             {!selectedCode && (
               <div style={{
-                flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flex: 1, alignItems: 'center', justifyContent: 'center',
                 color: 'var(--text-muted)', flexDirection: 'column', gap: 10,
                 borderLeft: '1px solid var(--border)', display: 'none',
               }} />

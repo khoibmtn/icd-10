@@ -1,6 +1,6 @@
 // src/components/SearchResults.tsx
 import React from 'react'
-import { AlertTriangle, XCircle, ChevronRight, Beaker } from 'lucide-react'
+import { AlertTriangle, XCircle, ChevronRight } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../types/icd'
 
 interface SearchResultsProps {

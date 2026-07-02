@@ -3,7 +3,7 @@
 import type { ICDRecord } from '../types/icd'
 import { expandQuery } from './synonyms'
 
-let allRecords: ICDRecord[] = []
+
 
 // ─── Vietnamese text normalization ────────────────────────────────────────────
 
@@ -36,7 +36,6 @@ interface IndexEntry {
 let index: IndexEntry[] = []
 
 export async function buildSearchIndex(records: ICDRecord[]): Promise<void> {
-  allRecords = records
   index = records.map(rec => ({
     rec,
     normCode: rec.maBenh.toLowerCase(),
