@@ -33,13 +33,11 @@ export function DetailView({
 }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
-  // Deduplicate rules by ruleType before counting
   const uniqueRules = rules.reduce<ICDRule[]>((acc, r) => {
     if (!acc.some(x => x.ruleType === r.ruleType)) acc.push(r)
     return acc
   }, [])
 
-  // Short label for each rule type — shown inline next to code
   const RULE_LABEL: Record<string, string> = {
     khongDungLaBenhChinh:             'Không dùng làm bệnh chính',
     khongKhuyenKhichDungLaBenhChinh:  'Hạn chế làm bệnh chính',
@@ -51,63 +49,43 @@ export function DetailView({
     maDauGamCanKemMaDauSao:           'Cần kèm mã biểu hiện (*)',
   }
 
-  const errorRules  = uniqueRules.filter(r => r.severity === 'error')
-  // warnRules computed on-demand if needed
+  const errorRules = uniqueRules.filter(r => r.severity === 'error')
   const allRuleLabels = uniqueRules.map(r => RULE_LABEL[r.ruleType] ?? r.ruleType)
 
   return (
-    <div className="fade-in" style={{
-      height: '100%', display: 'flex', flexDirection: 'column',
-      background: 'var(--bg-surface)',
-      borderLeft: '1px solid var(--border)',
-    }}>
+    <div className="fade-in h-full flex flex-col bg-surface md:border-l md:border-border">
 
       {/* Header */}
-      <div style={{
-        padding: '16px 20px',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
-        flexShrink: 0,
-      }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* Code chip with symbol + companion badge */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            {/* Code chip — color changes by codingSymbol */}
-            <span style={{
-              fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 16,
-              borderRadius: 6, padding: '4px 14px',
-              border: '1px solid', display: 'inline-flex', alignItems: 'center', gap: 2,
-              ...(record.codingSymbol === '†'
-                ? { color: '#f59e0b', background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.3)' }
+      <div className="px-4 py-3 md:px-5 md:py-4 border-b border-border flex items-start justify-between shrink-0">
+        <div className="flex-1 min-w-0">
+          {/* Code chip + companion + rules */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            {/* Code chip */}
+            <span className={`
+              font-mono font-bold text-base rounded-md px-3 py-1 border inline-flex items-center gap-1
+              ${record.codingSymbol === '†'
+                ? 'text-amber-500 bg-amber-500/10 border-amber-500/30'
                 : record.codingSymbol === '*'
-                ? { color: '#a78bfa', background: 'rgba(167,139,250,0.12)', borderColor: 'rgba(167,139,250,0.3)' }
-                : { color: 'var(--accent)', background: 'rgba(91,138,245,0.1)', borderColor: 'rgba(91,138,245,0.2)' }
-              ),
-            }}>
+                ? 'text-purple-400 bg-purple-400/10 border-purple-400/30'
+                : 'text-accent bg-accent/10 border-accent/20'
+              }
+            `}>
               {record.maBenh}
-              {record.codingSymbol && (
-                <span style={{ fontSize: 14, opacity: 0.9 }}>{record.codingSymbol}</span>
-              )}
+              {record.codingSymbol && <span className="text-sm opacity-90">{record.codingSymbol}</span>}
             </span>
 
             {/* Companion code badge */}
             {record.companionCode && (
               <button
                 onClick={() => onNavigate?.(record.companionCode!)}
-                title={record.codingSymbol === '†'
-                  ? `Ghi kèm mã biểu hiện: ${record.companionCode}*`
-                  : `Mã nguyên nhân kèm: ${record.companionCode}†`}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 5,
-                  background: 'none',
-                  border: `1px solid ${record.codingSymbol === '†' ? 'rgba(167,139,250,0.35)' : 'rgba(245,158,11,0.35)'}`,
-                  borderRadius: 5, padding: '2px 10px', cursor: 'pointer',
-                  fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 600,
-                  color: record.codingSymbol === '†' ? '#a78bfa' : '#f59e0b',
-                  transition: 'opacity 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                className={`
+                  inline-flex items-center gap-1.5 bg-transparent border rounded px-2.5 py-0.5
+                  cursor-pointer font-mono text-xs font-semibold transition-opacity hover:opacity-70
+                  ${record.codingSymbol === '†'
+                    ? 'border-purple-400/35 text-purple-400'
+                    : 'border-amber-500/35 text-amber-500'
+                  }
+                `}
               >
                 {record.codingSymbol === '†' ? '→' : '←'}
                 {record.companionCode}{record.codingSymbol === '†' ? '*' : '†'}
@@ -116,33 +94,23 @@ export function DetailView({
 
             {/* Inline rule warnings */}
             {uniqueRules.length > 0 && (
-              <span style={{
-                fontSize: 11, fontWeight: 500,
-                color: errorRules.length > 0 ? '#c43030' : '#a07008',
-                background: errorRules.length > 0
-                  ? 'rgba(248,113,113,0.1)' : 'rgba(251,191,36,0.1)',
-                border: `1px solid ${errorRules.length > 0
-                  ? 'rgba(248,113,113,0.25)' : 'rgba(251,191,36,0.25)'}`,
-                borderRadius: 6, padding: '2px 10px',
-                lineHeight: 1.5,
-              }}>
+              <span className={`
+                text-[11px] font-medium rounded-md px-2.5 py-0.5 leading-snug border
+                ${errorRules.length > 0
+                  ? 'text-error bg-error/10 border-error/25'
+                  : 'text-warning bg-warning/10 border-warning/25'
+                }
+              `}>
                 {allRuleLabels.join(' ; ')}
               </span>
             )}
           </div>
-          <div style={{ marginTop: 6, fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-            {record.tenTiengViet}
-          </div>
+          <div className="mt-1.5 text-sm text-text-secondary leading-snug">{record.tenTiengViet}</div>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            style={{
-              background: 'var(--bg-overlay)', border: '1px solid var(--border)',
-              borderRadius: 8, padding: '6px 8px', cursor: 'pointer',
-              color: 'var(--text-muted)', display: 'flex', alignItems: 'center',
-              transition: 'all 0.15s', flexShrink: 0,
-            }}
+            className="hidden md:flex items-center p-1.5 rounded-lg bg-overlay border border-border text-text-muted cursor-pointer transition-all hover:text-text shrink-0"
           >
             <X size={14} />
           </button>
@@ -150,40 +118,37 @@ export function DetailView({
       </div>
 
       {/* Tabs */}
-      <div style={{
-        padding: '8px 12px',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex', gap: 4, overflowX: 'auto',
-        flexShrink: 0,
-      }}>
+      <div className="px-3 py-2 border-b border-border flex gap-1 overflow-x-auto shrink-0">
         {TABS.map(({ id, label, Icon }) => {
-          const badge = id === 'rules' && uniqueRules.length > 0
-            ? uniqueRules.length : null
+          const badge = id === 'rules' && uniqueRules.length > 0 ? uniqueRules.length : null
           return (
             <button
               key={id}
-              className={`tab-btn ${activeTab === id ? 'active' : ''}`}
               onClick={() => setActiveTab(id)}
+              className={`
+                flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                cursor-pointer border-none whitespace-nowrap transition-all duration-150 font-[inherit]
+                ${activeTab === id
+                  ? 'bg-accent-light text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
+                  : 'bg-transparent text-text-secondary hover:bg-elevated hover:text-text'
+                }
+              `}
             >
-              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <Icon size={12} />
-                {label}
-                {badge && (
-                  <span style={{
-                    background: errorRules.length > 0 ? 'var(--error)' : 'var(--warning)',
-                    color: '#fff', borderRadius: '50%', width: 16, height: 16,
-                    fontSize: 9, fontWeight: 700,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>{badge}</span>
-                )}
-              </span>
+              <Icon size={12} />
+              {label}
+              {badge && (
+                <span className={`
+                  w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center
+                  ${errorRules.length > 0 ? 'bg-error' : 'bg-warning'}
+                `}>{badge}</span>
+              )}
             </button>
           )
         })}
       </div>
 
       {/* Tab content */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
+      <div className="flex-1 overflow-y-auto p-3 md:p-4">
         {activeTab === 'basic' && (
           <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />
         )}
@@ -191,19 +156,10 @@ export function DetailView({
           <TabRules code={record.maBenh} rules={rules} record={record} />
         )}
         {activeTab === 'relations' && (
-          <TabRelations
-            code={record.maBenh}
-            codingRelations={codingRelations}
-            infoRelations={infoRelations}
-            onNavigate={onNavigate}
-          />
+          <TabRelations code={record.maBenh} codingRelations={codingRelations} infoRelations={infoRelations} onNavigate={onNavigate} />
         )}
         {activeTab === 'provenance' && (
-          <TabProvenance
-            record={record}
-            rules={rules}
-            codingRelations={codingRelations}
-          />
+          <TabProvenance record={record} rules={rules} codingRelations={codingRelations} />
         )}
       </div>
     </div>

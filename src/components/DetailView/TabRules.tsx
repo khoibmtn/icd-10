@@ -59,53 +59,43 @@ const RULE_META: Record<string, {
   },
   maDauSaoKhongLaBenhChinh: {
     label: 'Mã dấu sao (*) — Không được làm bệnh chính',
-    description: 'Đây là mã biểu hiện bệnh (manifestation code) theo hệ thống mã kép ICD-10. Mã (*) KHÔNG được ghi làm bệnh chính. Phải có mã nguyên nhân/bệnh sinh có dấu găm (†) đứng trước trong hồ sơ.',
+    description: 'Đây là mã biểu hiện bệnh (manifestation code) theo hệ thống mã kép ICD-10. Mã (*) KHÔNG được ghi làm bệnh chính.',
     icon: <Ban size={16} />,
     variant: 'restrict',
     badgeLabel: 'ICD-10 Mã kép',
   },
   maDauGamCanKemMaDauSao: {
     label: 'Mã dấu găm (†) — Cần kèm mã biểu hiện (*)',
-    description: 'Đây là mã nguyên nhân/bệnh sinh (etiology code) theo hệ thống mã kép ICD-10. Khi sử dụng mã (†) làm bệnh chính, bắt buộc phải ghi thêm mã biểu hiện (*) là bệnh kèm theo trong hồ sơ.',
+    description: 'Đây là mã nguyên nhân/bệnh sinh (etiology code). Khi sử dụng làm bệnh chính, bắt buộc ghi thêm mã (*) kèm theo.',
     icon: <Link2 size={16} />,
     variant: 'caution',
     badgeLabel: 'ICD-10 Mã kép',
   },
 }
 
-const VARIANT_STYLE = {
+const VARIANT_CLASSES = {
   restrict: {
-    bg: 'rgba(248,113,113,0.05)',
-    border: 'rgba(248,113,113,0.18)',
-    iconColor: '#f87171',
-    badgeBg: 'rgba(248,113,113,0.15)',
-    badgeColor: '#dc4545',
-    badgeBorder: 'rgba(220,69,69,0.3)',
-    stripe: '#f87171',
+    card: 'bg-red-50 border-red-200/60 border-l-red-400',
+    icon: 'text-red-400',
+    badgeBg: 'bg-red-100/80 text-red-700 border-red-300/60',
+    stripe: 'border-l-3 border-l-red-400',
   },
   caution: {
-    bg: 'rgba(251,191,36,0.05)',
-    border: 'rgba(251,191,36,0.18)',
-    iconColor: '#fbbf24',
-    badgeBg: 'rgba(251,191,36,0.15)',
-    badgeColor: '#a07008',
-    badgeBorder: 'rgba(217,150,10,0.3)',
-    stripe: '#fbbf24',
+    card: 'bg-amber-50/60 border-amber-200/60 border-l-amber-400',
+    icon: 'text-amber-400',
+    badgeBg: 'bg-amber-100/80 text-amber-700 border-amber-300/60',
+    stripe: 'border-l-3 border-l-amber-400',
   },
   info: {
-    bg: 'rgba(96,165,250,0.05)',
-    border: 'rgba(96,165,250,0.18)',
-    iconColor: '#60a5fa',
-    badgeBg: 'rgba(96,165,250,0.15)',
-    badgeColor: '#2563eb',
-    badgeBorder: 'rgba(59,130,246,0.3)',
-    stripe: '#60a5fa',
+    card: 'bg-blue-50/60 border-blue-200/60 border-l-blue-400',
+    icon: 'text-blue-400',
+    badgeBg: 'bg-blue-100/80 text-blue-700 border-blue-300/60',
+    stripe: 'border-l-3 border-l-blue-400',
   },
 }
 
 export function TabRules({ code, rules, record }: TabRulesProps) {
   const flags = record.dieuKienSuDung
-  // ── Deduplicate: keep only one rule per ruleType ──────────────────────────
   const uniqueRules = rules.reduce<ICDRule[]>((acc, rule) => {
     if (!acc.some(r => r.ruleType === rule.ruleType)) acc.push(rule)
     return acc
@@ -113,12 +103,12 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
 
   if (uniqueRules.length === 0) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ textAlign: 'center', padding: '32px 24px', color: 'var(--text-muted)' }}>
-          <div style={{ fontSize: 32, marginBottom: 12 }}>✅</div>
-          <div style={{ fontWeight: 500, color: 'var(--success)' }}>Không có quy tắc hạn chế</div>
-          <div style={{ fontSize: 12, marginTop: 6 }}>
-            Mã <span className="mono" style={{ color: 'var(--accent)' }}>{code}</span> không có cảnh báo mã hóa đặc biệt.
+      <div className="flex flex-col gap-4">
+        <div className="text-center py-8 px-6 text-text-muted">
+          <div className="text-3xl mb-3">✅</div>
+          <div className="font-medium text-success">Không có quy tắc hạn chế</div>
+          <div className="text-xs mt-1.5">
+            Mã <span className="font-mono text-accent">{code}</span> không có cảnh báo mã hóa đặc biệt.
           </div>
         </div>
         <ConditionFlags flags={flags} />
@@ -127,10 +117,10 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className="fade-in">
-      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>
+    <div className="fade-in flex flex-col gap-2.5">
+      <div className="text-[11px] text-text-muted mb-1">
         {uniqueRules.length} quy tắc áp dụng cho mã{' '}
-        <span className="mono" style={{ color: 'var(--accent)' }}>{code}</span>
+        <span className="font-mono text-accent">{code}</span>
       </div>
 
       {uniqueRules.map((rule, i) => {
@@ -141,67 +131,35 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
           variant: 'info' as const,
           badgeLabel: 'Quy tắc',
         }
-        const vs = VARIANT_STYLE[meta.variant]
+        const vc = VARIANT_CLASSES[meta.variant]
 
         return (
-          <div
-            key={i}
-            style={{
-              background: vs.bg,
-              border: `1px solid ${vs.border}`,
-              borderRadius: 10,
-              padding: '14px 16px',
-              borderLeft: `3px solid ${vs.stripe}`,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-              <div style={{ color: vs.iconColor, flexShrink: 0, marginTop: 1 }}>
-                {meta.icon}
-              </div>
-              <div style={{ flex: 1 }}>
+          <div key={i} className={`border rounded-xl p-3.5 md:p-4 ${vc.card} ${vc.stripe}`}>
+            <div className="flex items-start gap-3">
+              <div className={`${vc.icon} shrink-0 mt-0.5`}>{meta.icon}</div>
+              <div className="flex-1">
                 {/* Title + badge */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-                  <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>
-                    {meta.label}
-                  </span>
-                  <span style={{
-                    fontSize: 10, padding: '2px 7px', borderRadius: 4, fontWeight: 600,
-                    background: vs.badgeBg, color: vs.badgeColor, border: `1px solid ${vs.badgeBorder}`,
-                  }}>
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="font-semibold text-sm text-text">{meta.label}</span>
+                  <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${vc.badgeBg}`}>
                     {meta.badgeLabel}
                   </span>
                 </div>
 
                 {/* Description */}
-                <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.65 }}>
-                  {meta.description}
-                </div>
+                <div className="text-xs text-text-secondary leading-relaxed">{meta.description}</div>
 
                 {/* Provenance */}
-                <div style={{
-                  marginTop: 10, paddingTop: 10,
-                  borderTop: `1px solid ${vs.border}`,
-                  display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
-                }}>
-                  <BookOpen size={10} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Nguồn:</span>
-                  <span style={{
-                    fontSize: 10, padding: '1px 6px', borderRadius: 4, fontWeight: 600,
-                    background: 'rgba(59,109,232,0.08)', color: '#2b5bc4',
-                    border: '1px solid rgba(59,109,232,0.2)',
-                  }}>
+                <div className="mt-2.5 pt-2.5 border-t border-black/6 flex items-center gap-2 flex-wrap">
+                  <BookOpen size={10} className="text-text-muted shrink-0" />
+                  <span className="text-[10px] text-text-muted">Nguồn:</span>
+                  <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-accent/8 text-accent border border-accent/20">
                     {rule.provenance.citationLevel === 'official' ? 'Chính thức'
                       : rule.provenance.citationLevel === 'compiled' ? 'Biên soạn'
                       : 'Suy diễn'}
                   </span>
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'JetBrains Mono' }}>
-                    {rule.provenance.file}
-                  </span>
-                  <span style={{
-                    fontSize: 10, padding: '1px 6px', borderRadius: 4, fontWeight: 600,
-                    background: 'rgba(22,163,103,0.08)', color: '#0d8550',
-                    border: '1px solid rgba(22,163,103,0.18)',
-                  }}>
+                  <span className="text-[10px] text-text-muted font-mono">{rule.provenance.file}</span>
+                  <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-success/8 text-success border border-success/18">
                     {rule.provenance.confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}
                   </span>
                 </div>
@@ -211,13 +169,12 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
         )
       })}
 
-      {/* ── Điều kiện sử dụng ─────────────────────────────────────────────── */}
       <ConditionFlags flags={flags} />
     </div>
   )
 }
 
-// ── Điều kiện sử dụng component ──────────────────────────────────────────────
+// ── Condition flags ──────────────────────────────────────────────────────────
 type Flags = ICDRecord['dieuKienSuDung']
 
 function ConditionFlags({ flags }: { flags: Flags }) {
@@ -231,27 +188,18 @@ function ConditionFlags({ flags }: { flags: Flags }) {
   ]
 
   return (
-    <div style={{
-      marginTop: 8,
-      paddingTop: 18,
-      borderTop: '1px solid var(--border)',
-    }}>
-      <div style={{
-        fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)',
-        marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em',
-      }}>
+    <div className="mt-2 pt-4 border-t border-border">
+      <div className="text-xs font-semibold text-text-secondary mb-3 uppercase tracking-wide">
         Điều kiện sử dụng
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="flex flex-col gap-2">
         {rows.map(({ flag, label, type }) => {
-          const color = type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'
+          const dotColor = type === 'error' ? 'bg-error' : type === 'warning' ? 'bg-warning' : 'bg-info'
+          const textColor = type === 'error' ? 'text-error' : type === 'warning' ? 'text-warning' : 'text-info'
           return (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              {flag
-                ? <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
-                : <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--bg-overlay)', border: '1px solid var(--border)', flexShrink: 0 }} />
-              }
-              <span style={{ fontSize: 12, color: flag ? color : 'var(--text-muted)' }}>{label}</span>
+            <div key={label} className="flex items-center gap-2.5">
+              <div className={`w-2 h-2 rounded-full shrink-0 ${flag ? dotColor : 'bg-overlay border border-border'}`} />
+              <span className={`text-xs ${flag ? textColor : 'text-text-muted'}`}>{label}</span>
             </div>
           )
         })}

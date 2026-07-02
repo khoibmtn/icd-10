@@ -9,24 +9,24 @@ interface TabProvenanceProps {
 }
 
 const SOURCE_META = {
-  icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: '#3b6de8' },
-  appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: '#7c3aed' },
-  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: '#16a367' },
-  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: '#d9960a' },
+  icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: 'text-accent', bgColor: 'bg-accent/10' },
+  appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: 'text-purple-600', bgColor: 'bg-purple-600/10' },
+  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: 'text-success', bgColor: 'bg-success/10' },
+  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: 'text-warning', bgColor: 'bg-warning/10' },
 }
 
 export function TabProvenance({ record: rec, rules, codingRelations }: TabProvenanceProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }} className="fade-in">
+    <div className="fade-in flex flex-col gap-4">
 
       {/* Legend */}
-      <div className="glass" style={{ padding: 14, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <LegendItem color="#3b6de8" label="Chính thức" desc="Trực tiếp từ CSDL" />
-        <LegendItem color="#7c3aed" label="Biên soạn" desc="Xây dựng từ tài liệu" />
-        <LegendItem color="#5a6078" label="Suy diễn" desc="Từ từ điển khái niệm" />
-        <div style={{ width: 1, background: 'var(--border)' }} />
-        <LegendItem color="#16a367" label="Trích dẫn chính xác" desc="exact" />
-        <LegendItem color="#3b82f6" label="Suy luận" desc="derived" />
+      <div className="bg-surface border border-border rounded-xl p-3.5 flex gap-4 flex-wrap">
+        <LegendItem dotClass="bg-accent" label="Chính thức" desc="Trực tiếp từ CSDL" />
+        <LegendItem dotClass="bg-purple-600" label="Biên soạn" desc="Xây dựng từ tài liệu" />
+        <LegendItem dotClass="bg-text-muted" label="Suy diễn" desc="Từ từ điển khái niệm" />
+        <div className="w-px bg-border" />
+        <LegendItem dotClass="bg-success" label="Trích dẫn chính xác" desc="exact" />
+        <LegendItem dotClass="bg-info" label="Suy luận" desc="derived" />
       </div>
 
       {/* Main record provenance */}
@@ -46,7 +46,7 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       {rules.length > 0 && (
         <div>
           <SectionHeader>Nguồn gốc quy tắc mã hóa ({rules.length})</SectionHeader>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="flex flex-col gap-2">
             {rules.map((rule, i) => (
               <ProvenanceItem
                 key={i}
@@ -67,7 +67,7 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       {codingRelations.length > 0 && (
         <div>
           <SectionHeader>Nguồn gốc quan hệ mã hóa ({codingRelations.length})</SectionHeader>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="flex flex-col gap-2">
             {codingRelations.map((rel, i) => (
               <ProvenanceItem
                 key={i}
@@ -83,16 +83,12 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       )}
 
       {/* Data Contract footer */}
-      <div style={{
-        padding: '12px 16px', background: 'var(--bg-surface)',
-        border: '1px solid var(--border)', borderRadius: 8,
-        display: 'flex', alignItems: 'center', gap: 10,
-      }}>
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)' }} />
-        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-          Schema Version: <span className="mono" style={{ color: 'var(--text-secondary)' }}>1.0.0</span>
-          &nbsp;·&nbsp; Source: <span className="mono" style={{ color: 'var(--accent)' }}>icd10_flat.json</span>
-          &nbsp;·&nbsp; Provenance traceability: <span style={{ color: 'var(--success)' }}>100%</span>
+      <div className="px-4 py-3 bg-surface border border-border rounded-lg flex items-center gap-2.5">
+        <div className="w-1.5 h-1.5 rounded-full bg-success" />
+        <span className="text-[11px] text-text-muted">
+          Schema Version: <span className="font-mono text-text-secondary">1.0.0</span>
+          &nbsp;·&nbsp; Source: <span className="font-mono text-accent">icd10_flat.json</span>
+          &nbsp;·&nbsp; Provenance: <span className="text-success">100%</span>
         </span>
       </div>
     </div>
@@ -101,19 +97,16 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
 
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      fontSize: 11, fontWeight: 600, color: 'var(--text-muted)',
-      textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10,
-    }}>{children}</div>
+    <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wide mb-2.5">{children}</div>
   )
 }
 
-function LegendItem({ color, label, desc }: { color: string; label: string; desc: string }) {
+function LegendItem({ dotClass, label, desc }: { dotClass: string; label: string; desc: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <div style={{ width: 8, height: 8, borderRadius: '50%', background: color }} />
-      <span style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 500 }}>{label}</span>
-      <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>({desc})</span>
+    <div className="flex items-center gap-1.5">
+      <div className={`w-2 h-2 rounded-full ${dotClass}`} />
+      <span className="text-[11px] text-text-secondary font-medium">{label}</span>
+      <span className="text-[10px] text-text-muted">({desc})</span>
     </div>
   )
 }
@@ -132,46 +125,38 @@ function ProvenanceItem({
   const sm = SOURCE_META[source as keyof typeof SOURCE_META] ?? SOURCE_META.icd10_flat
   const Icon = sm.Icon
 
-  const levelColor = citationLevel === 'official' ? '#3b6de8'
-    : citationLevel === 'compiled' ? '#7c3aed' : '#5a6078'
+  const levelBadge = citationLevel === 'official'
+    ? 'bg-accent/10 text-accent border-accent/25'
+    : citationLevel === 'compiled'
+    ? 'bg-purple-600/10 text-purple-600 border-purple-600/25'
+    : 'bg-text-muted/10 text-text-muted border-border'
+
   const levelLabel = citationLevel === 'official' ? 'Chính thức'
     : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
 
   return (
-    <div className="prov-item">
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-        <div style={{
-          width: 28, height: 28, borderRadius: 6, flexShrink: 0,
-          background: `${sm.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <Icon size={14} style={{ color: sm.color }} />
+    <div className="bg-surface border border-border rounded-lg p-3">
+      <div className="flex items-start gap-2.5">
+        <div className={`w-7 h-7 rounded-md shrink-0 ${sm.bgColor} flex items-center justify-center`}>
+          <Icon size={14} className={sm.color} />
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 500, marginBottom: 4, lineHeight: 1.4 }}>
-            {title}
-          </div>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: extractedText ? 8 : 0 }}>
-            <span style={{
-              fontSize: 10, padding: '1px 6px', borderRadius: 4,
-              background: `${levelColor}15`, color: levelColor,
-              border: `1px solid ${levelColor}30`, fontWeight: 600,
-            }}>{levelLabel}</span>
-            <span style={{
-              fontSize: 10, padding: '1px 6px', borderRadius: 4,
-              background: 'rgba(22,163,103,0.08)', color: '#0d8550',
-              border: '1px solid rgba(22,163,103,0.18)', fontWeight: 600,
-            }}>{confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}</span>
-            <span style={{
-              fontSize: 10, fontFamily: 'JetBrains Mono', color: 'var(--text-muted)',
-              padding: '1px 6px', background: 'var(--bg-overlay)', borderRadius: 4,
-            }}>{file}{section ? ` · §${section}` : ''}</span>
+        <div className="flex-1 min-w-0">
+          <div className="text-xs text-text font-medium mb-1 leading-snug">{title}</div>
+          <div className={`flex gap-1.5 flex-wrap ${extractedText ? 'mb-2' : ''}`}>
+            <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${levelBadge}`}>
+              {levelLabel}
+            </span>
+            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-success/8 text-success border border-success/18">
+              {confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}
+            </span>
+            <span className="text-[10px] font-mono text-text-muted px-1.5 py-px bg-overlay rounded">
+              {file}{section ? ` · §${section}` : ''}
+            </span>
           </div>
           {extractedText && (
-            <div style={{
-              fontSize: 11, fontFamily: 'JetBrains Mono', color: 'var(--text-muted)',
-              background: 'var(--bg-overlay)', padding: '6px 10px', borderRadius: 6,
-              borderLeft: `2px solid ${sm.color}`,
-            }}>{extractedText}</div>
+            <div className="text-[11px] font-mono text-text-muted bg-overlay p-2 rounded border-l-2 border-l-accent">
+              {extractedText}
+            </div>
           )}
         </div>
       </div>

@@ -30,7 +30,6 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
     inputRef.current?.focus()
   }
 
-  // Keyboard shortcut: Cmd+K to focus
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -43,76 +42,58 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
   }, [])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ position: 'relative' }}>
-        <div style={{
-          position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
-          color: 'var(--text-muted)', pointerEvents: 'none', display: 'flex', alignItems: 'center',
-        }}>
+    <div className="flex flex-col gap-2">
+      <div className="relative">
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none flex items-center">
           {loading
-            ? <Loader2 size={18} className="loading-dot" style={{ animation: 'spin 1s linear infinite' }} />
+            ? <Loader2 size={18} className="animate-spin" />
             : <Search size={18} />
           }
         </div>
         <input
           ref={inputRef}
-          className="search-input"
           value={value}
           onChange={handleChange}
-          placeholder={placeholder ?? 'Tìm mã ICD, tên bệnh, thuật ngữ lâm sàng... (⌘K)'}
+          placeholder={placeholder ?? 'Tìm mã ICD, tên bệnh... (⌘K)'}
           autoComplete="off"
           spellCheck={false}
+          className="w-full bg-surface border border-border rounded-xl py-3 pl-11 pr-10 text-[15px] text-text placeholder:text-text-muted outline-none transition-all duration-200 focus:border-accent focus:ring-3 focus:ring-accent/15 font-[inherit]"
         />
         {value && (
           <button
             onClick={handleClear}
-            style={{
-              position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: 'var(--text-muted)', display: 'flex', alignItems: 'center',
-              padding: 4, borderRadius: 4,
-            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-text-muted hover:text-text-secondary bg-transparent border-none cursor-pointer flex items-center"
           >
             <X size={15} />
           </button>
         )}
-        <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
       </div>
 
-      {/* Whole-word toggle switch */}
+      {/* Whole-word toggle */}
       {onToggleWholeWord && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="flex items-center gap-2">
           <button
             onClick={onToggleWholeWord}
             role="switch"
             aria-checked={wholeWord}
-            title={wholeWord
-              ? 'Đang tìm từ nguyên — nhấn để tắt'
-              : 'Đang tìm chứa trong từ — nhấn để bật tìm từ nguyên'}
-            style={{
-              position: 'relative',
-              width: 32, height: 18, borderRadius: 9,
-              border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0,
-              background: wholeWord ? 'var(--accent)' : 'rgba(0,0,0,0.12)',
-              transition: 'background 0.2s',
-            }}
+            className={`
+              relative w-8 h-[18px] rounded-full border-none cursor-pointer p-0 shrink-0
+              transition-colors duration-200
+              ${wholeWord ? 'bg-accent' : 'bg-black/12'}
+            `}
           >
-            <span style={{
-              position: 'absolute',
-              top: 2, left: wholeWord ? 16 : 2,
-              width: 14, height: 14, borderRadius: '50%',
-              background: '#fff',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-              transition: 'left 0.2s',
-            }} />
+            <span className={`
+              absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm
+              transition-[left] duration-200
+              ${wholeWord ? 'left-4' : 'left-0.5'}
+            `} />
           </button>
           <span
             onClick={onToggleWholeWord}
-            style={{
-              fontSize: 11, color: wholeWord ? 'var(--accent)' : 'var(--text-muted)',
-              cursor: 'pointer', userSelect: 'none', fontWeight: wholeWord ? 600 : 400,
-              transition: 'color 0.15s',
-            }}
+            className={`
+              text-[11px] cursor-pointer select-none transition-colors duration-150
+              ${wholeWord ? 'text-accent font-semibold' : 'text-text-muted font-normal'}
+            `}
           >
             Từ nguyên
           </span>
