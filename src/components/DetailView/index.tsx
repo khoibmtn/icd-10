@@ -28,9 +28,7 @@ const TABS = [
 
 type TabId = typeof TABS[number]['id']
 
-export function DetailView({
-  record, rules, codingRelations, infoRelations, hierarchy, childRecords = [], siblingRecords = [], onClose, onNavigate,
-}: DetailViewProps) {
+export function DetailView({ record, rules, codingRelations, infoRelations, hierarchy, childRecords = [], siblingRecords = [], onClose, onNavigate }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
   const uniqueRules = rules.reduce<ICDRule[]>((acc, r) => {
@@ -39,108 +37,78 @@ export function DetailView({
   }, [])
 
   const RULE_LABEL: Record<string, string> = {
-    khongDungLaBenhChinh:             'Không dùng làm bệnh chính',
-    khongKhuyenKhichDungLaBenhChinh:  'Hạn chế làm bệnh chính',
-    khongSuDungViCoMaCuTheHon:        'Không dùng — có mã cụ thể hơn',
-    chiSuDungMaHoaNguyenNhanTuVong:   'Chỉ mã hóa tử vong',
-    chiCoONuGioi:                     'Chỉ nữ giới',
-    chiCoONamGioi:                    'Chỉ nam giới',
-    maDauSaoKhongLaBenhChinh:         'Mã dấu sao (*) — không dùng làm bệnh chính',
-    maDauGamCanKemMaDauSao:           'Cần kèm mã biểu hiện (*)',
+    khongDungLaBenhChinh: 'Không dùng làm bệnh chính',
+    khongKhuyenKhichDungLaBenhChinh: 'Hạn chế làm bệnh chính',
+    khongSuDungViCoMaCuTheHon: 'Không dùng — có mã cụ thể hơn',
+    chiSuDungMaHoaNguyenNhanTuVong: 'Chỉ mã hóa tử vong',
+    chiCoONuGioi: 'Chỉ nữ giới',
+    chiCoONamGioi: 'Chỉ nam giới',
+    maDauSaoKhongLaBenhChinh: 'Mã dấu sao (*) — không dùng làm bệnh chính',
+    maDauGamCanKemMaDauSao: 'Cần kèm mã biểu hiện (*)',
   }
 
   const errorRules = uniqueRules.filter(r => r.severity === 'error')
   const allRuleLabels = uniqueRules.map(r => RULE_LABEL[r.ruleType] ?? r.ruleType)
 
   return (
-    <div className="fade-in h-full flex flex-col bg-surface md:border-l md:border-line">
-
+    <div className="fade-in h-full flex flex-col bg-white md:border-l md:border-slate-200">
       {/* Header */}
-      <div className="px-4 py-3 md:px-5 md:py-4 border-b border-line flex items-start justify-between shrink-0">
+      <div className="px-4 py-3 md:px-5 md:py-4 border-b border-slate-200 flex items-start justify-between shrink-0">
         <div className="flex-1 min-w-0">
-          {/* Code chip + companion + rules */}
           <div className="flex items-center gap-2.5 flex-wrap">
-            {/* Code chip */}
-            <span className={`
-              font-mono font-bold text-base rounded-md px-3 py-1 border inline-flex items-center gap-1
-              ${record.codingSymbol === '†'
-                ? 'text-amber-500 bg-amber-500/10 border-amber-500/30'
-                : record.codingSymbol === '*'
-                ? 'text-purple-400 bg-purple-400/10 border-purple-400/30'
-                : 'text-accent bg-accent/10 border-accent/20'
-              }
-            `}>
+            <span className={`font-mono font-bold text-base rounded-md px-3 py-1 border inline-flex items-center gap-1
+              ${record.codingSymbol === '†' ? 'text-amber-600 bg-amber-50 border-amber-200'
+                : record.codingSymbol === '*' ? 'text-violet-600 bg-violet-50 border-violet-200'
+                : 'text-blue-600 bg-blue-50 border-blue-200'}`}>
               {record.maBenh}
               {record.codingSymbol && <span className="text-sm opacity-90">{record.codingSymbol}</span>}
             </span>
-
-            {/* Companion code badge */}
             {record.companionCode && (
               <button
                 onClick={() => onNavigate?.(record.companionCode!)}
-                className={`
-                  inline-flex items-center gap-1.5 bg-transparent border rounded px-2.5 py-0.5
-                  cursor-pointer font-mono text-xs font-semibold transition-opacity hover:opacity-70
-                  ${record.codingSymbol === '†'
-                    ? 'border-purple-400/35 text-purple-400'
-                    : 'border-amber-500/35 text-amber-500'
-                  }
-                `}
+                className={`inline-flex items-center gap-1.5 bg-transparent border rounded px-2.5 py-0.5 cursor-pointer font-mono text-xs font-semibold transition-opacity hover:opacity-70
+                  ${record.codingSymbol === '†' ? 'border-violet-200 text-violet-600' : 'border-amber-200 text-amber-600'}`}
               >
                 {record.codingSymbol === '†' ? '→' : '←'}
                 {record.companionCode}{record.codingSymbol === '†' ? '*' : '†'}
               </button>
             )}
-
-            {/* Inline rule warnings */}
             {uniqueRules.length > 0 && (
-              <span className={`
-                text-[11px] font-medium rounded-md px-2.5 py-0.5 leading-snug border
-                ${errorRules.length > 0
-                  ? 'text-danger bg-danger/10 border-danger/25'
-                  : 'text-warn bg-warn/10 border-warn/25'
-                }
-              `}>
+              <span className={`text-[11px] font-medium rounded-md px-2.5 py-0.5 leading-snug border
+                ${errorRules.length > 0 ? 'text-red-600 bg-red-50 border-red-200' : 'text-amber-600 bg-amber-50 border-amber-200'}`}>
                 {allRuleLabels.join(' ; ')}
               </span>
             )}
           </div>
-          <div className="mt-1.5 text-sm text-fg-secondary leading-snug">{record.tenTiengViet}</div>
+          <div className="mt-1.5 text-sm text-slate-600 leading-snug">{record.tenTiengViet}</div>
         </div>
         {onClose && (
-          <button
-            onClick={onClose}
-            className="hidden md:flex items-center p-1.5 rounded-lg bg-dim border border-line text-fg-muted cursor-pointer transition-all hover:text-fg shrink-0"
-          >
+          <button onClick={onClose} className="hidden md:flex items-center p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 cursor-pointer transition-all hover:text-slate-600 shrink-0">
             <X size={14} />
           </button>
         )}
       </div>
 
       {/* Tabs */}
-      <div className="px-3 py-2 border-b border-line flex gap-1 overflow-x-auto shrink-0">
+      <div className="px-3 py-2 border-b border-slate-200 flex gap-1 overflow-x-auto shrink-0 bg-slate-50">
         {TABS.map(({ id, label, Icon }) => {
           const badge = id === 'rules' && uniqueRules.length > 0 ? uniqueRules.length : null
           return (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                cursor-pointer border-none whitespace-nowrap transition-all duration-150 font-[inherit]
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer border-none whitespace-nowrap transition-all duration-150
                 ${activeTab === id
-                  ? 'bg-accent-soft text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
-                  : 'bg-transparent text-fg-secondary hover:bg-elevated hover:text-fg'
-                }
-              `}
+                  ? 'bg-blue-50 text-blue-600 font-semibold shadow-[0_0_0_1px_rgba(59,130,246,0.3)]'
+                  : 'bg-transparent text-slate-500 hover:bg-white hover:text-slate-700'}`}
+              style={{ fontFamily: 'inherit' }}
             >
               <Icon size={12} />
               {label}
               {badge && (
-                <span className={`
-                  w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center
-                  ${errorRules.length > 0 ? 'bg-danger' : 'bg-warn'}
-                `}>{badge}</span>
+                <span className={`w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center ${errorRules.length > 0 ? 'bg-red-500' : 'bg-amber-500'}`}>
+                  {badge}
+                </span>
               )}
             </button>
           )
@@ -148,19 +116,11 @@ export function DetailView({
       </div>
 
       {/* Tab content */}
-      <div className="flex-1 overflow-y-auto p-3 md:p-4">
-        {activeTab === 'basic' && (
-          <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />
-        )}
-        {activeTab === 'rules' && (
-          <TabRules code={record.maBenh} rules={rules} record={record} />
-        )}
-        {activeTab === 'relations' && (
-          <TabRelations code={record.maBenh} codingRelations={codingRelations} infoRelations={infoRelations} onNavigate={onNavigate} />
-        )}
-        {activeTab === 'provenance' && (
-          <TabProvenance record={record} rules={rules} codingRelations={codingRelations} />
-        )}
+      <div className="flex-1 overflow-y-auto p-3 md:p-4 bg-slate-50/50">
+        {activeTab === 'basic' && <TabBasic record={record} hierarchy={hierarchy} childRecords={childRecords} siblingRecords={siblingRecords} onNavigate={onNavigate} />}
+        {activeTab === 'rules' && <TabRules code={record.maBenh} rules={rules} record={record} />}
+        {activeTab === 'relations' && <TabRelations code={record.maBenh} codingRelations={codingRelations} infoRelations={infoRelations} onNavigate={onNavigate} />}
+        {activeTab === 'provenance' && <TabProvenance record={record} rules={rules} codingRelations={codingRelations} />}
       </div>
     </div>
   )

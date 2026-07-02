@@ -19,23 +19,14 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
     const v = e.target.value
     setValue(v)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => {
-      onSearch(v.trim())
-    }, 250)
+    debounceRef.current = setTimeout(() => onSearch(v.trim()), 250)
   }, [onSearch])
 
-  const handleClear = () => {
-    setValue('')
-    onSearch('')
-    inputRef.current?.focus()
-  }
+  const handleClear = () => { setValue(''); onSearch(''); inputRef.current?.focus() }
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        inputRef.current?.focus()
-      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); inputRef.current?.focus() }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -44,11 +35,8 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
-        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-fg-muted pointer-events-none flex items-center">
-          {loading
-            ? <Loader2 size={18} className="anim-spin" />
-            : <Search size={18} />
-          }
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none flex items-center">
+          {loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
         </div>
         <input
           ref={inputRef}
@@ -57,44 +45,26 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
           placeholder={placeholder ?? 'Tìm mã ICD, tên bệnh... (⌘K)'}
           autoComplete="off"
           spellCheck={false}
-          className="w-full bg-surface border border-line rounded-xl py-3 pl-11 pr-10 text-[15px] text-fg placeholder:text-fg-muted outline-none transition-all duration-200 focus:border-accent focus:ring-2 focus:ring-accent/15 font-[inherit]"
+          className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-11 pr-10 text-[15px] text-slate-800 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:bg-white"
+          style={{ fontFamily: 'inherit' }}
         />
         {value && (
-          <button
-            onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-fg-muted hover:text-fg-secondary bg-transparent border-none cursor-pointer flex items-center"
-          >
+          <button onClick={handleClear} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-slate-400 hover:text-slate-600 bg-transparent border-none cursor-pointer flex items-center">
             <X size={15} />
           </button>
         )}
       </div>
-
-      {/* Whole-word toggle */}
       {onToggleWholeWord && (
         <div className="flex items-center gap-2">
           <button
             onClick={onToggleWholeWord}
             role="switch"
             aria-checked={wholeWord}
-            className={`
-              relative w-8 h-[18px] rounded-full border-none cursor-pointer p-0 shrink-0
-              transition-colors duration-200
-              ${wholeWord ? 'bg-accent' : 'bg-black/12'}
-            `}
+            className={`relative w-8 h-[18px] rounded-full border-none cursor-pointer p-0 shrink-0 transition-colors duration-200 ${wholeWord ? 'bg-blue-600' : 'bg-slate-300'}`}
           >
-            <span className={`
-              absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm
-              transition-[left] duration-200
-              ${wholeWord ? 'left-4' : 'left-0.5'}
-            `} />
+            <span className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-[left] duration-200 ${wholeWord ? 'left-4' : 'left-0.5'}`} />
           </button>
-          <span
-            onClick={onToggleWholeWord}
-            className={`
-              text-[11px] cursor-pointer select-none transition-colors duration-150
-              ${wholeWord ? 'text-accent font-semibold' : 'text-fg-muted font-normal'}
-            `}
-          >
+          <span onClick={onToggleWholeWord} className={`text-[11px] cursor-pointer select-none transition-colors duration-150 ${wholeWord ? 'text-blue-600 font-semibold' : 'text-slate-400'}`}>
             Từ nguyên
           </span>
         </div>

@@ -2,161 +2,101 @@
 import { Database, FileText, Cpu, BookOpen } from 'lucide-react'
 import type { ICDRecord, ICDRule, CodingRelation } from '../../types/icd'
 
-interface TabProvenanceProps {
-  record: ICDRecord
-  rules: ICDRule[]
-  codingRelations: CodingRelation[]
-}
+interface TabProvenanceProps { record: ICDRecord; rules: ICDRule[]; codingRelations: CodingRelation[] }
 
-const SOURCE_META = {
-  icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: 'text-accent', bgColor: 'bg-accent/10' },
-  appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: 'text-purple-600', bgColor: 'bg-purple-600/10' },
-  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: 'text-ok', bgColor: 'bg-ok/10' },
-  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: 'text-warn', bgColor: 'bg-warn/10' },
+const SM = {
+  icd10_flat: { label: 'CSDL ICD-10 BYT', Icon: Database, cls: 'text-blue-600', bg: 'bg-blue-50' },
+  appendix: { label: 'Phụ lục', Icon: FileText, cls: 'text-violet-600', bg: 'bg-violet-50' },
+  guideline: { label: 'Quy định KT', Icon: BookOpen, cls: 'text-emerald-600', bg: 'bg-emerald-50' },
+  concept_dictionary: { label: 'Từ điển KN', Icon: Cpu, cls: 'text-amber-600', bg: 'bg-amber-50' },
 }
 
 export function TabProvenance({ record: rec, rules, codingRelations }: TabProvenanceProps) {
   return (
     <div className="fade-in flex flex-col gap-4">
-
-      {/* Legend */}
-      <div className="bg-surface border border-line rounded-xl p-3.5 flex gap-4 flex-wrap">
-        <LegendItem dotClass="bg-accent" label="Chính thức" desc="Trực tiếp từ CSDL" />
-        <LegendItem dotClass="bg-purple-600" label="Biên soạn" desc="Xây dựng từ tài liệu" />
-        <LegendItem dotClass="bg-fg-muted" label="Suy diễn" desc="Từ từ điển khái niệm" />
-        <div className="w-px bg-border" />
-        <LegendItem dotClass="bg-ok" label="Trích dẫn chính xác" desc="exact" />
-        <LegendItem dotClass="bg-info" label="Suy luận" desc="derived" />
+      <div className="bg-white border border-slate-200 rounded-xl p-3.5 flex gap-4 flex-wrap shadow-sm">
+        <Dot cls="bg-blue-600" label="Chính thức" desc="Trực tiếp từ CSDL" />
+        <Dot cls="bg-violet-600" label="Biên soạn" desc="Từ tài liệu" />
+        <Dot cls="bg-slate-400" label="Suy diễn" desc="Từ từ điển" />
+        <div className="w-px bg-slate-200" />
+        <Dot cls="bg-emerald-500" label="Chính xác" desc="exact" />
+        <Dot cls="bg-blue-500" label="Suy luận" desc="derived" />
       </div>
 
-      {/* Main record provenance */}
       <div>
-        <SectionHeader>Dữ liệu gốc mã bệnh</SectionHeader>
-        <ProvenanceItem
-          title={`Mã ${rec.maBenh} — ${rec.tenTiengViet}`}
-          source="icd10_flat"
-          confidence="exact"
-          citationLevel="official"
-          file="icd10_flat.json"
-          extractedText={`maBenh: "${rec.maBenh}", tenTiengViet: "${rec.tenTiengViet}"`}
-        />
+        <SH>Dữ liệu gốc mã bệnh</SH>
+        <PI title={`Mã ${rec.maBenh} — ${rec.tenTiengViet}`} source="icd10_flat" confidence="exact" citationLevel="official" file="icd10_flat.json" extractedText={`maBenh: "${rec.maBenh}", tenTiengViet: "${rec.tenTiengViet}"`} />
       </div>
 
-      {/* Rules provenance */}
       {rules.length > 0 && (
         <div>
-          <SectionHeader>Nguồn gốc quy tắc mã hóa ({rules.length})</SectionHeader>
+          <SH>Nguồn gốc quy tắc ({rules.length})</SH>
           <div className="flex flex-col gap-2">
-            {rules.map((rule, i) => (
-              <ProvenanceItem
-                key={i}
-                title={rule.message}
-                source={rule.provenance.source}
-                confidence={rule.provenance.confidence}
-                citationLevel={rule.provenance.citationLevel}
-                file={rule.provenance.file}
-                section={rule.provenance.section}
-                extractedText={rule.provenance.extractedText}
-              />
-            ))}
+            {rules.map((r, i) => <PI key={i} title={r.message} source={r.provenance.source} confidence={r.provenance.confidence} citationLevel={r.provenance.citationLevel} file={r.provenance.file} section={r.provenance.section} extractedText={r.provenance.extractedText} />)}
           </div>
         </div>
       )}
 
-      {/* Coding relations provenance */}
       {codingRelations.length > 0 && (
         <div>
-          <SectionHeader>Nguồn gốc quan hệ mã hóa ({codingRelations.length})</SectionHeader>
+          <SH>Nguồn gốc quan hệ ({codingRelations.length})</SH>
           <div className="flex flex-col gap-2">
-            {codingRelations.map((rel, i) => (
-              <ProvenanceItem
-                key={i}
-                title={`${rel.relationType.toUpperCase()}: ${rel.source} → ${rel.target}`}
-                source={rel.provenance.source}
-                confidence={rel.provenance.confidence}
-                citationLevel={rel.provenance.citationLevel}
-                file={rel.provenance.file}
-              />
-            ))}
+            {codingRelations.map((r, i) => <PI key={i} title={`${r.relationType.toUpperCase()}: ${r.source} → ${r.target}`} source={r.provenance.source} confidence={r.provenance.confidence} citationLevel={r.provenance.citationLevel} file={r.provenance.file} />)}
           </div>
         </div>
       )}
 
-      {/* Data Contract footer */}
-      <div className="px-4 py-3 bg-surface border border-line rounded-lg flex items-center gap-2.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-ok" />
-        <span className="text-[11px] text-fg-muted">
-          Schema Version: <span className="font-mono text-fg-secondary">1.0.0</span>
-          &nbsp;·&nbsp; Source: <span className="font-mono text-accent">icd10_flat.json</span>
-          &nbsp;·&nbsp; Provenance: <span className="text-ok">100%</span>
+      <div className="px-4 py-3 bg-white border border-slate-200 rounded-lg flex items-center gap-2.5 shadow-sm">
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+        <span className="text-[11px] text-slate-400">
+          Schema: <span className="font-mono text-slate-600">1.0.0</span> · Source: <span className="font-mono text-blue-600">icd10_flat.json</span> · Provenance: <span className="text-emerald-500">100%</span>
         </span>
       </div>
     </div>
   )
 }
 
-function SectionHeader({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-[11px] font-semibold text-fg-muted uppercase tracking-wide mb-2.5">{children}</div>
-  )
+function SH({ children }: { children: React.ReactNode }) {
+  return <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2.5">{children}</div>
 }
 
-function LegendItem({ dotClass, label, desc }: { dotClass: string; label: string; desc: string }) {
+function Dot({ cls, label, desc }: { cls: string; label: string; desc: string }) {
   return (
     <div className="flex items-center gap-1.5">
-      <div className={`w-2 h-2 rounded-full ${dotClass}`} />
-      <span className="text-[11px] text-fg-secondary font-medium">{label}</span>
-      <span className="text-[10px] text-fg-muted">({desc})</span>
+      <div className={`w-2 h-2 rounded-full ${cls}`} />
+      <span className="text-[11px] text-slate-600 font-medium">{label}</span>
+      <span className="text-[10px] text-slate-400">({desc})</span>
     </div>
   )
 }
 
-function ProvenanceItem({
-  title, source, confidence, citationLevel, file, section, extractedText,
-}: {
-  title: string
-  source: string
-  confidence: string
-  citationLevel: string
-  file: string
-  section?: string
-  extractedText?: string
+function PI({ title, source, confidence, citationLevel, file, section, extractedText }: {
+  title: string; source: string; confidence: string; citationLevel: string; file: string; section?: string; extractedText?: string
 }) {
-  const sm = SOURCE_META[source as keyof typeof SOURCE_META] ?? SOURCE_META.icd10_flat
+  const sm = SM[source as keyof typeof SM] ?? SM.icd10_flat
   const Icon = sm.Icon
-
-  const levelBadge = citationLevel === 'official'
-    ? 'bg-accent/10 text-accent border-accent/25'
-    : citationLevel === 'compiled'
-    ? 'bg-purple-600/10 text-purple-600 border-purple-600/25'
-    : 'bg-fg-muted/10 text-fg-muted border-line'
-
-  const levelLabel = citationLevel === 'official' ? 'Chính thức'
-    : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
+  const lvBadge = citationLevel === 'official' ? 'bg-blue-50 text-blue-600 border-blue-200'
+    : citationLevel === 'compiled' ? 'bg-violet-50 text-violet-600 border-violet-200'
+    : 'bg-slate-100 text-slate-500 border-slate-200'
+  const lvLabel = citationLevel === 'official' ? 'Chính thức' : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
 
   return (
-    <div className="bg-surface border border-line rounded-lg p-3">
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
       <div className="flex items-start gap-2.5">
-        <div className={`w-7 h-7 rounded-md shrink-0 ${sm.bgColor} flex items-center justify-center`}>
-          <Icon size={14} className={sm.color} />
+        <div className={`w-7 h-7 rounded-md shrink-0 ${sm.bg} flex items-center justify-center`}>
+          <Icon size={14} className={sm.cls} />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-xs text-fg font-medium mb-1 leading-snug">{title}</div>
+          <div className="text-xs text-slate-700 font-medium mb-1 leading-snug">{title}</div>
           <div className={`flex gap-1.5 flex-wrap ${extractedText ? 'mb-2' : ''}`}>
-            <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${levelBadge}`}>
-              {levelLabel}
+            <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${lvBadge}`}>{lvLabel}</span>
+            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+              {confidence === 'exact' ? 'Chính xác' : 'Suy diễn'}
             </span>
-            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-ok/8 text-ok border border-ok/18">
-              {confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}
-            </span>
-            <span className="text-[10px] font-mono text-fg-muted px-1.5 py-px bg-dim rounded">
-              {file}{section ? ` · §${section}` : ''}
-            </span>
+            <span className="text-[10px] font-mono text-slate-400 px-1.5 py-px bg-slate-100 rounded">{file}{section ? ` · §${section}` : ''}</span>
           </div>
           {extractedText && (
-            <div className="text-[11px] font-mono text-fg-muted bg-dim p-2 rounded border-l-2 border-l-accent">
-              {extractedText}
-            </div>
+            <div className="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded border-l-2 border-l-blue-400">{extractedText}</div>
           )}
         </div>
       </div>

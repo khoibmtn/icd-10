@@ -1,28 +1,7 @@
-/* src/index.css — Tailwind v4 Design System */
+/* src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @import "tailwindcss";
-
-/* ── Design Tokens (named to avoid Tailwind built-in conflicts) ─────────── */
-@theme {
-  --color-canvas: #f5f6fa;
-  --color-surface: #ffffff;
-  --color-elevated: #f0f1f6;
-  --color-dim: #e8eaf2;
-  --color-line: rgba(0,0,0,0.08);
-  --color-line-hover: rgba(0,0,0,0.18);
-  --color-fg: #1a1d2b;
-  --color-fg-secondary: #5a6078;
-  --color-fg-muted: #8e94a8;
-  --color-accent: #3b6de8;
-  --color-accent-soft: rgba(59,109,232,0.1);
-  --color-ok: #16a367;
-  --color-warn: #d9960a;
-  --color-danger: #dc4545;
-  --color-info: #3b82f6;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
 
 /* ── Base ────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,18 +9,17 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  background-color: var(--color-canvas);
-  color: var(--color-fg);
-  font-family: var(--font-sans);
+  background-color: #f1f5f9;
+  color: #1e293b;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 mark {
-  background: rgba(59,109,232,0.14);
-  color: #2554b8;
+  background: rgba(59,130,246,0.15);
+  color: #1d4ed8;
   border-radius: 2px;
   padding: 0 2px;
   font-weight: 600;
@@ -50,17 +28,13 @@ mark {
 /* ── Scrollbar ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
 
 /* ── Animations ─────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
-}
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 @keyframes slideRight {
   from { transform: translateX(100%); }
@@ -68,5 +42,4 @@ mark {
 }
 
 .fade-in { animation: fadeIn 0.2s ease-out; }
-.anim-spin { animation: spin 1s linear infinite; }
 .anim-slide-right { animation: slideRight 0.25s ease-out; }
