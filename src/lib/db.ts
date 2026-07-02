@@ -3,7 +3,7 @@ import Dexie, { type Table } from 'dexie'
 import type { ICDRecord, ICDHierarchy, ICDRule, CodingRelation, InformationalRelation, ClinicalConcept } from '../types/icd'
 
 // Bump this when data changes to force re-seed
-const DB_NAME = 'icd10-vietnam-v3'
+const DB_NAME = 'icd10-vietnam-v4'
 const EXPECTED_MIN_RECORDS = 10000  // full dataset: ~15844
 
 export class ICDDatabase extends Dexie {
