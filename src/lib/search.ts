@@ -75,12 +75,14 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string, whol
 
   // ─── Stage 2: Vietnamese name ────────────────────────────────────────────
   if (entry.normViet === q) return score + 1800                     // exact name match
-  if (entry.normViet.startsWith(q + ' ') || entry.normViet.startsWith(q)) {
+  if (!wholeWord && (entry.normViet.startsWith(q + ' ') || entry.normViet.startsWith(q))) {
     score += 700                                                      // starts with query
   }
 
   // Multi-word scoring: strict — ALL words must be present for high score
-  const words = q.split(/\s+/).filter(w => w.length >= 2)
+  // If wholeWord is true, we don't filter out 1-char words.
+  const words = q.split(/\s+/).filter(w => wholeWord ? w.length >= 1 : w.length >= 2)
+  
   if (words.length >= 2) {
     // Tokenize the record name for word-boundary matching
     const vietTokens = entry.normViet.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
@@ -93,22 +95,24 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string, whol
       // For 3+ char words: allow prefix/start matching
       const minPrefixLen = 3
 
-      const inViet = vietTokens.some(t =>
-        t.length >= 2 && (
-          t === word ||                                           // exact: "hon" === "hon" ✅
-          (word.length >= minPrefixLen && t.startsWith(word)) || // token starts with word: "hong" starts "hon" ✅
-          (word.length >= minPrefixLen && t.length >= minPrefixLen && word.startsWith(t)) // word starts with token
-        )
-      )
+      const inViet = vietTokens.some(t => {
+        if (t === word) return true
+        if (!wholeWord) {
+           return (word.length >= minPrefixLen && t.startsWith(word)) ||
+                  (word.length >= minPrefixLen && t.length >= minPrefixLen && word.startsWith(t))
+        }
+        return false
+      })
 
       // English: never allow 2-char word to prefix-match longer tokens
       // "me" must match EXACTLY as token, not "metapneumovirus".startsWith("me")
-      const inAnh = anhTokens.some(t =>
-        t.length >= 2 && (
-          t === word ||                                           // exact: "coma" === "coma" ✅
-          (word.length >= minPrefixLen && t.startsWith(word))    // prefix only for 3+ char words
-        )
-      )
+      const inAnh = anhTokens.some(t => {
+        if (t === word) return true
+        if (!wholeWord) {
+          return (word.length >= minPrefixLen && t.startsWith(word))
+        }
+        return false
+      })
       if (inViet || inAnh) wordMatchCount++
     }
 
@@ -144,8 +148,12 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string, whol
   const isMultiWord = words.length >= 2
   if (!isMultiWord || score > 0) {
     if (entry.normAnh === q) score += 400
-    else if (entry.normAnh.startsWith(q)) score += 300
+    else if (!wholeWord && entry.normAnh.startsWith(q)) score += 300
     else if (!isMultiWord && !wholeWord && entry.normAnh.includes(q)) score += 180  // substring only when not wholeWord
+    else if (wholeWord) {
+      const anhTokens = entry.normAnh.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
+      if (anhTokens.some(t => t === q)) score += 300
+    }
   }
 
   // ─── Stage 4: Coding guidance ────────────────────────────────────────────

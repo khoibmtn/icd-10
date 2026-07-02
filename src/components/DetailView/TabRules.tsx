@@ -1,6 +1,8 @@
 // src/components/DetailView/TabRules.tsx
 import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, BookOpen, Link2 } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../../types/icd'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 interface TabRulesProps { code: string; rules: ICDRule[]; record: ICDRecord }
 
@@ -16,9 +18,9 @@ const RULE_META: Record<string, { label: string; description: string; icon: Reac
 }
 
 const VC = {
-  restrict: { card: 'bg-red-50/80 border-red-200', icon: 'text-red-400', badge: 'bg-red-100 text-red-700 border-red-200', stripe: 'border-l-[3px] border-l-red-400' },
-  caution: { card: 'bg-amber-50/80 border-amber-200', icon: 'text-amber-400', badge: 'bg-amber-100 text-amber-700 border-amber-200', stripe: 'border-l-[3px] border-l-amber-400' },
-  info: { card: 'bg-blue-50/80 border-blue-200', icon: 'text-blue-400', badge: 'bg-blue-100 text-blue-700 border-blue-200', stripe: 'border-l-[3px] border-l-blue-400' },
+  restrict: { card: 'bg-destructive/5 border-destructive/20 border-l-[3px] border-l-destructive/70', icon: 'text-destructive', badge: 'bg-destructive/10 text-destructive border-destructive/20' },
+  caution: { card: 'bg-amber-500/5 border-amber-500/20 border-l-[3px] border-l-amber-500/70', icon: 'text-amber-600', badge: 'bg-amber-500/10 text-amber-700 border-amber-500/20' },
+  info: { card: 'bg-primary/5 border-primary/20 border-l-[3px] border-l-primary/70', icon: 'text-primary', badge: 'bg-primary/10 text-primary border-primary/20' },
 }
 
 export function TabRules({ code, rules, record }: TabRulesProps) {
@@ -28,10 +30,10 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
   if (uniqueRules.length === 0) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="text-center py-8 px-6 text-slate-400">
-          <div className="text-3xl mb-3">✅</div>
+        <div className="text-center py-8 px-6 text-muted-foreground flex flex-col items-center">
+          <div className="text-3xl mb-3 opacity-90">✅</div>
           <div className="font-medium text-emerald-600">Không có quy tắc hạn chế</div>
-          <div className="text-xs mt-1.5">Mã <span className="font-mono text-blue-600">{code}</span> không có cảnh báo đặc biệt.</div>
+          <div className="text-xs mt-1.5 text-muted-foreground">Mã <span className="font-mono text-primary bg-primary/10 px-1 rounded">{code}</span> không có cảnh báo đặc biệt.</div>
         </div>
         <ConditionFlags flags={flags} />
       </div>
@@ -39,37 +41,37 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
   }
 
   return (
-    <div className="fade-in flex flex-col gap-2.5">
-      <div className="text-[11px] text-slate-400 mb-1">
-        {uniqueRules.length} quy tắc cho mã <span className="font-mono text-blue-600">{code}</span>
+    <div className="fade-in flex flex-col gap-3">
+      <div className="text-xs text-muted-foreground font-medium mb-1">
+        {uniqueRules.length} quy tắc cho mã <span className="font-mono text-primary bg-primary/10 px-1 rounded">{code}</span>
       </div>
       {uniqueRules.map((rule, i) => {
         const meta = RULE_META[rule.ruleType] ?? { label: rule.ruleType, description: rule.message, icon: <Info size={16} />, variant: 'info' as const, badgeLabel: 'Quy tắc' }
         const vc = VC[meta.variant]
         return (
-          <div key={i} className={`border rounded-xl p-3.5 md:p-4 ${vc.card} ${vc.stripe}`}>
+          <Card key={i} className={`p-4 shadow-sm ${vc.card}`}>
             <div className="flex items-start gap-3">
               <div className={`${vc.icon} shrink-0 mt-0.5`}>{meta.icon}</div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <span className="font-semibold text-sm text-slate-800">{meta.label}</span>
-                  <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${vc.badge}`}>{meta.badgeLabel}</span>
+                  <span className="font-semibold text-sm text-foreground">{meta.label}</span>
+                  <Badge variant="outline" className={`px-1.5 py-0 h-5 text-[10px] shadow-none ${vc.badge}`}>{meta.badgeLabel}</Badge>
                 </div>
-                <div className="text-xs text-slate-600 leading-relaxed">{meta.description}</div>
-                <div className="mt-2.5 pt-2.5 border-t border-black/5 flex items-center gap-2 flex-wrap">
-                  <BookOpen size={10} className="text-slate-400 shrink-0" />
-                  <span className="text-[10px] text-slate-400">Nguồn:</span>
-                  <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-blue-50 text-blue-600 border border-blue-200">
+                <div className="text-xs text-muted-foreground leading-relaxed font-medium">{meta.description}</div>
+                <div className="mt-3 pt-3 border-t border-border/50 flex items-center gap-2 flex-wrap">
+                  <BookOpen size={12} className="text-muted-foreground/60 shrink-0" />
+                  <span className="text-[10px] text-muted-foreground font-medium">Nguồn:</span>
+                  <Badge variant="secondary" className="px-1.5 py-0 h-4 text-[9px] bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
                     {rule.provenance.citationLevel === 'official' ? 'Chính thức' : rule.provenance.citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'}
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-mono">{rule.provenance.file}</span>
-                  <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+                  </Badge>
+                  <span className="text-[10px] text-muted-foreground font-mono bg-muted px-1 rounded">{rule.provenance.file}</span>
+                  <Badge variant="secondary" className={`px-1.5 py-0 h-4 text-[9px] ${rule.provenance.confidence === 'exact' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 'bg-muted text-muted-foreground'} hover:bg-emerald-500/20`}>
                     {rule.provenance.confidence === 'exact' ? 'Chính xác' : 'Suy diễn'}
-                  </span>
+                  </Badge>
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         )
       })}
       <ConditionFlags flags={flags} />
@@ -88,20 +90,20 @@ function ConditionFlags({ flags }: { flags: Flags }) {
     { flag: flags.chiCoONamGioi, label: 'Chỉ áp dụng cho nam giới', type: 'info' as const },
   ]
   return (
-    <div className="mt-2 pt-4 border-t border-slate-200">
-      <div className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wide">Điều kiện sử dụng</div>
-      <div className="flex flex-col gap-2">
+    <Card className="mt-2 p-4 shadow-sm border-border bg-card">
+      <div className="text-xs font-semibold text-muted-foreground mb-4 uppercase tracking-wide">Điều kiện sử dụng (Flags)</div>
+      <div className="flex flex-col gap-3">
         {rows.map(({ flag, label, type }) => {
-          const dot = type === 'error' ? 'bg-red-500' : type === 'warning' ? 'bg-amber-500' : 'bg-blue-500'
-          const txt = type === 'error' ? 'text-red-600' : type === 'warning' ? 'text-amber-600' : 'text-blue-600'
+          const dot = type === 'error' ? 'bg-destructive' : type === 'warning' ? 'bg-amber-500' : 'bg-primary'
+          const txt = type === 'error' ? 'text-destructive font-medium' : type === 'warning' ? 'text-amber-600 font-medium' : 'text-primary font-medium'
           return (
-            <div key={label} className="flex items-center gap-2.5">
-              <div className={`w-2 h-2 rounded-full shrink-0 ${flag ? dot : 'bg-slate-200 border border-slate-300'}`} />
-              <span className={`text-xs ${flag ? txt : 'text-slate-400'}`}>{label}</span>
+            <div key={label} className="flex items-center gap-3">
+              <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${flag ? dot : 'bg-muted-foreground/20'}`} />
+              <span className={`text-xs ${flag ? txt : 'text-muted-foreground'}`}>{label}</span>
             </div>
           )
         })}
       </div>
-    </div>
+    </Card>
   )
 }

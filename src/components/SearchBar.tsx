@@ -1,6 +1,9 @@
 // src/components/SearchBar.tsx
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { Search, X, Loader2 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 
 interface SearchBarProps {
   onSearch: (query: string) => void
@@ -33,40 +36,39 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
   }, [])
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <div className="relative">
-        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none flex items-center">
-          {loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none flex items-center">
+          {loading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
         </div>
-        <input
+        <Input
           ref={inputRef}
           value={value}
           onChange={handleChange}
           placeholder={placeholder ?? 'Tìm mã ICD, tên bệnh... (⌘K)'}
           autoComplete="off"
           spellCheck={false}
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-11 pr-10 text-[15px] text-slate-800 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:bg-white"
-          style={{ fontFamily: 'inherit' }}
+          className="pl-10 pr-10 h-11 bg-muted/50 focus-visible:bg-background border-border"
         />
         {value && (
-          <button onClick={handleClear} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-slate-400 hover:text-slate-600 bg-transparent border-none cursor-pointer flex items-center">
-            <X size={15} />
+          <button onClick={handleClear} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer flex items-center bg-transparent border-none">
+            <X size={16} />
           </button>
         )}
       </div>
       {onToggleWholeWord && (
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onToggleWholeWord}
-            role="switch"
-            aria-checked={wholeWord}
-            className={`relative w-8 h-[18px] rounded-full border-none cursor-pointer p-0 shrink-0 transition-colors duration-200 ${wholeWord ? 'bg-blue-600' : 'bg-slate-300'}`}
+        <div className="flex items-center gap-2 px-1">
+          <Switch 
+            id="whole-word-mode" 
+            checked={wholeWord} 
+            onCheckedChange={onToggleWholeWord} 
+          />
+          <Label 
+            htmlFor="whole-word-mode" 
+            className={`text-xs cursor-pointer select-none transition-colors ${wholeWord ? 'text-primary font-medium' : 'text-muted-foreground'}`}
           >
-            <span className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-[left] duration-200 ${wholeWord ? 'left-4' : 'left-0.5'}`} />
-          </button>
-          <span onClick={onToggleWholeWord} className={`text-[11px] cursor-pointer select-none transition-colors duration-150 ${wholeWord ? 'text-blue-600 font-semibold' : 'text-slate-400'}`}>
             Từ nguyên
-          </span>
+          </Label>
         </div>
       )}
     </div>

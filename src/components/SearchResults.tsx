@@ -1,6 +1,9 @@
 // src/components/SearchResults.tsx
 import { AlertTriangle, XCircle, ChevronRight, Search as SearchIcon } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../types/icd'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface SearchResultsProps {
   results: ICDRecord[]
@@ -61,14 +64,16 @@ function Highlighted({ text, query, className }: { text: string; query: string; 
 
 function CodeChip({ rec, query }: { rec: ICDRecord; query: string }) {
   const sym = rec.codingSymbol
-  const cls = sym === '†' ? 'text-amber-600 bg-amber-50 border-amber-200'
-    : sym === '*' ? 'text-violet-600 bg-violet-50 border-violet-200'
-    : 'text-blue-600 bg-blue-50 border-blue-200'
+  const variant = sym === '†' ? 'outline' : sym === '*' ? 'secondary' : 'default'
+  const extraCls = sym === '†' ? 'border-amber-200 text-amber-700 bg-amber-50'
+    : sym === '*' ? 'border-violet-200 text-violet-700 bg-violet-50'
+    : 'bg-primary/10 text-primary hover:bg-primary/20 border-primary/20'
+
   return (
-    <span className={`inline-flex items-center gap-0.5 font-mono font-bold text-xs rounded px-2 py-0.5 border ${cls}`}>
+    <Badge variant={variant as any} className={`px-2 py-0 font-mono font-bold text-xs rounded border ${extraCls}`}>
       <Highlighted text={rec.maBenh} query={query} />
-      {sym && <span className="text-[11px] opacity-85 ml-0.5">{sym}</span>}
-    </span>
+      {sym && <span className="text-[10px] ml-0.5 opacity-80">{sym}</span>}
+    </Badge>
   )
 }
 
@@ -81,18 +86,18 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
   const errors = unique.filter(r => r.severity === 'error')
   const warnings = unique.filter(r => r.severity === 'warning')
   return (
-    <div className="flex gap-1.5 flex-wrap mt-1.5">
+    <div className="flex gap-1.5 flex-wrap mt-2">
       {errors.length > 0 && (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-50 text-red-600 border border-red-200">
+        <Badge variant="destructive" className="px-1.5 py-0 h-4 text-[10px] font-semibold flex items-center gap-1 rounded bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive/20 shadow-none">
           <XCircle size={10} />
           {errors[0].ruleType === 'maDauSaoKhongLaBenhChinh' ? 'Mã (*) — không bệnh chính'
             : errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Quy tắc BYT'
             : errors[0].ruleType === 'chiSuDungMaHoaNguyenNhanTuVong' ? 'Chỉ tử vong'
             : 'Hạn chế'}
-        </span>
+        </Badge>
       )}
       {warnings.map((w, i) => (
-        <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-600 border border-amber-200">
+        <Badge key={i} variant="outline" className="px-1.5 py-0 h-4 text-[10px] font-semibold flex items-center gap-1 rounded bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 shadow-none">
           <AlertTriangle size={10} />
           {w.ruleType === 'maDauGamCanKemMaDauSao' ? 'Cần mã (*)'
             : w.ruleType === 'khongSuDungViCoMaCuTheHon' ? 'Mã cụ thể hơn'
@@ -100,7 +105,7 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
             : w.ruleType === 'chiCoONamGioi' ? 'Chỉ nam'
             : w.ruleType === 'khongKhuyenKhichDungLaBenhChinh' ? 'Hạn chế'
             : w.ruleType}
-        </span>
+        </Badge>
       ))}
     </div>
   )
@@ -109,11 +114,13 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
 export function SearchResults({ results, rules, selectedCode, onSelect, query, hasStrongMatch = true, onOpenPlayground }: SearchResultsProps) {
   if (!query) {
     return (
-      <div className="text-center py-12 px-6 text-slate-400">
-        <SearchIcon size={40} strokeWidth={1.5} className="mx-auto mb-3 opacity-60" />
-        <div className="text-sm">Nhập mã ICD, tên bệnh hoặc thuật ngữ lâm sàng</div>
+      <div className="text-center py-12 px-6 text-muted-foreground flex flex-col items-center">
+        <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+          <SearchIcon size={24} className="opacity-50" />
+        </div>
+        <div className="text-sm font-medium text-foreground">Nhập mã ICD, tên bệnh hoặc thuật ngữ lâm sàng</div>
         <div className="mt-2 text-xs">
-          Ví dụ: <code className="font-mono text-blue-600">Z34</code>, <code className="font-mono text-blue-600">khám thai</code>, <code className="font-mono text-blue-600">E11</code>
+          Ví dụ: <code className="font-mono bg-muted px-1 py-0.5 rounded text-primary">Z34</code>, <code className="font-mono bg-muted px-1 py-0.5 rounded text-primary">khám thai</code>, <code className="font-mono bg-muted px-1 py-0.5 rounded text-primary">E11</code>
         </div>
       </div>
     )
@@ -121,60 +128,61 @@ export function SearchResults({ results, rules, selectedCode, onSelect, query, h
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-12 px-6 text-slate-400">
-        <SearchIcon size={36} strokeWidth={1.5} className="mx-auto mb-3 opacity-40" />
-        <div>Không tìm thấy kết quả cho "<strong className="text-slate-600">{query}</strong>"</div>
-        <div className="mt-2 text-xs">Thử với từ khóa khác hoặc mã ICD trực tiếp</div>
+      <div className="text-center py-12 px-6 text-muted-foreground flex flex-col items-center">
+        <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+          <SearchIcon size={24} className="opacity-30" />
+        </div>
+        <div className="text-sm font-medium text-foreground">Không tìm thấy kết quả cho "<span className="text-primary">{query}</span>"</div>
+        <div className="mt-2 text-xs">Thử với từ khóa khác hoặc tra cứu trên Playground</div>
       </div>
     )
   }
 
   return (
-    <div className="fade-in flex flex-col gap-1.5">
-      <div className="text-[11px] text-slate-400 pb-1">
-        {results.length} kết quả cho <span className="text-blue-600 italic">"{query}"</span>
+    <div className="fade-in flex flex-col gap-2">
+      <div className="text-xs text-muted-foreground font-medium pb-1 flex justify-between items-center px-1">
+        <span>{results.length} kết quả cho <span className="text-primary">"{query}"</span></span>
       </div>
 
       {!hasStrongMatch && results.length > 0 && (
-        <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2.5 mb-1">
+        <Card className="p-3 bg-amber-50/50 border-amber-200/60 shadow-sm flex items-start gap-2.5 mb-1">
           <AlertTriangle size={14} className="text-amber-500 shrink-0 mt-0.5" />
           <div className="flex-1">
-            <div className="text-xs text-amber-600 font-semibold mb-0.5">Kết quả gần đúng</div>
-            <div className="text-[11px] text-slate-500 leading-relaxed">
-              Không khớp hoàn toàn. Hãy thử{' '}
-              <button onClick={onOpenPlayground} className="bg-transparent border-none p-0 text-blue-600 cursor-pointer font-semibold text-[11px] underline" style={{ fontFamily: 'inherit' }}>Playground →</button>
+            <div className="text-xs text-amber-700 font-semibold mb-0.5">Kết quả gần đúng</div>
+            <div className="text-[11px] text-muted-foreground leading-relaxed flex items-center flex-wrap gap-1">
+              <span>Không khớp hoàn toàn. Hãy thử</span>
+              <Button variant="link" size="sm" onClick={onOpenPlayground} className="h-auto p-0 text-[11px] text-primary">Playground →</Button>
             </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {results.map(rec => {
         const codeRules = rules.get(rec.maBenh) ?? []
         const isSelected = rec.maBenh === selectedCode
         return (
-          <div
+          <Card
             key={rec.maBenh}
             onClick={() => onSelect(rec.maBenh)}
-            className={`border rounded-xl p-3 md:p-3.5 cursor-pointer transition-all duration-150
+            className={`p-3 md:p-3.5 cursor-pointer transition-all duration-200 border
               ${isSelected
-                ? 'border-blue-400 bg-blue-50/50 shadow-[0_0_0_1px_rgb(96,165,250),0_4px_16px_rgba(59,130,246,0.1)]'
-                : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-px hover:shadow-sm'
+                ? 'border-primary ring-1 ring-primary/20 bg-primary/5 shadow-md'
+                : 'border-border bg-card hover:border-primary/40 hover:shadow-sm'
               }
             `}
           >
-            <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1.5">
                   <CodeChip rec={rec} query={query} />
-                  {rec.khoiMa && <span className="text-[10px] text-slate-400">{rec.chuongStt} · {rec.khoiMa}</span>}
+                  {rec.khoiMa && <span className="text-[10px] font-medium text-muted-foreground">{rec.chuongStt} · {rec.khoiMa}</span>}
                 </div>
-                <Highlighted text={rec.tenTiengViet} query={query} className="font-medium text-slate-800 text-[13px] leading-snug block" />
-                {rec.tenTiengAnh && <Highlighted text={rec.tenTiengAnh} query={query} className="text-[11px] text-slate-400 mt-0.5 block" />}
+                <Highlighted text={rec.tenTiengViet} query={query} className="font-medium text-foreground text-sm leading-snug block" />
                 <RuleBadges rules={codeRules} />
               </div>
-              <ChevronRight size={14} className="text-slate-300 shrink-0 mt-0.5" />
+              <ChevronRight size={16} className={`shrink-0 mt-1 transition-colors ${isSelected ? 'text-primary' : 'text-muted-foreground/40'}`} />
             </div>
-          </div>
+          </Card>
         )
       })}
     </div>

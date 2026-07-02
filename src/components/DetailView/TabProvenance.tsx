@@ -1,27 +1,29 @@
 // src/components/DetailView/TabProvenance.tsx
 import { Database, FileText, Cpu, BookOpen } from 'lucide-react'
 import type { ICDRecord, ICDRule, CodingRelation } from '../../types/icd'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 interface TabProvenanceProps { record: ICDRecord; rules: ICDRule[]; codingRelations: CodingRelation[] }
 
 const SM = {
-  icd10_flat: { label: 'CSDL ICD-10 BYT', Icon: Database, cls: 'text-blue-600', bg: 'bg-blue-50' },
-  appendix: { label: 'Phụ lục', Icon: FileText, cls: 'text-violet-600', bg: 'bg-violet-50' },
-  guideline: { label: 'Quy định KT', Icon: BookOpen, cls: 'text-emerald-600', bg: 'bg-emerald-50' },
-  concept_dictionary: { label: 'Từ điển KN', Icon: Cpu, cls: 'text-amber-600', bg: 'bg-amber-50' },
+  icd10_flat: { label: 'CSDL ICD-10 BYT', Icon: Database, cls: 'text-primary', bg: 'bg-primary/10' },
+  appendix: { label: 'Phụ lục', Icon: FileText, cls: 'text-violet-600', bg: 'bg-violet-500/10' },
+  guideline: { label: 'Quy định KT', Icon: BookOpen, cls: 'text-emerald-600', bg: 'bg-emerald-500/10' },
+  concept_dictionary: { label: 'Từ điển KN', Icon: Cpu, cls: 'text-amber-600', bg: 'bg-amber-500/10' },
 }
 
 export function TabProvenance({ record: rec, rules, codingRelations }: TabProvenanceProps) {
   return (
-    <div className="fade-in flex flex-col gap-4">
-      <div className="bg-white border border-slate-200 rounded-xl p-3.5 flex gap-4 flex-wrap shadow-sm">
-        <Dot cls="bg-blue-600" label="Chính thức" desc="Trực tiếp từ CSDL" />
-        <Dot cls="bg-violet-600" label="Biên soạn" desc="Từ tài liệu" />
-        <Dot cls="bg-slate-400" label="Suy diễn" desc="Từ từ điển" />
-        <div className="w-px bg-slate-200" />
+    <div className="fade-in flex flex-col gap-6">
+      <Card className="p-4 flex gap-4 flex-wrap shadow-sm border-border bg-card">
+        <Dot cls="bg-primary" label="Chính thức" desc="Trực tiếp từ CSDL" />
+        <Dot cls="bg-violet-500" label="Biên soạn" desc="Từ tài liệu" />
+        <Dot cls="bg-muted-foreground/40" label="Suy diễn" desc="Từ từ điển" />
+        <div className="w-px bg-border mx-1" />
         <Dot cls="bg-emerald-500" label="Chính xác" desc="exact" />
-        <Dot cls="bg-blue-500" label="Suy luận" desc="derived" />
-      </div>
+        <Dot cls="bg-primary/70" label="Suy luận" desc="derived" />
+      </Card>
 
       <div>
         <SH>Dữ liệu gốc mã bệnh</SH>
@@ -31,7 +33,7 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       {rules.length > 0 && (
         <div>
           <SH>Nguồn gốc quy tắc ({rules.length})</SH>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {rules.map((r, i) => <PI key={i} title={r.message} source={r.provenance.source} confidence={r.provenance.confidence} citationLevel={r.provenance.citationLevel} file={r.provenance.file} section={r.provenance.section} extractedText={r.provenance.extractedText} />)}
           </div>
         </div>
@@ -40,32 +42,32 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       {codingRelations.length > 0 && (
         <div>
           <SH>Nguồn gốc quan hệ ({codingRelations.length})</SH>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {codingRelations.map((r, i) => <PI key={i} title={`${r.relationType.toUpperCase()}: ${r.source} → ${r.target}`} source={r.provenance.source} confidence={r.provenance.confidence} citationLevel={r.provenance.citationLevel} file={r.provenance.file} />)}
           </div>
         </div>
       )}
 
-      <div className="px-4 py-3 bg-white border border-slate-200 rounded-lg flex items-center gap-2.5 shadow-sm">
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-        <span className="text-[11px] text-slate-400">
-          Schema: <span className="font-mono text-slate-600">1.0.0</span> · Source: <span className="font-mono text-blue-600">icd10_flat.json</span> · Provenance: <span className="text-emerald-500">100%</span>
+      <Card className="px-4 py-3 flex items-center gap-3 shadow-sm border-border bg-card">
+        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+        <span className="text-xs text-muted-foreground font-medium">
+          Schema: <span className="font-mono text-foreground bg-muted px-1 py-0.5 rounded">1.0.0</span> <span className="mx-1 opacity-50">·</span> Source: <span className="font-mono text-primary bg-primary/10 px-1 py-0.5 rounded">icd10_flat.json</span> <span className="mx-1 opacity-50">·</span> Provenance: <span className="text-emerald-600 font-bold">100%</span>
         </span>
-      </div>
+      </Card>
     </div>
   )
 }
 
 function SH({ children }: { children: React.ReactNode }) {
-  return <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2.5">{children}</div>
+  return <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">{children}</div>
 }
 
 function Dot({ cls, label, desc }: { cls: string; label: string; desc: string }) {
   return (
-    <div className="flex items-center gap-1.5">
-      <div className={`w-2 h-2 rounded-full ${cls}`} />
-      <span className="text-[11px] text-slate-600 font-medium">{label}</span>
-      <span className="text-[10px] text-slate-400">({desc})</span>
+    <div className="flex items-center gap-2">
+      <div className={`w-2.5 h-2.5 rounded-full ${cls}`} />
+      <span className="text-xs text-foreground font-medium">{label}</span>
+      <span className="text-[10px] text-muted-foreground">({desc})</span>
     </div>
   )
 }
@@ -75,31 +77,33 @@ function PI({ title, source, confidence, citationLevel, file, section, extracted
 }) {
   const sm = SM[source as keyof typeof SM] ?? SM.icd10_flat
   const Icon = sm.Icon
-  const lvBadge = citationLevel === 'official' ? 'bg-blue-50 text-blue-600 border-blue-200'
-    : citationLevel === 'compiled' ? 'bg-violet-50 text-violet-600 border-violet-200'
-    : 'bg-slate-100 text-slate-500 border-slate-200'
+  const lvBadge = citationLevel === 'official' ? 'bg-primary/10 text-primary border-primary/20 hover:bg-primary/20'
+    : citationLevel === 'compiled' ? 'bg-violet-500/10 text-violet-600 border-violet-500/20 hover:bg-violet-500/20'
+    : 'bg-muted text-muted-foreground border-border hover:bg-muted/80'
   const lvLabel = citationLevel === 'official' ? 'Chính thức' : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
-      <div className="flex items-start gap-2.5">
-        <div className={`w-7 h-7 rounded-md shrink-0 ${sm.bg} flex items-center justify-center`}>
-          <Icon size={14} className={sm.cls} />
+    <Card className="p-4 shadow-sm border-border bg-card">
+      <div className="flex items-start gap-3">
+        <div className={`w-8 h-8 rounded-md shrink-0 ${sm.bg} flex items-center justify-center mt-0.5`}>
+          <Icon size={16} className={sm.cls} />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-xs text-slate-700 font-medium mb-1 leading-snug">{title}</div>
-          <div className={`flex gap-1.5 flex-wrap ${extractedText ? 'mb-2' : ''}`}>
-            <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${lvBadge}`}>{lvLabel}</span>
-            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
+          <div className="text-sm text-foreground font-medium mb-2 leading-snug">{title}</div>
+          <div className={`flex gap-2 flex-wrap items-center ${extractedText ? 'mb-3' : ''}`}>
+            <Badge variant="secondary" className={`px-2 py-0 h-5 text-[10px] shadow-none ${lvBadge}`}>{lvLabel}</Badge>
+            <Badge variant="secondary" className={`px-2 py-0 h-5 text-[10px] shadow-none ${confidence === 'exact' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20' : 'bg-primary/10 text-primary border-primary/20 hover:bg-primary/20'}`}>
               {confidence === 'exact' ? 'Chính xác' : 'Suy diễn'}
+            </Badge>
+            <span className="text-[10px] font-mono text-muted-foreground px-1.5 py-0.5 bg-muted rounded border border-border">
+              {file}{section ? ` · §${section}` : ''}
             </span>
-            <span className="text-[10px] font-mono text-slate-400 px-1.5 py-px bg-slate-100 rounded">{file}{section ? ` · §${section}` : ''}</span>
           </div>
           {extractedText && (
-            <div className="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded border-l-2 border-l-blue-400">{extractedText}</div>
+            <div className="text-xs font-mono text-muted-foreground bg-muted/50 p-3 rounded-md border-l-[3px] border-l-primary/60">{extractedText}</div>
           )}
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
