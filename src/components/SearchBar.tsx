@@ -1,6 +1,6 @@
 // src/components/SearchBar.tsx
 import { useRef, useState, useCallback, useEffect } from 'react'
-import { Search, X, Loader2, WholeWord, TextSearch } from 'lucide-react'
+import { Search, X, Loader2 } from 'lucide-react'
 
 interface SearchBarProps {
   onSearch: (query: string) => void
@@ -79,49 +79,42 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
         <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
       </div>
 
-      {/* Search mode toggle */}
+      {/* Whole-word toggle switch */}
       {onToggleWholeWord && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{
-            display: 'inline-flex', borderRadius: 8, overflow: 'hidden',
-            border: '1px solid var(--border)',
-            background: 'var(--bg-elevated)',
-          }}>
-            <button
-              onClick={!wholeWord ? undefined : onToggleWholeWord}
-              title="Tìm chứa trong từ: 'u' khớp cả 'máu', 'mũ', 'u'"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '4px 10px', border: 'none', cursor: 'pointer',
-                fontSize: 11, fontWeight: 500, fontFamily: 'inherit',
-                transition: 'all 0.15s',
-                background: !wholeWord ? 'var(--accent)' : 'transparent',
-                color: !wholeWord ? '#fff' : 'var(--text-muted)',
-              }}
-            >
-              <TextSearch size={12} />
-              Chứa trong từ
-            </button>
-            <button
-              onClick={wholeWord ? undefined : onToggleWholeWord}
-              title="Tìm từ nguyên: 'u' chỉ khớp từ 'u' đứng riêng, không khớp 'máu'"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '4px 10px', border: 'none', cursor: 'pointer',
-                fontSize: 11, fontWeight: 500, fontFamily: 'inherit',
-                transition: 'all 0.15s',
-                background: wholeWord ? 'var(--accent)' : 'transparent',
-                color: wholeWord ? '#fff' : 'var(--text-muted)',
-              }}
-            >
-              <WholeWord size={12} />
-              Từ nguyên
-            </button>
-          </div>
-          <span style={{ fontSize: 10, color: 'var(--text-muted)', fontStyle: 'italic' }}>
-            {wholeWord
-              ? '"u" → chỉ khớp từ "u" đứng riêng'
-              : '"u" → khớp cả "máu", "mũ", "u"'}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={onToggleWholeWord}
+            role="switch"
+            aria-checked={wholeWord}
+            title={wholeWord
+              ? 'Đang tìm từ nguyên — nhấn để tắt'
+              : 'Đang tìm chứa trong từ — nhấn để bật tìm từ nguyên'}
+            style={{
+              position: 'relative',
+              width: 32, height: 18, borderRadius: 9,
+              border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0,
+              background: wholeWord ? 'var(--accent)' : 'rgba(0,0,0,0.12)',
+              transition: 'background 0.2s',
+            }}
+          >
+            <span style={{
+              position: 'absolute',
+              top: 2, left: wholeWord ? 16 : 2,
+              width: 14, height: 14, borderRadius: '50%',
+              background: '#fff',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+              transition: 'left 0.2s',
+            }} />
+          </button>
+          <span
+            onClick={onToggleWholeWord}
+            style={{
+              fontSize: 11, color: wholeWord ? 'var(--accent)' : 'var(--text-muted)',
+              cursor: 'pointer', userSelect: 'none', fontWeight: wholeWord ? 600 : 400,
+              transition: 'color 0.15s',
+            }}
+          >
+            Từ nguyên
           </span>
         </div>
       )}

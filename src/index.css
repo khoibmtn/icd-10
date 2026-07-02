@@ -96,9 +96,10 @@ html, body, #root {
 }
 .tab-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
 .tab-btn.active {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  box-shadow: 0 0 0 1px var(--border-hover), 0 1px 4px rgba(0,0,0,0.06);
+  background: rgba(59,109,232,0.1);
+  color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(59,109,232,0.25);
+  font-weight: 600;
 }
 
 /* Search input */
