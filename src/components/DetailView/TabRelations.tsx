@@ -42,7 +42,7 @@ const INFO_REL_META = {
   includes: {
     label: 'Includes (Bao gồm)',
     description: 'Các tình trạng được bao gồm trong mã này.',
-    Icon: PlusCircle, color: '#34d399',
+    Icon: PlusCircle, color: '#16a367',
   },
 }
 

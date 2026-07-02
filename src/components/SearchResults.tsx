@@ -105,8 +105,8 @@ function Highlighted({
           <mark
             key={i}
             style={{
-              background: 'rgba(91,138,245,0.28)',
-              color: '#a8c4ff',
+              background: 'rgba(59,109,232,0.14)',
+              color: '#2554b8',
               borderRadius: 3,
               padding: '0 1px',
               fontWeight: 600,

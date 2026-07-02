@@ -9,10 +9,10 @@ interface TabProvenanceProps {
 }
 
 const SOURCE_META = {
-  icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: '#5b8af5' },
-  appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: '#a78bfa' },
-  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: '#34d399' },
-  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: '#fbbf24' },
+  icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: '#3b6de8' },
+  appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: '#7c3aed' },
+  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: '#16a367' },
+  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: '#d9960a' },
 }
 
 export function TabProvenance({ record: rec, rules, codingRelations }: TabProvenanceProps) {
@@ -21,12 +21,12 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
 
       {/* Legend */}
       <div className="glass" style={{ padding: 14, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <LegendItem color="#5b8af5" label="Chính thức" desc="Trực tiếp từ CSDL" />
-        <LegendItem color="#a78bfa" label="Biên soạn" desc="Xây dựng từ tài liệu" />
-        <LegendItem color="#8b92a8" label="Suy diễn" desc="Từ từ điển khái niệm" />
+        <LegendItem color="#3b6de8" label="Chính thức" desc="Trực tiếp từ CSDL" />
+        <LegendItem color="#7c3aed" label="Biên soạn" desc="Xây dựng từ tài liệu" />
+        <LegendItem color="#5a6078" label="Suy diễn" desc="Từ từ điển khái niệm" />
         <div style={{ width: 1, background: 'var(--border)' }} />
-        <LegendItem color="#34d399" label="Trích dẫn chính xác" desc="exact" />
-        <LegendItem color="#60a5fa" label="Suy luận" desc="derived" />
+        <LegendItem color="#16a367" label="Trích dẫn chính xác" desc="exact" />
+        <LegendItem color="#3b82f6" label="Suy luận" desc="derived" />
       </div>
 
       {/* Main record provenance */}
@@ -132,8 +132,8 @@ function ProvenanceItem({
   const sm = SOURCE_META[source as keyof typeof SOURCE_META] ?? SOURCE_META.icd10_flat
   const Icon = sm.Icon
 
-  const levelColor = citationLevel === 'official' ? '#5b8af5'
-    : citationLevel === 'compiled' ? '#a78bfa' : '#8b92a8'
+  const levelColor = citationLevel === 'official' ? '#3b6de8'
+    : citationLevel === 'compiled' ? '#7c3aed' : '#5a6078'
   const levelLabel = citationLevel === 'official' ? 'Chính thức'
     : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
 
@@ -158,8 +158,8 @@ function ProvenanceItem({
             }}>{levelLabel}</span>
             <span style={{
               fontSize: 10, padding: '1px 6px', borderRadius: 4,
-              background: 'rgba(52,211,153,0.1)', color: '#34d399',
-              border: '1px solid rgba(52,211,153,0.2)', fontWeight: 600,
+              background: 'rgba(22,163,103,0.08)', color: '#0d8550',
+              border: '1px solid rgba(22,163,103,0.18)', fontWeight: 600,
             }}>{confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}</span>
             <span style={{
               fontSize: 10, fontFamily: 'JetBrains Mono', color: 'var(--text-muted)',

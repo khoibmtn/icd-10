@@ -79,8 +79,8 @@ const VARIANT_STYLE = {
     border: 'rgba(248,113,113,0.18)',
     iconColor: '#f87171',
     badgeBg: 'rgba(248,113,113,0.15)',
-    badgeColor: '#fca5a5',
-    badgeBorder: 'rgba(248,113,113,0.3)',
+    badgeColor: '#dc4545',
+    badgeBorder: 'rgba(220,69,69,0.3)',
     stripe: '#f87171',
   },
   caution: {
@@ -88,8 +88,8 @@ const VARIANT_STYLE = {
     border: 'rgba(251,191,36,0.18)',
     iconColor: '#fbbf24',
     badgeBg: 'rgba(251,191,36,0.15)',
-    badgeColor: '#fde68a',
-    badgeBorder: 'rgba(251,191,36,0.3)',
+    badgeColor: '#a07008',
+    badgeBorder: 'rgba(217,150,10,0.3)',
     stripe: '#fbbf24',
   },
   info: {
@@ -97,8 +97,8 @@ const VARIANT_STYLE = {
     border: 'rgba(96,165,250,0.18)',
     iconColor: '#60a5fa',
     badgeBg: 'rgba(96,165,250,0.15)',
-    badgeColor: '#93c5fd',
-    badgeBorder: 'rgba(96,165,250,0.3)',
+    badgeColor: '#2563eb',
+    badgeBorder: 'rgba(59,130,246,0.3)',
     stripe: '#60a5fa',
   },
 }
@@ -187,8 +187,8 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
                   <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>Nguồn:</span>
                   <span style={{
                     fontSize: 10, padding: '1px 6px', borderRadius: 4, fontWeight: 600,
-                    background: 'rgba(91,138,245,0.12)', color: '#93b4ff',
-                    border: '1px solid rgba(91,138,245,0.25)',
+                    background: 'rgba(59,109,232,0.08)', color: '#2b5bc4',
+                    border: '1px solid rgba(59,109,232,0.2)',
                   }}>
                     {rule.provenance.citationLevel === 'official' ? 'Chính thức'
                       : rule.provenance.citationLevel === 'compiled' ? 'Biên soạn'
@@ -199,8 +199,8 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
                   </span>
                   <span style={{
                     fontSize: 10, padding: '1px 6px', borderRadius: 4, fontWeight: 600,
-                    background: 'rgba(52,211,153,0.1)', color: '#34d399',
-                    border: '1px solid rgba(52,211,153,0.2)',
+                    background: 'rgba(22,163,103,0.08)', color: '#0d8550',
+                    border: '1px solid rgba(22,163,103,0.18)',
                   }}>
                     {rule.provenance.confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}
                   </span>

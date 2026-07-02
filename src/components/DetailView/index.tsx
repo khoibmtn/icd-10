@@ -118,7 +118,7 @@ export function DetailView({
             {uniqueRules.length > 0 && (
               <span style={{
                 fontSize: 11, fontWeight: 500,
-                color: errorRules.length > 0 ? '#fca5a5' : '#fde68a',
+                color: errorRules.length > 0 ? '#c43030' : '#a07008',
                 background: errorRules.length > 0
                   ? 'rgba(248,113,113,0.1)' : 'rgba(251,191,36,0.1)',
                 border: `1px solid ${errorRules.length > 0

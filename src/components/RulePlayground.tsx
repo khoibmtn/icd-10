@@ -160,7 +160,7 @@ export function RulePlayground({ rules, concepts, codingRelations, onNavigate }:
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
                         <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Confidence</span>
-                        <span style={{ fontSize: 13, fontWeight: 700, color: '#34d399' }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: '#16a367' }}>
                           {(sel.confidence * 100).toFixed(0)}%
                         </span>
                       </div>
@@ -174,7 +174,7 @@ export function RulePlayground({ rules, concepts, codingRelations, onNavigate }:
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                     {sel.reasons.map((r, j) => (
                       <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: 'var(--text-secondary)' }}>
-                        <CheckCircle size={12} style={{ color: '#34d399', flexShrink: 0, marginTop: 1 }} />
+                        <CheckCircle size={12} style={{ color: '#16a367', flexShrink: 0, marginTop: 1 }} />
                         {r}
                       </div>
                     ))}
