@@ -1,52 +1,59 @@
 /* src/index.css — Tailwind v4 Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
-/* ── Design Tokens ──────────────────────────────────────────────────────────── */
+/* ── Design Tokens (named to avoid Tailwind built-in conflicts) ─────────── */
 @theme {
-  --color-base: #f5f6fa;
+  --color-canvas: #f5f6fa;
   --color-surface: #ffffff;
   --color-elevated: #f0f1f6;
-  --color-overlay: #e8eaf2;
-  --color-border: rgba(0,0,0,0.08);
-  --color-border-hover: rgba(0,0,0,0.18);
-  --color-text: #1a1d2b;
-  --color-text-secondary: #5a6078;
-  --color-text-muted: #8e94a8;
+  --color-dim: #e8eaf2;
+  --color-line: rgba(0,0,0,0.08);
+  --color-line-hover: rgba(0,0,0,0.18);
+  --color-fg: #1a1d2b;
+  --color-fg-secondary: #5a6078;
+  --color-fg-muted: #8e94a8;
   --color-accent: #3b6de8;
-  --color-accent-light: rgba(59,109,232,0.1);
-  --color-success: #16a367;
-  --color-warning: #d9960a;
-  --color-error: #dc4545;
+  --color-accent-soft: rgba(59,109,232,0.1);
+  --color-ok: #16a367;
+  --color-warn: #d9960a;
+  --color-danger: #dc4545;
   --color-info: #3b82f6;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* ── Base ────────────────────────────────────────────────────────────────────── */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Base ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body, #root {
-  @apply h-full w-full bg-base text-text antialiased;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-canvas);
+  color: var(--color-fg);
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 mark {
-  @apply rounded-sm px-0.5 font-semibold;
   background: rgba(59,109,232,0.14);
   color: #2554b8;
+  border-radius: 2px;
+  padding: 0 2px;
+  font-weight: 600;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
 
-/* ── Animations ─────────────────────────────────────────────────────────────── */
+/* ── Animations ─────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -55,20 +62,11 @@ mark {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-@keyframes slideInRight {
+@keyframes slideRight {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
-@keyframes slideInUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
 
-.fade-in { animation: fadeIn 0.2s ease; }
-.animate-spin { animation: spin 1s linear infinite; }
-.animate-slide-in-right { animation: slideInRight 0.25s ease-out; }
-.animate-slide-in-up { animation: slideInUp 0.3s ease-out; }
+.fade-in { animation: fadeIn 0.2s ease-out; }
+.anim-spin { animation: spin 1s linear infinite; }
+.anim-slide-right { animation: slideRight 0.25s ease-out; }

@@ -11,8 +11,8 @@ interface TabProvenanceProps {
 const SOURCE_META = {
   icd10_flat: { label: 'CSDL ICD-10 Bộ Y tế', Icon: Database, color: 'text-accent', bgColor: 'bg-accent/10' },
   appendix: { label: 'Phụ lục hướng dẫn', Icon: FileText, color: 'text-purple-600', bgColor: 'bg-purple-600/10' },
-  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: 'text-success', bgColor: 'bg-success/10' },
-  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: 'text-warning', bgColor: 'bg-warning/10' },
+  guideline: { label: 'Quy định kỹ thuật', Icon: BookOpen, color: 'text-ok', bgColor: 'bg-ok/10' },
+  concept_dictionary: { label: 'Từ điển khái niệm lâm sàng', Icon: Cpu, color: 'text-warn', bgColor: 'bg-warn/10' },
 }
 
 export function TabProvenance({ record: rec, rules, codingRelations }: TabProvenanceProps) {
@@ -20,12 +20,12 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
     <div className="fade-in flex flex-col gap-4">
 
       {/* Legend */}
-      <div className="bg-surface border border-border rounded-xl p-3.5 flex gap-4 flex-wrap">
+      <div className="bg-surface border border-line rounded-xl p-3.5 flex gap-4 flex-wrap">
         <LegendItem dotClass="bg-accent" label="Chính thức" desc="Trực tiếp từ CSDL" />
         <LegendItem dotClass="bg-purple-600" label="Biên soạn" desc="Xây dựng từ tài liệu" />
-        <LegendItem dotClass="bg-text-muted" label="Suy diễn" desc="Từ từ điển khái niệm" />
+        <LegendItem dotClass="bg-fg-muted" label="Suy diễn" desc="Từ từ điển khái niệm" />
         <div className="w-px bg-border" />
-        <LegendItem dotClass="bg-success" label="Trích dẫn chính xác" desc="exact" />
+        <LegendItem dotClass="bg-ok" label="Trích dẫn chính xác" desc="exact" />
         <LegendItem dotClass="bg-info" label="Suy luận" desc="derived" />
       </div>
 
@@ -83,12 +83,12 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
       )}
 
       {/* Data Contract footer */}
-      <div className="px-4 py-3 bg-surface border border-border rounded-lg flex items-center gap-2.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-success" />
-        <span className="text-[11px] text-text-muted">
-          Schema Version: <span className="font-mono text-text-secondary">1.0.0</span>
+      <div className="px-4 py-3 bg-surface border border-line rounded-lg flex items-center gap-2.5">
+        <div className="w-1.5 h-1.5 rounded-full bg-ok" />
+        <span className="text-[11px] text-fg-muted">
+          Schema Version: <span className="font-mono text-fg-secondary">1.0.0</span>
           &nbsp;·&nbsp; Source: <span className="font-mono text-accent">icd10_flat.json</span>
-          &nbsp;·&nbsp; Provenance: <span className="text-success">100%</span>
+          &nbsp;·&nbsp; Provenance: <span className="text-ok">100%</span>
         </span>
       </div>
     </div>
@@ -97,7 +97,7 @@ export function TabProvenance({ record: rec, rules, codingRelations }: TabProven
 
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wide mb-2.5">{children}</div>
+    <div className="text-[11px] font-semibold text-fg-muted uppercase tracking-wide mb-2.5">{children}</div>
   )
 }
 
@@ -105,8 +105,8 @@ function LegendItem({ dotClass, label, desc }: { dotClass: string; label: string
   return (
     <div className="flex items-center gap-1.5">
       <div className={`w-2 h-2 rounded-full ${dotClass}`} />
-      <span className="text-[11px] text-text-secondary font-medium">{label}</span>
-      <span className="text-[10px] text-text-muted">({desc})</span>
+      <span className="text-[11px] text-fg-secondary font-medium">{label}</span>
+      <span className="text-[10px] text-fg-muted">({desc})</span>
     </div>
   )
 }
@@ -129,32 +129,32 @@ function ProvenanceItem({
     ? 'bg-accent/10 text-accent border-accent/25'
     : citationLevel === 'compiled'
     ? 'bg-purple-600/10 text-purple-600 border-purple-600/25'
-    : 'bg-text-muted/10 text-text-muted border-border'
+    : 'bg-fg-muted/10 text-fg-muted border-line'
 
   const levelLabel = citationLevel === 'official' ? 'Chính thức'
     : citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'
 
   return (
-    <div className="bg-surface border border-border rounded-lg p-3">
+    <div className="bg-surface border border-line rounded-lg p-3">
       <div className="flex items-start gap-2.5">
         <div className={`w-7 h-7 rounded-md shrink-0 ${sm.bgColor} flex items-center justify-center`}>
           <Icon size={14} className={sm.color} />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-xs text-text font-medium mb-1 leading-snug">{title}</div>
+          <div className="text-xs text-fg font-medium mb-1 leading-snug">{title}</div>
           <div className={`flex gap-1.5 flex-wrap ${extractedText ? 'mb-2' : ''}`}>
             <span className={`text-[10px] px-1.5 py-px rounded font-semibold border ${levelBadge}`}>
               {levelLabel}
             </span>
-            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-success/8 text-success border border-success/18">
+            <span className="text-[10px] px-1.5 py-px rounded font-semibold bg-ok/8 text-ok border border-ok/18">
               {confidence === 'exact' ? 'Trích dẫn chính xác' : 'Suy diễn'}
             </span>
-            <span className="text-[10px] font-mono text-text-muted px-1.5 py-px bg-overlay rounded">
+            <span className="text-[10px] font-mono text-fg-muted px-1.5 py-px bg-dim rounded">
               {file}{section ? ` · §${section}` : ''}
             </span>
           </div>
           {extractedText && (
-            <div className="text-[11px] font-mono text-text-muted bg-overlay p-2 rounded border-l-2 border-l-accent">
+            <div className="text-[11px] font-mono text-fg-muted bg-dim p-2 rounded border-l-2 border-l-accent">
               {extractedText}
             </div>
           )}

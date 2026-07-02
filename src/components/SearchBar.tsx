@@ -44,9 +44,9 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
-        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none flex items-center">
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-fg-muted pointer-events-none flex items-center">
           {loading
-            ? <Loader2 size={18} className="animate-spin" />
+            ? <Loader2 size={18} className="anim-spin" />
             : <Search size={18} />
           }
         </div>
@@ -57,12 +57,12 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
           placeholder={placeholder ?? 'Tìm mã ICD, tên bệnh... (⌘K)'}
           autoComplete="off"
           spellCheck={false}
-          className="w-full bg-surface border border-border rounded-xl py-3 pl-11 pr-10 text-[15px] text-text placeholder:text-text-muted outline-none transition-all duration-200 focus:border-accent focus:ring-3 focus:ring-accent/15 font-[inherit]"
+          className="w-full bg-surface border border-line rounded-xl py-3 pl-11 pr-10 text-[15px] text-fg placeholder:text-fg-muted outline-none transition-all duration-200 focus:border-accent focus:ring-2 focus:ring-accent/15 font-[inherit]"
         />
         {value && (
           <button
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-text-muted hover:text-text-secondary bg-transparent border-none cursor-pointer flex items-center"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded text-fg-muted hover:text-fg-secondary bg-transparent border-none cursor-pointer flex items-center"
           >
             <X size={15} />
           </button>
@@ -92,7 +92,7 @@ export function SearchBar({ onSearch, loading = false, placeholder, wholeWord = 
             onClick={onToggleWholeWord}
             className={`
               text-[11px] cursor-pointer select-none transition-colors duration-150
-              ${wholeWord ? 'text-accent font-semibold' : 'text-text-muted font-normal'}
+              ${wholeWord ? 'text-accent font-semibold' : 'text-fg-muted font-normal'}
             `}
           >
             Từ nguyên

@@ -53,10 +53,10 @@ export function DetailView({
   const allRuleLabels = uniqueRules.map(r => RULE_LABEL[r.ruleType] ?? r.ruleType)
 
   return (
-    <div className="fade-in h-full flex flex-col bg-surface md:border-l md:border-border">
+    <div className="fade-in h-full flex flex-col bg-surface md:border-l md:border-line">
 
       {/* Header */}
-      <div className="px-4 py-3 md:px-5 md:py-4 border-b border-border flex items-start justify-between shrink-0">
+      <div className="px-4 py-3 md:px-5 md:py-4 border-b border-line flex items-start justify-between shrink-0">
         <div className="flex-1 min-w-0">
           {/* Code chip + companion + rules */}
           <div className="flex items-center gap-2.5 flex-wrap">
@@ -97,20 +97,20 @@ export function DetailView({
               <span className={`
                 text-[11px] font-medium rounded-md px-2.5 py-0.5 leading-snug border
                 ${errorRules.length > 0
-                  ? 'text-error bg-error/10 border-error/25'
-                  : 'text-warning bg-warning/10 border-warning/25'
+                  ? 'text-danger bg-danger/10 border-danger/25'
+                  : 'text-warn bg-warn/10 border-warn/25'
                 }
               `}>
                 {allRuleLabels.join(' ; ')}
               </span>
             )}
           </div>
-          <div className="mt-1.5 text-sm text-text-secondary leading-snug">{record.tenTiengViet}</div>
+          <div className="mt-1.5 text-sm text-fg-secondary leading-snug">{record.tenTiengViet}</div>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="hidden md:flex items-center p-1.5 rounded-lg bg-overlay border border-border text-text-muted cursor-pointer transition-all hover:text-text shrink-0"
+            className="hidden md:flex items-center p-1.5 rounded-lg bg-dim border border-line text-fg-muted cursor-pointer transition-all hover:text-fg shrink-0"
           >
             <X size={14} />
           </button>
@@ -118,7 +118,7 @@ export function DetailView({
       </div>
 
       {/* Tabs */}
-      <div className="px-3 py-2 border-b border-border flex gap-1 overflow-x-auto shrink-0">
+      <div className="px-3 py-2 border-b border-line flex gap-1 overflow-x-auto shrink-0">
         {TABS.map(({ id, label, Icon }) => {
           const badge = id === 'rules' && uniqueRules.length > 0 ? uniqueRules.length : null
           return (
@@ -129,8 +129,8 @@ export function DetailView({
                 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
                 cursor-pointer border-none whitespace-nowrap transition-all duration-150 font-[inherit]
                 ${activeTab === id
-                  ? 'bg-accent-light text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
-                  : 'bg-transparent text-text-secondary hover:bg-elevated hover:text-text'
+                  ? 'bg-accent-soft text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
+                  : 'bg-transparent text-fg-secondary hover:bg-elevated hover:text-fg'
                 }
               `}
             >
@@ -139,7 +139,7 @@ export function DetailView({
               {badge && (
                 <span className={`
                   w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center
-                  ${errorRules.length > 0 ? 'bg-error' : 'bg-warning'}
+                  ${errorRules.length > 0 ? 'bg-danger' : 'bg-warn'}
                 `}>{badge}</span>
               )}
             </button>

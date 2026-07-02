@@ -100,7 +100,7 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
   return (
     <div className="flex gap-1.5 flex-wrap mt-1.5">
       {errors.length > 0 && (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-error/8 text-error border border-error/18">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-danger/8 text-danger border border-danger/18">
           <XCircle size={10} />
           {errors[0].ruleType === 'maDauSaoKhongLaBenhChinh' ? 'Mã (*) — không bệnh chính'
             : errors[0].ruleType === 'khongDungLaBenhChinh' ? 'Quy tắc BYT'
@@ -109,7 +109,7 @@ function RuleBadges({ rules }: { rules: ICDRule[] }) {
         </span>
       )}
       {warnings.map((w, i) => (
-        <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-warning/8 text-warning border border-warning/18">
+        <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-warn/8 text-warn border border-warn/18">
           <AlertTriangle size={10} />
           {w.ruleType === 'maDauGamCanKemMaDauSao' ? 'Cần mã (*)'
             : w.ruleType === 'khongSuDungViCoMaCuTheHon' ? 'Mã cụ thể hơn'
@@ -131,10 +131,10 @@ export function SearchResults({
 }: SearchResultsProps) {
   if (!query) {
     return (
-      <div className="text-center py-12 px-6 text-text-muted">
-        <SearchIcon size={40} strokeWidth={1.5} className="mx-auto mb-3 text-text-muted/60" />
+      <div className="text-center py-12 px-6 text-fg-muted">
+        <SearchIcon size={40} strokeWidth={1.5} className="mx-auto mb-3 text-fg-muted/60" />
         <div className="text-sm">Nhập mã ICD, tên bệnh hoặc thuật ngữ lâm sàng</div>
-        <div className="mt-2 text-xs text-text-muted">
+        <div className="mt-2 text-xs text-fg-muted">
           Ví dụ:{' '}
           <code className="font-mono text-accent">Z34</code>,{' '}
           <code className="font-mono text-accent">khám thai</code>,{' '}
@@ -146,11 +146,11 @@ export function SearchResults({
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-12 px-6 text-text-muted">
-        <SearchIcon size={36} strokeWidth={1.5} className="mx-auto mb-3 text-text-muted/40" />
+      <div className="text-center py-12 px-6 text-fg-muted">
+        <SearchIcon size={36} strokeWidth={1.5} className="mx-auto mb-3 text-fg-muted/40" />
         <div>
           Không tìm thấy kết quả cho "
-          <strong className="text-text-secondary">{query}</strong>"
+          <strong className="text-fg-secondary">{query}</strong>"
         </div>
         <div className="mt-2 text-xs">Thử với từ khóa khác hoặc mã ICD trực tiếp</div>
       </div>
@@ -159,18 +159,18 @@ export function SearchResults({
 
   return (
     <div className="fade-in flex flex-col gap-1.5">
-      <div className="text-[11px] text-text-muted pb-1">
+      <div className="text-[11px] text-fg-muted pb-1">
         {results.length} kết quả cho{' '}
         <span className="text-accent italic">"{query}"</span>
       </div>
 
       {/* Weak match banner */}
       {!hasStrongMatch && results.length > 0 && (
-        <div className="p-3 bg-warning/6 border border-warning/20 rounded-lg flex items-start gap-2.5 mb-1">
-          <AlertTriangle size={14} className="text-warning shrink-0 mt-0.5" />
+        <div className="p-3 bg-warn/6 border border-warn/20 rounded-lg flex items-start gap-2.5 mb-1">
+          <AlertTriangle size={14} className="text-warn shrink-0 mt-0.5" />
           <div className="flex-1">
-            <div className="text-xs text-warning font-semibold mb-0.5">Kết quả gần đúng</div>
-            <div className="text-[11px] text-text-muted leading-relaxed">
+            <div className="text-xs text-warn font-semibold mb-0.5">Kết quả gần đúng</div>
+            <div className="text-[11px] text-fg-muted leading-relaxed">
               Không khớp hoàn toàn. Hãy thử{' '}
               <button onClick={onOpenPlayground} className="bg-transparent border-none p-0 text-accent cursor-pointer font-semibold text-[11px] underline font-[inherit]">
                 Playground →
@@ -192,7 +192,7 @@ export function SearchResults({
               border rounded-xl p-3 md:p-3.5 cursor-pointer transition-all duration-150
               ${isSelected
                 ? 'border-accent bg-accent/3 shadow-[0_0_0_1px_var(--color-accent),0_4px_16px_rgba(59,109,232,0.1)]'
-                : 'border-border bg-surface hover:border-border-hover hover:bg-elevated hover:-translate-y-px hover:shadow-sm'
+                : 'border-line bg-surface hover:border-line-hover hover:bg-elevated hover:-translate-y-px hover:shadow-sm'
               }
             `}
           >
@@ -202,7 +202,7 @@ export function SearchResults({
                 <div className="flex items-center gap-2 mb-1">
                   <CodeChip rec={rec} query={query} />
                   {rec.khoiMa && (
-                    <span className="text-[10px] text-text-muted">{rec.chuongStt} · {rec.khoiMa}</span>
+                    <span className="text-[10px] text-fg-muted">{rec.chuongStt} · {rec.khoiMa}</span>
                   )}
                 </div>
 
@@ -210,7 +210,7 @@ export function SearchResults({
                 <Highlighted
                   text={rec.tenTiengViet}
                   query={query}
-                  className="font-medium text-text text-[13px] leading-snug block"
+                  className="font-medium text-fg text-[13px] leading-snug block"
                 />
 
                 {/* English name */}
@@ -218,14 +218,14 @@ export function SearchResults({
                   <Highlighted
                     text={rec.tenTiengAnh}
                     query={query}
-                    className="text-[11px] text-text-muted mt-0.5 block"
+                    className="text-[11px] text-fg-muted mt-0.5 block"
                   />
                 )}
 
                 <RuleBadges rules={codeRules} />
               </div>
 
-              <ChevronRight size={14} className="text-text-muted shrink-0 mt-0.5" />
+              <ChevronRight size={14} className="text-fg-muted shrink-0 mt-0.5" />
             </div>
           </div>
         )

@@ -143,9 +143,9 @@ export default function App() {
           <Database size={24} color="#fff" />
         </div>
         <div className="text-center">
-          <div className="font-semibold text-base text-text mb-1">ICD-10 Vietnam Explorer</div>
-          <div className="text-text-muted text-sm flex items-center gap-1.5 justify-center">
-            <Loader2 size={14} className="animate-spin" />
+          <div className="font-semibold text-base text-fg mb-1">ICD-10 Vietnam Explorer</div>
+          <div className="text-fg-muted text-sm flex items-center gap-1.5 justify-center">
+            <Loader2 size={14} className="anim-spin" />
             {initMsg}
           </div>
         </div>
@@ -156,10 +156,10 @@ export default function App() {
   if (initStatus === 'error') {
     return (
       <div className="flex h-dvh items-center justify-center flex-col gap-4">
-        <AlertCircle size={32} className="text-error" />
+        <AlertCircle size={32} className="text-danger" />
         <div className="text-center">
-          <div className="font-semibold text-error mb-1">Lỗi khởi tạo</div>
-          <div className="text-text-muted text-xs max-w-[400px]">{initMsg}</div>
+          <div className="font-semibold text-danger mb-1">Lỗi khởi tạo</div>
+          <div className="text-fg-muted text-xs max-w-[400px]">{initMsg}</div>
         </div>
       </div>
     )
@@ -169,12 +169,12 @@ export default function App() {
     <div className="flex h-dvh flex-col">
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="h-13 shrink-0 bg-surface border-b border-border flex items-center px-4 md:px-5 gap-3">
+      <header className="h-[52px] shrink-0 bg-surface border-b border-line flex items-center px-4 md:px-5 gap-3">
         {/* Mobile: back button when detail is open */}
         {selectedCode && (
           <button
             onClick={() => setSelectedCode(null)}
-            className="md:hidden flex items-center justify-center w-8 h-8 -ml-1 rounded-lg text-text-muted hover:bg-elevated active:bg-overlay transition-colors"
+            className="md:hidden flex items-center justify-center w-8 h-8 -ml-1 rounded-lg text-fg-muted hover:bg-elevated active:bg-dim transition-colors"
           >
             <ArrowLeft size={18} />
           </button>
@@ -185,10 +185,10 @@ export default function App() {
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent to-purple-600 flex items-center justify-center shrink-0">
             <Database size={14} color="#fff" />
           </div>
-          <span className="font-bold text-sm text-text hidden sm:inline">
+          <span className="font-bold text-sm text-fg hidden sm:inline">
             ICD-10 <span className="text-accent">VN</span>
           </span>
-          <span className="text-[10px] px-1.5 py-px rounded bg-accent-light text-accent font-semibold tracking-wide hidden sm:inline">
+          <span className="text-[10px] px-1.5 py-px rounded bg-accent-soft text-accent font-semibold tracking-wide hidden sm:inline">
             PoC v0.1
           </span>
         </div>
@@ -202,8 +202,8 @@ export default function App() {
         </nav>
 
         {/* Status */}
-        <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-text-muted">
-          <CheckCircle size={12} className="text-success" />
+        <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-fg-muted">
+          <CheckCircle size={12} className="text-ok" />
           Offline
         </div>
       </header>
@@ -217,10 +217,10 @@ export default function App() {
             <div className={`
               w-full md:w-[360px] lg:w-[400px] md:max-w-[420px] md:min-w-[300px]
               ${selectedCode ? 'hidden md:flex' : 'flex'}
-              flex-col md:border-r md:border-border
+              flex-col md:border-r md:border-line
             `}>
               {/* Search bar */}
-              <div className="p-3 md:p-4 border-b border-border">
+              <div className="p-3 md:p-4 border-b border-line">
                 <SearchBar onSearch={handleSearch} loading={searching} wholeWord={wholeWord} onToggleWholeWord={handleToggleWholeWord} />
               </div>
 
@@ -238,14 +238,14 @@ export default function App() {
               </div>
 
               {/* Stats bar */}
-              <div className="px-4 py-2 border-t border-border flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-text-muted">
+              <div className="px-4 py-2 border-t border-line flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-fg-muted">
                 <span>15.844 mã</span>
                 <span className="hidden sm:inline">·</span>
                 <span className="hidden sm:inline">5.856 quy tắc</span>
                 <span className="hidden sm:inline">·</span>
                 <span className="hidden sm:inline">10 khái niệm</span>
                 <span>·</span>
-                <span className="text-success">100% offline</span>
+                <span className="text-ok">100% offline</span>
               </div>
             </div>
 
@@ -254,7 +254,7 @@ export default function App() {
               <div className="
                 fixed inset-0 z-50 md:static md:z-auto
                 md:flex-1 md:overflow-hidden
-                animate-slide-in-right md:animate-none
+                anim-slide-right md:[animation:none]
                 bg-surface
               ">
                 <DetailView
@@ -297,8 +297,8 @@ function NavBtn({ active, onClick, Icon, label }: {
         flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-none text-xs font-medium
         cursor-pointer transition-all duration-150 font-[inherit]
         ${active
-          ? 'bg-accent-light text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
-          : 'bg-transparent text-text-muted hover:bg-elevated hover:text-text'
+          ? 'bg-accent-soft text-accent font-semibold shadow-[0_0_0_1px_rgba(59,109,232,0.25)]'
+          : 'bg-transparent text-fg-muted hover:bg-elevated hover:text-fg'
         }
       `}
     >
