@@ -23,6 +23,7 @@ export default function App() {
   const [searching, setSearching] = useState(false)
   const [results, setResults] = useState<ICDRecord[]>([])
   const [hasStrongMatch, setHasStrongMatch] = useState(true)
+  const [wholeWord, setWholeWord] = useState(false)
   const [rulesMap, setRulesMap] = useState<Map<string, ICDRule[]>>(new Map())
 
   // Detail state
@@ -72,7 +73,8 @@ export default function App() {
   }, [])
 
   // Search handler
-  const handleSearch = useCallback(async (q: string) => {
+  const handleSearch = useCallback(async (q: string, ww?: boolean) => {
+    const useWholeWord = ww ?? wholeWord
     setQuery(q)
     if (!q) {
       setResults([])
@@ -82,7 +84,7 @@ export default function App() {
     }
     setSearching(true)
     try {
-      const { results: res, hasStrongMatch: strong } = await search(q, 30)
+      const { results: res, hasStrongMatch: strong } = await search(q, 30, useWholeWord)
       setResults(res)
       setHasStrongMatch(strong)
       // Load rules for results (for badges)
@@ -97,7 +99,16 @@ export default function App() {
     } finally {
       setSearching(false)
     }
-  }, [])
+  }, [wholeWord])
+
+  // Toggle whole-word mode and re-run current search
+  const handleToggleWholeWord = useCallback(() => {
+    const next = !wholeWord
+    setWholeWord(next)
+    if (query) {
+      handleSearch(query, next)
+    }
+  }, [wholeWord, query, handleSearch])
 
   // Select code (load detail)
   const handleSelectCode = useCallback(async (code: string) => {
@@ -233,7 +244,7 @@ export default function App() {
             }}>
               {/* Search bar */}
               <div style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
-                <SearchBar onSearch={handleSearch} loading={searching} />
+                <SearchBar onSearch={handleSearch} loading={searching} wholeWord={wholeWord} onToggleWholeWord={handleToggleWholeWord} />
               </div>
 
               {/* Results */}

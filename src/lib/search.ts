@@ -52,7 +52,7 @@ export function isIndexReady(): boolean {
 
 // ─── Scoring ──────────────────────────────────────────────────────────────────
 
-function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): number {
+function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string, wholeWord = false): number {
   let score = 0
   const q = normQuery
   const rawQ = rawQuery.toLowerCase().trim()
@@ -124,9 +124,17 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
 
   } else {
     // Single word query
-    if (entry.normViet.includes(q)) {
-      const isTokenMatch = entry.normViet.split(/[\s\-\/,;.()]+/).some(t => t === q)
-      score += isTokenMatch ? 550 : 400
+    const vietTokens = entry.normViet.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
+    const isTokenMatch = vietTokens.some(t => t === q)
+
+    if (wholeWord) {
+      // Whole-word mode: only match if query is a standalone token
+      if (isTokenMatch) score += 550
+    } else {
+      // Contains mode (default): substring match allowed
+      if (entry.normViet.includes(q)) {
+        score += isTokenMatch ? 550 : 400
+      }
     }
   }
 
@@ -137,12 +145,20 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
   if (!isMultiWord || score > 0) {
     if (entry.normAnh === q) score += 400
     else if (entry.normAnh.startsWith(q)) score += 300
-    else if (!isMultiWord && entry.normAnh.includes(q)) score += 180  // substring only for single-word
+    else if (!isMultiWord && !wholeWord && entry.normAnh.includes(q)) score += 180  // substring only when not wholeWord
   }
 
   // ─── Stage 4: Coding guidance ────────────────────────────────────────────
   // Same gate: only add guidance score if already relevant
-  if ((!isMultiWord || score > 0) && entry.normHuongDan.includes(q)) score += 80
+  if (!isMultiWord || score > 0) {
+    if (wholeWord) {
+      // Whole-word: check tokens in guidance
+      const hdTokens = entry.normHuongDan.split(/[\s\-\/,;.()]+/).filter(t => t.length > 0)
+      if (hdTokens.some(t => t === q)) score += 80
+    } else {
+      if (entry.normHuongDan.includes(q)) score += 80
+    }
+  }
 
   // ─── Stage 5: Synonym expansion ──────────────────────────────────────────
   const expandedTerms = expandQuery(q)
@@ -164,7 +180,8 @@ function scoreEntry(entry: IndexEntry, normQuery: string, rawQuery: string): num
 
 export async function search(
   query: string,
-  limit = 30
+  limit = 30,
+  wholeWord = false,
 ): Promise<{ results: ICDRecord[]; hasStrongMatch: boolean }> {
   if (!query.trim() || index.length === 0) {
     return { results: [], hasStrongMatch: false }
@@ -176,7 +193,7 @@ export async function search(
   const scored: Array<{ score: number; rec: ICDRecord }> = []
 
   for (const entry of index) {
-    const score = scoreEntry(entry, normQuery, rawQuery)
+    const score = scoreEntry(entry, normQuery, rawQuery, wholeWord)
     if (score > 0) {
       scored.push({ score, rec: entry.rec })
     }
