@@ -61,14 +61,18 @@ export default function App() {
   const [treeExpandTarget, setTreeExpandTarget] = useState<string | null>(null)
   const [treeFilter, setTreeFilter] = useState<string>('all')
 
-  // Build tree from records, filtered if needed
+  // Full tree (only used when filter = 'all')
   const tree = useMemo(() => {
     if (allRecords.length === 0) return []
-    if (treeFilter === 'all') return buildTree(allRecords)
+    return buildTree(allRecords)
+  }, [allRecords])
+
+  // Flat filtered records (only used when filter != 'all')
+  const filteredRecords = useMemo(() => {
+    if (treeFilter === 'all') return []
     const filterDef = TREE_FILTERS.find(f => f.id === treeFilter)
-    if (!filterDef) return buildTree(allRecords)
-    const filtered = allRecords.filter(filterDef.pred)
-    return buildTree(filtered)
+    if (!filterDef) return []
+    return allRecords.filter(filterDef.pred)
   }, [allRecords, treeFilter])
 
   useEffect(() => {
@@ -122,11 +126,9 @@ export default function App() {
     if (query) handleSearch(query, next)
   }, [wholeWord, query, handleSearch])
 
-  const handleSelectCode = useCallback(async (code: string) => {
+  // Load detail for a code (does NOT reset filter)
+  const loadCodeDetail = useCallback(async (code: string) => {
     setSelectedCode(code)
-    // Always expand tree to this code (even if search tab is active)
-    setTreeFilter('all')  // reset to full tree so the code is always visible
-    setTreeExpandTarget(code)
     const [rec, rules, children, siblings] = await Promise.all([
       getRecord(code), getRulesForCode(code), getChildRecords(code), getSiblingRecords(code),
     ])
@@ -136,17 +138,31 @@ export default function App() {
     }
   }, [])
 
-  // Navigate from detail panel: switch left to tree, auto-expand
+  // Select code from search results: reset filter + expand tree
+  const handleSelectCode = useCallback(async (code: string) => {
+    setTreeFilter('all')
+    setTreeExpandTarget(code)
+    await loadCodeDetail(code)
+  }, [loadCodeDetail])
+
+  // Navigate from detail panel: reset to full tree, expand to code
   const handleNavigate = useCallback((code: string) => {
-    handleSelectCode(code)
-    // Switch left panel to tree and expand to the code
+    setTreeFilter('all')
     setLeftTab('tree')
     setTreeExpandTarget(code)
-  }, [handleSelectCode])
+    loadCodeDetail(code)
+  }, [loadCodeDetail])
 
+  // Select from tree view (full tree mode)
   const handleTreeSelect = useCallback((code: string) => {
-    handleSelectCode(code)
-  }, [handleSelectCode])
+    loadCodeDetail(code)
+    setTreeExpandTarget(code)
+  }, [loadCodeDetail])
+
+  // Select from filtered flat list (keep filter active)
+  const handleFilteredSelect = useCallback((code: string) => {
+    loadCodeDetail(code)
+  }, [loadCodeDetail])
 
   const handleExpandHandled = useCallback(() => {
     setTreeExpandTarget(null)
@@ -313,28 +329,57 @@ export default function App() {
                       </select>
                     </div>
                   </div>
-                  {/* Filtered count */}
-                  {treeFilter !== 'all' && (
-                    <div className="px-3 py-1.5 text-[10px] text-muted-foreground bg-primary/5 border-b border-primary/10 font-medium">
-                      Đang lọc: <span className="text-primary font-bold">{TREE_FILTERS.find(f => f.id === treeFilter)?.label}</span>
+                  {treeFilter !== 'all' ? (
+                    /* Flat filtered list */
+                    <>
+                      <div className="px-3 py-1.5 text-[10px] text-muted-foreground bg-primary/5 border-b border-primary/10 font-medium">
+                        <span className="text-primary font-bold">{TREE_FILTERS.find(f => f.id === treeFilter)?.label}</span>
+                        <span className="ml-1">— {filteredRecords.length} mã</span>
+                      </div>
+                      <div className="flex-1 overflow-y-auto p-2">
+                        {filteredRecords.length > 0 ? (
+                          <div className="flex flex-col gap-0.5">
+                            {filteredRecords.map(rec => (
+                              <div
+                                key={rec.maBenh}
+                                onClick={() => handleFilteredSelect(rec.maBenh)}
+                                className={`flex items-start gap-2.5 px-2.5 py-2 rounded-md cursor-pointer transition-colors group
+                                  ${selectedCode === rec.maBenh
+                                    ? 'bg-amber-50 border-l-2 border-l-amber-400'
+                                    : 'hover:bg-muted/60 border-l-2 border-l-transparent'
+                                  }`}
+                              >
+                                <span className={`font-mono text-xs font-bold shrink-0 w-[52px] ${selectedCode === rec.maBenh ? 'text-amber-700' : 'text-primary'}`}>{rec.maBenh}</span>
+                                <span className="text-xs text-foreground leading-snug line-clamp-2">{rec.tenTiengViet || '—'}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+                            Không có mã phù hợp
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    /* Full tree view */
+                    <div className="flex-1 overflow-y-auto p-2">
+                      {tree.length > 0 ? (
+                        <TreeView
+                          tree={tree}
+                          selectedCode={selectedCode}
+                          expandTarget={treeExpandTarget}
+                          onSelect={handleTreeSelect}
+                          onExpandHandled={handleExpandHandled}
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+                          <Loader2 size={16} className="animate-spin mr-2" />
+                          Đang xây dựng cây...
+                        </div>
+                      )}
                     </div>
                   )}
-                  <div className="flex-1 overflow-y-auto p-2">
-                    {tree.length > 0 ? (
-                      <TreeView
-                        tree={tree}
-                        selectedCode={selectedCode}
-                        expandTarget={treeExpandTarget}
-                        onSelect={handleTreeSelect}
-                        onExpandHandled={handleExpandHandled}
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
-                        <Loader2 size={16} className="animate-spin mr-2" />
-                        {treeFilter !== 'all' ? 'Không có mã phù hợp' : 'Đang xây dựng cây...'}
-                      </div>
-                    )}
-                  </div>
                 </>
               )}
 
