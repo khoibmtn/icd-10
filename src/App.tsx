@@ -1,6 +1,6 @@
 // src/App.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Search, Beaker, Database, Loader2, CheckCircle, AlertCircle, ArrowLeft, ListTree } from 'lucide-react'
+import { Search, Beaker, Database, Loader2, AlertCircle, ArrowLeft, ListTree } from 'lucide-react'
 import { SearchBar } from './components/SearchBar'
 import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
@@ -11,7 +11,7 @@ import { buildSearchIndex, search } from './lib/search'
 import { buildTree } from './lib/tree'
 import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ClinicalConcept } from './types/icd'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+
 
 type AppView = 'search' | 'playground'
 type LeftTab = 'search' | 'tree'
@@ -181,12 +181,14 @@ export default function App() {
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0 shadow-sm shadow-primary/20">
             <Database size={16} className="text-primary-foreground" />
           </div>
-          <span className="font-bold text-base text-foreground hidden sm:inline tracking-tight">
-            ICD-10 <span className="text-primary">VN</span>
-          </span>
-          <Badge variant="secondary" className="hidden sm:inline-flex text-[10px] font-medium tracking-wide bg-primary/10 text-primary hover:bg-primary/20">
-            PoC v0.1
-          </Badge>
+          <div className="hidden sm:flex flex-col">
+            <span className="font-bold text-sm text-foreground tracking-tight leading-tight">
+              Tra cứu ICD-10 <span className="text-primary">theo TT 06/2026/TT-BYT</span>
+            </span>
+            <span className="text-[10px] text-muted-foreground leading-tight">
+              Phòng KHNV TTYT Thủy Nguyên
+            </span>
+          </div>
         </div>
         <div className="flex-1" />
         <nav className="flex gap-1.5 bg-muted/50 p-1 rounded-lg border border-border/50">
@@ -209,10 +211,7 @@ export default function App() {
             <span className="hidden sm:inline">Playground</span>
           </Button>
         </nav>
-        <div className="hidden sm:flex items-center gap-1.5 text-xs text-muted-foreground">
-          <CheckCircle size={14} className="text-emerald-500" />
-          Offline
-        </div>
+
       </header>
 
       {/* ── Main ── */}
@@ -282,9 +281,7 @@ export default function App() {
 
               <div className="px-4 py-3 border-t border-border bg-muted/30 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground font-medium">
                 <span>15.844 mã</span>
-                <span className="hidden sm:inline">· 5.856 quy tắc</span>
-                <span>·</span>
-                <span className="text-emerald-500 flex items-center gap-1"><CheckCircle size={10} /> 100% offline</span>
+                <span>· 5.856 quy tắc</span>
               </div>
             </div>
             {/* Detail panel */}
