@@ -141,7 +141,8 @@ export default function App() {
           <Database size={24} color="#fff" />
         </div>
         <div className="text-center">
-          <div className="font-semibold text-base text-foreground mb-1">ICD-10 Vietnam Explorer</div>
+          <div className="font-semibold text-base text-foreground mb-0.5">Phòng KHNV - Trung tâm Y tế Thủy Nguyên</div>
+          <div className="text-sm text-muted-foreground mb-3">Ứng dụng tra cứu mã ICD-10 theo Thông tư 06/2026/TT-BYT</div>
           <div className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
             <Loader2 size={16} className="animate-spin" />
             {initMsg}
