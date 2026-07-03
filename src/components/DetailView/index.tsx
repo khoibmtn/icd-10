@@ -1,11 +1,10 @@
 // src/components/DetailView/index.tsx
 import { useState } from 'react'
-import { X, BookOpen, ShieldAlert, Link2, Archive } from 'lucide-react'
-import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation } from '../../types/icd'
+import { X, BookOpen, ShieldAlert } from 'lucide-react'
+import type { ICDRecord, ICDRule } from '../../types/icd'
 import { TabBasic } from './TabBasic'
 import { TabRules } from './TabRules'
-import { TabRelations } from './TabRelations'
-import { TabProvenance } from './TabProvenance'
+
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -13,9 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 interface DetailViewProps {
   record: ICDRecord
   rules: ICDRule[]
-  codingRelations: CodingRelation[]
-  infoRelations: InformationalRelation[]
-
   childRecords?: ICDRecord[]
   siblingRecords?: ICDRecord[]
   onClose?: () => void
@@ -25,13 +21,11 @@ interface DetailViewProps {
 const TABS = [
   { id: 'basic',      label: 'Cơ bản',        Icon: BookOpen },
   { id: 'rules',      label: 'Quy tắc & ĐK', Icon: ShieldAlert },
-  { id: 'relations',  label: 'Quan hệ',       Icon: Link2 },
-  { id: 'provenance', label: 'Nguồn gốc',    Icon: Archive },
 ] as const
 
 type TabId = typeof TABS[number]['id']
 
-export function DetailView({ record, rules, codingRelations, infoRelations, childRecords = [], siblingRecords = [], onClose, onNavigate }: DetailViewProps) {
+export function DetailView({ record, rules, childRecords = [], siblingRecords = [], onClose, onNavigate }: DetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('basic')
 
   const uniqueRules = rules.reduce<ICDRule[]>((acc, r) => {
@@ -127,12 +121,7 @@ export function DetailView({ record, rules, codingRelations, infoRelations, chil
           <TabsContent value="rules" className="m-0 h-full border-none p-0 outline-none">
             <TabRules code={record.maBenh} rules={rules} record={record} />
           </TabsContent>
-          <TabsContent value="relations" className="m-0 h-full border-none p-0 outline-none">
-            <TabRelations code={record.maBenh} codingRelations={codingRelations} infoRelations={infoRelations} onNavigate={onNavigate} />
-          </TabsContent>
-          <TabsContent value="provenance" className="m-0 h-full border-none p-0 outline-none">
-            <TabProvenance record={record} rules={rules} codingRelations={codingRelations} />
-          </TabsContent>
+
         </div>
       </Tabs>
     </div>

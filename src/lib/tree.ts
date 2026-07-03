@@ -28,10 +28,7 @@ export interface TreeCode {
   label: string
 }
 
-let cachedTree: TreeChapter[] | null = null
-
 export function buildTree(records: ICDRecord[]): TreeChapter[] {
-  if (cachedTree) return cachedTree
 
   const chapterMap = new Map<string, TreeChapter>()
   const blockMap = new Map<string, TreeBlock>()
@@ -99,7 +96,6 @@ export function buildTree(records: ICDRecord[]): TreeChapter[] {
     romanOrder.indexOf(a.id) - romanOrder.indexOf(b.id)
   )
 
-  cachedTree = result
   return result
 }
 

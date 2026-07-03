@@ -1,5 +1,5 @@
 // src/components/DetailView/TabRules.tsx
-import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, BookOpen, Link2 } from 'lucide-react'
+import { AlertTriangle, Ban, Info, ShieldAlert, User, FileText, Link2 } from 'lucide-react'
 import type { ICDRecord, ICDRule } from '../../types/icd'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -58,17 +58,6 @@ export function TabRules({ code, rules, record }: TabRulesProps) {
                   <Badge variant="outline" className={`px-1.5 py-0 h-5 text-[10px] shadow-none ${vc.badge}`}>{meta.badgeLabel}</Badge>
                 </div>
                 <div className="text-xs text-muted-foreground leading-relaxed font-medium">{meta.description}</div>
-                <div className="mt-3 pt-3 border-t border-border/50 flex items-center gap-2 flex-wrap">
-                  <BookOpen size={12} className="text-muted-foreground/60 shrink-0" />
-                  <span className="text-[10px] text-muted-foreground font-medium">Nguồn:</span>
-                  <Badge variant="secondary" className="px-1.5 py-0 h-4 text-[9px] bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-                    {rule.provenance.citationLevel === 'official' ? 'Chính thức' : rule.provenance.citationLevel === 'compiled' ? 'Biên soạn' : 'Suy diễn'}
-                  </Badge>
-                  <span className="text-[10px] text-muted-foreground font-mono bg-muted px-1 rounded">{rule.provenance.file}</span>
-                  <Badge variant="secondary" className={`px-1.5 py-0 h-4 text-[9px] ${rule.provenance.confidence === 'exact' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 'bg-muted text-muted-foreground'} hover:bg-emerald-500/20`}>
-                    {rule.provenance.confidence === 'exact' ? 'Chính xác' : 'Suy diễn'}
-                  </Badge>
-                </div>
               </div>
             </div>
           </Card>

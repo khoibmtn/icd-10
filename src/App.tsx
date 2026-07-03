@@ -1,21 +1,36 @@
 // src/App.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Search, Database, Loader2, AlertCircle, ArrowLeft, ListTree } from 'lucide-react'
+import { Search, Database, Loader2, AlertCircle, ArrowLeft, ListTree, Filter } from 'lucide-react'
 import { SearchBar } from './components/SearchBar'
 import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
 import { RulePlayground } from './components/RulePlayground'
 import { TreeView } from './components/TreeView'
-import { seedDatabase, getRecord, getRulesForCode, getCodingRelations, getInfoRelations, getChildRecords, getSiblingRecords } from './lib/db'
+import { seedDatabase, getRecord, getRulesForCode, getChildRecords, getSiblingRecords } from './lib/db'
 import { buildSearchIndex, search } from './lib/search'
 import { buildTree } from './lib/tree'
-import type { ICDRecord, ICDRule, CodingRelation, InformationalRelation, ClinicalConcept } from './types/icd'
+import type { ICDRecord, ICDRule, CodingRelation, ClinicalConcept } from './types/icd'
 import { Button } from '@/components/ui/button'
 
 
 type AppView = 'search' | 'playground'
 type LeftTab = 'search' | 'tree'
 type InitStatus = 'loading' | 'ready' | 'error'
+
+// Tree filter definitions
+const TREE_FILTERS = [
+  { id: 'khongDungBenhChinh', label: 'Không dùng làm bệnh chính', pred: (r: ICDRecord) => r.dieuKienSuDung.khongDungLaBenhChinh },
+  { id: 'khongKhuyenKhich', label: 'Không khuyến khích bệnh chính', pred: (r: ICDRecord) => r.dieuKienSuDung.khongKhuyenKhichDungLaBenhChinh },
+  { id: 'coMaCuTheHon', label: 'Có mã cụ thể hơn', pred: (r: ICDRecord) => r.dieuKienSuDung.khongSuDungViCoMaCuTheHon },
+  { id: 'tuVong', label: 'Mã tử vong', pred: (r: ICDRecord) => r.dieuKienSuDung.chiSuDungMaHoaNguyenNhanTuVong },
+  { id: 'dagger', label: 'Mã kiếm (†)', pred: (r: ICDRecord) => r.codingSymbol === '\u2020' },
+  { id: 'asterisk', label: 'Mã sao (*)', pred: (r: ICDRecord) => r.codingSymbol === '*' },
+  { id: 'namGioi', label: 'Mã nam giới', pred: (r: ICDRecord) => r.dieuKienSuDung.chiCoONamGioi },
+  { id: 'nuGioi', label: 'Mã nữ giới', pred: (r: ICDRecord) => r.dieuKienSuDung.chiCoONuGioi },
+  { id: 'nguyenNhanNgoai', label: 'Nguyên nhân ngoại (Ch.XX)', pred: (r: ICDRecord) => r.chuongStt === 'XX' },
+  { id: 'diChung', label: 'Di chứng', pred: (r: ICDRecord) => r.tenTiengViet.toLowerCase().includes('di chứng') },
+  { id: 'taiKham', label: 'Tái khám / theo dõi', pred: (r: ICDRecord) => r.tenTiengViet.toLowerCase().includes('tái khám') || r.maBenh.startsWith('Z09') },
+] as const
 
 export default function App() {
   const [initStatus, setInitStatus] = useState<InitStatus>('loading')
@@ -33,8 +48,6 @@ export default function App() {
   const [selectedCode, setSelectedCode] = useState<string | null>(null)
   const [detailRecord, setDetailRecord] = useState<ICDRecord | null>(null)
   const [detailRules, setDetailRules] = useState<ICDRule[]>([])
-  const [detailCodingRels, setDetailCodingRels] = useState<CodingRelation[]>([])
-  const [detailInfoRels, setDetailInfoRels] = useState<InformationalRelation[]>([])
 
   const [detailChildren, setDetailChildren] = useState<ICDRecord[]>([])
   const [detailSiblings, setDetailSiblings] = useState<ICDRecord[]>([])
@@ -46,11 +59,17 @@ export default function App() {
 
   // Tree state
   const [treeExpandTarget, setTreeExpandTarget] = useState<string | null>(null)
+  const [treeFilter, setTreeFilter] = useState<string>('all')
 
+  // Build tree from records, filtered if needed
   const tree = useMemo(() => {
     if (allRecords.length === 0) return []
-    return buildTree(allRecords)
-  }, [allRecords])
+    if (treeFilter === 'all') return buildTree(allRecords)
+    const filterDef = TREE_FILTERS.find(f => f.id === treeFilter)
+    if (!filterDef) return buildTree(allRecords)
+    const filtered = allRecords.filter(filterDef.pred)
+    return buildTree(filtered)
+  }, [allRecords, treeFilter])
 
   useEffect(() => {
     async function init() {
@@ -106,14 +125,13 @@ export default function App() {
   const handleSelectCode = useCallback(async (code: string) => {
     setSelectedCode(code)
     // Always expand tree to this code (even if search tab is active)
+    setTreeFilter('all')  // reset to full tree so the code is always visible
     setTreeExpandTarget(code)
-    const [rec, rules, codingRels, infoRels, children, siblings] = await Promise.all([
-      getRecord(code), getRulesForCode(code), getCodingRelations(code),
-      getInfoRelations(code), getChildRecords(code), getSiblingRecords(code),
+    const [rec, rules, children, siblings] = await Promise.all([
+      getRecord(code), getRulesForCode(code), getChildRecords(code), getSiblingRecords(code),
     ])
     if (rec) {
-      setDetailRecord(rec); setDetailRules(rules); setDetailCodingRels(codingRels)
-      setDetailInfoRels(infoRels)
+      setDetailRecord(rec); setDetailRules(rules)
       setDetailChildren(children); setDetailSiblings(siblings)
     }
   }, [])
@@ -264,22 +282,60 @@ export default function App() {
                   </div>
                 </>
               ) : (
-                <div className="flex-1 overflow-y-auto p-2">
-                  {tree.length > 0 ? (
-                    <TreeView
-                      tree={tree}
-                      selectedCode={selectedCode}
-                      expandTarget={treeExpandTarget}
-                      onSelect={handleTreeSelect}
-                      onExpandHandled={handleExpandHandled}
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
-                      <Loader2 size={16} className="animate-spin mr-2" />
-                      Đang xây dựng cây...
+                <>
+                  {/* Filter bar */}
+                  <div className="px-3 py-2.5 border-b border-border bg-muted/20 flex items-center gap-2">
+                    <button
+                      onClick={() => setTreeFilter('all')}
+                      className={`px-3 py-1.5 text-[11px] font-semibold rounded-md transition-colors cursor-pointer border
+                        ${treeFilter === 'all'
+                          ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                          : 'bg-background text-muted-foreground border-border hover:bg-muted/80 hover:text-foreground'
+                        }`}
+                    >
+                      Tất cả
+                    </button>
+                    <div className="relative flex-1">
+                      <Filter size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                      <select
+                        value={treeFilter === 'all' ? '' : treeFilter}
+                        onChange={e => setTreeFilter(e.target.value || 'all')}
+                        className={`w-full pl-7 pr-3 py-1.5 text-[11px] font-medium rounded-md border appearance-none cursor-pointer transition-colors bg-background
+                          ${treeFilter !== 'all'
+                            ? 'border-primary text-primary bg-primary/5 font-semibold'
+                            : 'border-border text-muted-foreground hover:border-muted-foreground/40'
+                          }`}
+                      >
+                        <option value="">Tùy chọn lọc...</option>
+                        {TREE_FILTERS.map(f => (
+                          <option key={f.id} value={f.id}>{f.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  {/* Filtered count */}
+                  {treeFilter !== 'all' && (
+                    <div className="px-3 py-1.5 text-[10px] text-muted-foreground bg-primary/5 border-b border-primary/10 font-medium">
+                      Đang lọc: <span className="text-primary font-bold">{TREE_FILTERS.find(f => f.id === treeFilter)?.label}</span>
                     </div>
                   )}
-                </div>
+                  <div className="flex-1 overflow-y-auto p-2">
+                    {tree.length > 0 ? (
+                      <TreeView
+                        tree={tree}
+                        selectedCode={selectedCode}
+                        expandTarget={treeExpandTarget}
+                        onSelect={handleTreeSelect}
+                        onExpandHandled={handleExpandHandled}
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+                        <Loader2 size={16} className="animate-spin mr-2" />
+                        {treeFilter !== 'all' ? 'Không có mã phù hợp' : 'Đang xây dựng cây...'}
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
 
               <div className="px-4 py-3 border-t border-border bg-muted/30 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground font-medium">
@@ -290,7 +346,7 @@ export default function App() {
             {/* Detail panel */}
             {selectedCode && detailRecord && (
               <div className="fixed inset-0 z-50 md:static md:z-auto md:flex-1 md:overflow-hidden anim-slide-right md:[animation:none] bg-background">
-                <DetailView record={detailRecord} rules={detailRules} codingRelations={detailCodingRels} infoRelations={detailInfoRels} childRecords={detailChildren} siblingRecords={detailSiblings} onClose={() => setSelectedCode(null)} onNavigate={handleNavigate} />
+                <DetailView record={detailRecord} rules={detailRules} childRecords={detailChildren} siblingRecords={detailSiblings} onClose={() => setSelectedCode(null)} onNavigate={handleNavigate} />
               </div>
             )}
           </>
