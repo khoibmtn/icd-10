@@ -1,6 +1,6 @@
 // src/App.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Search, Beaker, Database, Loader2, AlertCircle, ArrowLeft, ListTree } from 'lucide-react'
+import { Search, Database, Loader2, AlertCircle, ArrowLeft, ListTree } from 'lucide-react'
 import { SearchBar } from './components/SearchBar'
 import { SearchResults } from './components/SearchResults'
 import { DetailView } from './components/DetailView'
@@ -192,6 +192,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex-1" />
+        {/* Playground nav disabled — uncomment to re-enable
         <nav className="flex gap-1.5 bg-muted/50 p-1 rounded-lg border border-border/50">
           <Button 
             variant={activeView === 'search' ? 'default' : 'ghost'} 
@@ -212,6 +213,7 @@ export default function App() {
             <span className="hidden sm:inline">Playground</span>
           </Button>
         </nav>
+        */}
 
       </header>
 
