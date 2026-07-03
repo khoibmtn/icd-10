@@ -349,7 +349,8 @@ export default function App() {
                                     : 'hover:bg-muted/60 border-l-2 border-l-transparent'
                                   }`}
                               >
-                                <span className={`font-mono text-xs font-bold shrink-0 w-[52px] ${selectedCode === rec.maBenh ? 'text-amber-700' : 'text-primary'}`}>{rec.maBenh}</span>
+                                <span className={`font-mono text-xs font-bold shrink-0 ${selectedCode === rec.maBenh ? 'text-amber-700' : 'text-primary'}`}>{rec.maBenh}</span>
+                                {rec.codingSymbol && <span className={`text-xs font-bold shrink-0 -ml-1.5 ${rec.codingSymbol === '†' ? 'text-amber-600' : 'text-violet-600'}`}>{rec.codingSymbol}</span>}
                                 <span className="text-xs text-foreground leading-snug line-clamp-2">{rec.tenTiengViet || '—'}</span>
                               </div>
                             ))}

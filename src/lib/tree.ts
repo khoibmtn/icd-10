@@ -20,12 +20,14 @@ export interface TreeGroup {
   id: string           // "A00"
   label: string
   blockId: string
+  codingSymbol?: string | null
   codes: TreeCode[]
 }
 
 export interface TreeCode {
   id: string           // "A00.0"
   label: string
+  codingSymbol?: string | null
 }
 
 export function buildTree(records: ICDRecord[]): TreeChapter[] {
@@ -64,6 +66,7 @@ export function buildTree(records: ICDRecord[]): TreeChapter[] {
         id: groupCode,
         label: rec.nhomTenViet || rec.tenTiengViet,
         blockId: rec.khoiMa,
+        codingSymbol: rec.maBenh === groupCode ? rec.codingSymbol : null,
         codes: [],
       }
       groupMap.set(groupCode, group)
@@ -75,6 +78,7 @@ export function buildTree(records: ICDRecord[]): TreeChapter[] {
       groupMap.get(groupCode)!.codes.push({
         id: rec.maBenh,
         label: rec.tenTiengViet,
+        codingSymbol: rec.codingSymbol,
       })
     }
   }

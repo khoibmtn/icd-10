@@ -234,6 +234,7 @@ function GroupNode({ group: gr, expanded, selectedCode, isAncestor, onToggle, on
           : <span className="w-3 shrink-0" />
         }
         <span className={`font-mono text-[11px] font-bold shrink-0 ${isSelected ? 'text-amber-800' : 'text-foreground'}`}>{gr.id}</span>
+        {gr.codingSymbol && <span className={`text-[11px] font-bold shrink-0 -ml-1 ${gr.codingSymbol === '†' ? 'text-amber-600' : 'text-violet-600'}`}>{gr.codingSymbol}</span>}
         <span className={`text-xs truncate ${isSelected ? 'text-amber-900 font-medium' : 'text-foreground'}`}>{gr.label}</span>
       </div>
       {expanded && hasChildren && (
@@ -262,6 +263,7 @@ function CodeNode({ code, selectedCode, onSelect }: {
         ${isSelected ? SELECTED_CLS : ''}`}
     >
       <span className={`font-mono text-[11px] font-bold shrink-0 ${isSelected ? 'text-amber-800' : 'text-muted-foreground'}`}>{code.id}</span>
+      {code.codingSymbol && <span className={`text-[11px] font-bold shrink-0 -ml-1 ${code.codingSymbol === '†' ? 'text-amber-600' : 'text-violet-600'}`}>{code.codingSymbol}</span>}
       <span className={`text-xs truncate ${isSelected ? 'text-amber-900 font-medium' : 'text-foreground'}`}>{code.label}</span>
     </div>
   )
